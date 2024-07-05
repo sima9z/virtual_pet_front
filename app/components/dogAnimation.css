@@ -1,0 +1,65 @@
+.dog-container {
+  position: relative;
+  width: 1000px; /* 適切な幅に変更 */
+  height: 500px; /* 適切な高さに変更 */
+  left: 100px;
+}
+
+.dog-part {
+  position: absolute;
+}
+
+.back-left-leg {
+  top: 170px;
+  left: 750px;
+}
+
+.back-right-leg {
+  top: 260px;
+  left: 670px;
+}
+
+.front-left-leg {
+  top: 170px;
+  left: 530px;
+}
+
+.front-right-leg {
+  top: 170px;
+  left: 470px;
+}
+
+.tail {
+  top: 60px;
+  left: 800px;
+}
+
+.head-face {
+  top: 5px;
+  left: 510px;
+}
+
+.head-eye {
+  top: 15px;
+  left: 575px;
+}
+
+.body {
+  top: 100px;
+  left: 535px;
+}
+
+.ear {
+  top: 20px;
+  left: 630px;
+}
+
+.ear-right{
+  top: -7px;
+  left: 553px;
+}
+
+.jaw {
+  top: 75px;
+  left: 540px;
+}
