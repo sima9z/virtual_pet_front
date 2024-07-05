@@ -1,10 +1,12 @@
 "use client";
 
 import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import React, { useEffect, useRef,MutableRefObject } from 'react';
 import gsap from 'gsap';
 import Image from 'next/image';
+
 import legImageBackRight from '../../public/ダックス奥後ろ足.png';
 import legImageFrontRight from '../../public/ダックス奥前足.png';
 import legImageFrontLeft from '../../public/ダックス前足.png';
@@ -16,6 +18,7 @@ import bodyImage from '../../public/ダックス胴体.png';
 import earImage from '../../public/ダックス耳.png';
 import earImageRight from '../../public/ダックス奥耳.png';
 import jawImage from '../../public/ダックス顎.png';
+
 import './dogAnimation.css';
 
 const DogAnimation = () => {
@@ -124,7 +127,11 @@ const DogAnimation = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(<DogAnimation />, document.getElementById('walk'));
+  const rootElement = document.getElementById('walk');
+  if (rootElement) {
+    const root = createRoot(rootElement);
+    root.render(<DogAnimation />);
+  }
 });
 
 export default DogAnimation;
