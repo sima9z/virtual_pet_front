@@ -36,77 +36,79 @@ const DogAnimation = () => {
   const containerRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
-    const repeat = -1;
-    const yoyo = true;
+    if (typeof window !== 'undefined') {
+      const repeat = -1;
+      const yoyo = true;
 
-    gsap.to(legBackLeftRef.current, {
-      rotation: 20, 
-      transformOrigin: "top", 
-      duration: 1.0,
-      repeat, 
-      yoyo,
-      ease: "power1.inOut",
-      delay: 0
+      gsap.to(legBackLeftRef.current, {
+        rotation: 20,
+        transformOrigin: "top",
+        duration: 1.0,
+        repeat,
+        yoyo,
+        ease: "power1.inOut",
+        delay: 0
       });
-    gsap.to(legBackRightRef.current, { 
-      rotation: -20, 
-      transformOrigin: "top", 
-      duration: 1.0,
-      repeat, 
-      yoyo,
-      ease: "power2.inOut",
-      delay: 0.4
-    });
-    gsap.to(legFrontLeftRef.current, { 
-      rotation: 20, 
-      transformOrigin: "top", 
-      duration: 1.0,
-      repeat, 
-      yoyo,
-      ease: "power3.inOut",
-      delay: 0.8
-    });
-    gsap.to(legFrontRightRef.current, { 
-      rotation: -20, 
-      transformOrigin: "right", 
-      duration: 1.0,
-      repeat, 
-      yoyo,
-      ease: "power4.inOut",
-      delay: 1.2
-    });
+      gsap.to(legBackRightRef.current, {
+        rotation: -20,
+        transformOrigin: "top",
+        duration: 1.0,
+        repeat,
+        yoyo,
+        ease: "power2.inOut",
+        delay: 0.4
+      });
+      gsap.to(legFrontLeftRef.current, {
+        rotation: 20,
+        transformOrigin: "top",
+        duration: 1.0,
+        repeat,
+        yoyo,
+        ease: "power3.inOut",
+        delay: 0.8
+      });
+      gsap.to(legFrontRightRef.current, {
+        rotation: -20,
+        transformOrigin: "right",
+        duration: 1.0,
+        repeat,
+        yoyo,
+        ease: "power4.inOut",
+        delay: 1.2
+      });
 
-    if (containerRef.current) {
-      let direction = 1; // 初期の移動方向
-    
-      const animate = () => {
-        gsap.to(containerRef.current, {
-          x: direction * -500,
-          duration: 3,
-          ease: "linear",
-          onComplete: () => {
-            // 移動完了後に方向とスケールを反転
-            direction *= -1;
-            gsap.to(containerRef.current, {
-              scaleX: direction,
-              duration: 3,
-              onComplete: animate // 反転後に再度アニメーションを開始
-            });
-          }
-        });
-      };
-    
-      // 初回のアニメーションを開始
-      animate();
+      if (containerRef.current) {
+        let direction = 1; // 初期の移動方向
+
+        const animate = () => {
+          gsap.to(containerRef.current, {
+            x: direction * -500,
+            duration: 3,
+            ease: "linear",
+            onComplete: () => {
+              // 移動完了後に方向とスケールを反転
+              direction *= -1;
+              gsap.to(containerRef.current, {
+                scaleX: direction,
+                duration: 3,
+                onComplete: animate // 反転後に再度アニメーションを開始
+              });
+            }
+          });
+        };
+
+        // 初回のアニメーションを開始
+        animate();
+      }
+
+      gsap.to(tailRef.current, { rotation: 5, transformOrigin: "bottom", duration: 0.5, repeat: -1, yoyo: true });
+      gsap.to(headFaceRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
+      gsap.to(headEyeRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
+      gsap.to(bodyRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
+      gsap.to(earRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
+      gsap.to(earRightRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
+      gsap.to(jawRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
     }
-
-    gsap.to(tailRef.current, { rotation: 5, transformOrigin: "bottom", duration: 0.5, repeat: -1, yoyo: true });
-    gsap.to(headFaceRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
-    gsap.to(headEyeRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
-    gsap.to(bodyRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
-    gsap.to(earRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
-    gsap.to(earRightRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
-    gsap.to(jawRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
   }, []);
 
   return (
@@ -126,12 +128,13 @@ const DogAnimation = () => {
   );
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  const rootElement = document.getElementById('walk');
-  if (rootElement) {
-    const root = createRoot(rootElement);
-    root.render(<DogAnimation />);
-  }
-});
-
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    const rootElement = document.getElementById('walk');
+    if (rootElement) {
+      const root = createRoot(rootElement);
+      root.render(<DogAnimation />);
+    }
+  });
+}
 export default DogAnimation;
