@@ -18,7 +18,7 @@ import jawImage from '../../public/ダックス顎.png';
 
 import './dogAnimation.css';
 
-const DogAnimation = () => {
+const DogWalkAnimation = () => {
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
   const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
@@ -33,7 +33,7 @@ const DogAnimation = () => {
   const containerRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+
       const repeat = -1;
       const yoyo = true;
 
@@ -79,16 +79,15 @@ const DogAnimation = () => {
 
         const animate = () => {
           gsap.to(containerRef.current, {
-            x: direction * -500,
+            x: (direction * -500),
             duration: 3,
             ease: "linear",
             onComplete: () => {
-              // 移動完了後に方向とスケールを反転
               direction *= -1;
               gsap.to(containerRef.current, {
                 scaleX: direction,
                 duration: 3,
-                onComplete: animate // 反転後に再度アニメーションを開始
+                onComplete: animate
               });
             }
           });
@@ -96,7 +95,6 @@ const DogAnimation = () => {
 
         // 初回のアニメーションを開始
         animate();
-      }
 
       gsap.to(tailRef.current, { rotation: 5, transformOrigin: "bottom", duration: 0.5, repeat: -1, yoyo: true });
       gsap.to(headFaceRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
@@ -125,13 +123,4 @@ const DogAnimation = () => {
   );
 };
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', () => {
-    const rootElement = document.getElementById('walk');
-    if (rootElement) {
-      const root = createRoot(rootElement);
-      root.render(<DogAnimation />);
-    }
-  });
-}
-export default DogAnimation;
+export default DogWalkAnimation;

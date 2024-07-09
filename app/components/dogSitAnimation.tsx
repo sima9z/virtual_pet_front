@@ -28,8 +28,10 @@ const DogSitAnimation = () => {
   const earRef = useRef<HTMLImageElement | null>(null);
   const earRightRef = useRef<HTMLImageElement | null>(null);
   const jawRef = useRef<HTMLImageElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+
     gsap.to(headFaceRef.current, {
       y: -40, 
       duration: 1.0, // 移動にかかる時間
@@ -99,7 +101,7 @@ const DogSitAnimation = () => {
     }, []);
 
   return (
-    <div className="dog-container">
+    <div className="dog-container" ref={containerRef}>
       <Image ref={legBackLeftRef} src={legImageBackLeft} alt="Back Left Leg" className="dog-part back-left-leg" />
       <Image ref={legBackRightRef} src={legImageBackRight} alt="Back Right Leg" className="dog-part back-right-leg" />
       <Image ref={legFrontLeftRef} src={legImageFrontLeft} alt="Front Left Leg" className="dog-part front-left-leg" />
@@ -114,15 +116,5 @@ const DogSitAnimation = () => {
     </div>
   );
 };
-
-if (typeof document !== 'undefined') {
-  document.addEventListener('DOMContentLoaded', () => {
-    const rootElement = document.getElementById('sit');
-    if (rootElement) {
-      const root = createRoot(rootElement);
-      root.render(<DogSitAnimation />);
-    }
-  });
-}
 
 export default DogSitAnimation;
