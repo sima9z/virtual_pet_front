@@ -10,56 +10,56 @@
 }
 
 .back-left-leg {
-  top: 170px;
+  top: 370px;
   left: 750px;
 }
 
 .back-right-leg {
-  top: 260px;
+  top: 420px;
   left: 670px;
 }
 
 .front-left-leg {
-  top: 170px;
+  top: 370px;
   left: 530px;
 }
 
 .front-right-leg {
-  top: 170px;
-  left: 470px;
+  top: 330px;
+  left: 450px;
 }
 
 .tail {
-  top: 60px;
+  top: 260px;
   left: 800px;
 }
 
 .head-face {
-  top: 5px;
+  top: 205px;
   left: 510px;
 }
 
 .head-eye {
-  top: 15px;
+  top: 215px;
   left: 575px;
 }
 
 .body {
-  top: 100px;
+  top: 300px;
   left: 535px;
 }
 
 .ear {
-  top: 20px;
+  top: 220px;
   left: 630px;
 }
 
 .ear-right{
-  top: -7px;
+  top: 193px;
   left: 553px;
 }
 
 .jaw {
-  top: 75px;
+  top: 275px;
   left: 540px;
 }
