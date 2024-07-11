@@ -1,6 +1,4 @@
-import { createRoot } from 'react-dom/client';
-
-import React, { useEffect, useRef,MutableRefObject } from 'react';
+import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import Image from 'next/image';
 
@@ -18,7 +16,11 @@ import jawImage from '../../public/ダックス顎.png';
 
 import './dogAnimation.css';
 
-const DogWalkAnimation = () => {
+interface DogWalkAnimationProps {
+  onReachPosition: () => void;
+}
+
+const DogWalkAnimation: React.FC<DogWalkAnimationProps> = ({ onReachPosition }) => {
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
   const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
@@ -75,21 +77,30 @@ const DogWalkAnimation = () => {
       });
 
       if (containerRef.current) {
+        gsap.killTweensOf(containerRef.current); // 既存のアニメーションを停止
+        const containerWidth = containerRef.current.offsetWidth;
+        const viewportWidth = window.innerWidth;
+
         let direction = 1; // 初期の移動方向
 
         const animate = () => {
+          gsap.killTweensOf(containerRef.current); // 既存のアニメーションを再度停止
           gsap.to(containerRef.current, {
-            x: (direction * -500),
+          x: direction * -(viewportWidth - containerWidth-500),
             duration: 3,
             ease: "linear",
             onComplete: () => {
               direction *= -1;
               gsap.to(containerRef.current, {
                 scaleX: direction,
-                duration: 3,
-                onComplete: animate
+                duration: 0.5,
+                onComplete: () => {
+                  setTimeout(() => {
+                    animate(); // 次のアニメーションを呼び出す前にタイムアウトを設定して間隔を空ける
+                  }, 50);
+                },
               });
-            }
+            },
           });
         };
 
@@ -104,7 +115,7 @@ const DogWalkAnimation = () => {
       gsap.to(earRightRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
       gsap.to(jawRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
     }
-  }, []);
+  }, [onReachPosition]);
 
   return (
     <div className="dog-container" ref={containerRef}>
