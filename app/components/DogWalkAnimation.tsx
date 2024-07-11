@@ -16,11 +16,7 @@ import jawImage from '../../public/ダックス顎.png';
 
 import './dogAnimation.css';
 
-interface DogWalkAnimationProps {
-  onReachPosition: () => void;
-}
-
-const DogWalkAnimation: React.FC<DogWalkAnimationProps> = ({ onReachPosition }) => {
+const DogWalkAnimation: React.FC = () => {
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
   const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
@@ -32,90 +28,103 @@ const DogWalkAnimation: React.FC<DogWalkAnimationProps> = ({ onReachPosition }) 
   const earRef = useRef<HTMLImageElement | null>(null);
   const earRightRef = useRef<HTMLImageElement | null>(null);
   const jawRef = useRef<HTMLImageElement | null>(null);
-  const containerRef = useRef<HTMLImageElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    const repeat = -1;
+    const yoyo = true;
 
-      const repeat = -1;
-      const yoyo = true;
-
+    const legAnims = [
       gsap.to(legBackLeftRef.current, {
         rotation: 20,
-        transformOrigin: "top",
+        transformOrigin: 'top',
         duration: 1.0,
         repeat,
         yoyo,
-        ease: "power1.inOut",
-        delay: 0
-      });
+        ease: 'power1.inOut',
+        delay: 0,
+      }),
       gsap.to(legBackRightRef.current, {
         rotation: -20,
-        transformOrigin: "top",
+        transformOrigin: 'top',
         duration: 1.0,
         repeat,
         yoyo,
-        ease: "power2.inOut",
-        delay: 0.4
-      });
+        ease: 'power2.inOut',
+        delay: 0.4,
+      }),
       gsap.to(legFrontLeftRef.current, {
         rotation: 20,
-        transformOrigin: "top",
+        transformOrigin: 'top',
         duration: 1.0,
         repeat,
         yoyo,
-        ease: "power3.inOut",
-        delay: 0.8
-      });
+        ease: 'power3.inOut',
+        delay: 0.8,
+      }),
       gsap.to(legFrontRightRef.current, {
         rotation: -20,
-        transformOrigin: "right",
+        transformOrigin: 'right',
         duration: 1.0,
         repeat,
         yoyo,
-        ease: "power4.inOut",
-        delay: 1.2
-      });
+        ease: 'power4.inOut',
+        delay: 1.2,
+      }),
+    ];
 
-      if (containerRef.current) {
+    const tailAnim = gsap.to(tailRef.current, {
+      rotation: 5,
+      transformOrigin: 'bottom',
+      duration: 0.5,
+      repeat: -1,
+      yoyo: true,
+    });
+
+    const headAnim = gsap.to([headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
+      y: 5,
+      duration: 1,
+      repeat: -1,
+      yoyo: true,
+    });
+
+    if (containerRef.current) {
+      const containerWidth = containerRef.current.offsetWidth;
+      const viewportWidth = window.innerWidth;
+
+      let direction = 1; // 初期の移動方向
+
+      const animate = () => {
         gsap.killTweensOf(containerRef.current); // 既存のアニメーションを停止
-        const containerWidth = containerRef.current.offsetWidth;
-        const viewportWidth = window.innerWidth;
+        gsap.to(containerRef.current, {
+          x: direction * -(viewportWidth / 2 - containerWidth / 2),
+          duration: 3,
+          ease: 'linear',
+          onComplete: () => {
+            direction *= -1;
+            gsap.to(containerRef.current, {
+              scaleX: direction,
+              duration: 0.5,
+              onComplete: () => {
+                setTimeout(() => {
+                  animate(); // 次のアニメーションを呼び出す前にタイムアウトを設定して間隔を空ける
+                }, 50);
+              },
+            });
+          },
+        });
+      };
 
-        let direction = 1; // 初期の移動方向
-
-        const animate = () => {
-          gsap.killTweensOf(containerRef.current); // 既存のアニメーションを再度停止
-          gsap.to(containerRef.current, {
-          x: direction * -(viewportWidth - containerWidth-500),
-            duration: 3,
-            ease: "linear",
-            onComplete: () => {
-              direction *= -1;
-              gsap.to(containerRef.current, {
-                scaleX: direction,
-                duration: 0.5,
-                onComplete: () => {
-                  setTimeout(() => {
-                    animate(); // 次のアニメーションを呼び出す前にタイムアウトを設定して間隔を空ける
-                  }, 50);
-                },
-              });
-            },
-          });
-        };
-
-        // 初回のアニメーションを開始
-        animate();
-
-      gsap.to(tailRef.current, { rotation: 5, transformOrigin: "bottom", duration: 0.5, repeat: -1, yoyo: true });
-      gsap.to(headFaceRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
-      gsap.to(headEyeRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
-      gsap.to(bodyRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
-      gsap.to(earRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
-      gsap.to(earRightRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
-      gsap.to(jawRef.current, { y: 5, duration: 1, repeat: -1, yoyo: true });
+      // 初回のアニメーションを開始
+      animate();
     }
-  }, [onReachPosition]);
+
+    return () => {
+      legAnims.forEach(anim => anim.kill());
+      tailAnim.kill();
+      headAnim.kill();
+    };
+  }, []);
 
   return (
     <div className="dog-container" ref={containerRef}>
