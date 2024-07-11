@@ -4,24 +4,20 @@ import DogWalkAnimation from './DogWalkAnimation';
 import './dogAnimation.css';
 
 const DogAnimation = () => {
-  const [animationState, setAnimationState] = useState('walk');
-
-  const handleReachPosition = () => {
-    setAnimationState('sit');
-  };
+  const [animationState, setAnimationState] = useState('sit');
 
   const handleSitComplete = () => {
     setAnimationState('walk');
   };
 
   return (
-    <>
+    <div className="container">
       {animationState === 'sit' ? (
         <DogSitAnimation onComplete={handleSitComplete} />
       ) : (
-        <DogWalkAnimation onReachPosition={handleReachPosition} />
+        <DogWalkAnimation />
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,9 +1,19 @@
+.container{
+  position: relative;
+  width: 100%;
+  height: 100vh; /* ビューポートの高さに設定 */
+  background-image: url('../../public/ばーちゃるぺっと背景.jpg'); /* 背景画像のパス */
+  background-size: cover; /* 背景画像をコンテナに合わせて拡大縮小 */
+  background-position: center; /* 背景画像を中央に配置 */
+  overflow: hidden; /* コンテナの外に出た部分を隠す */
+}
+
 .dog-container {
   position: relative;
   width: 450px; /* 適切な幅に変更 */
   height: 350px; /* 適切な高さに変更 */
   margin: 0 auto;
-  top: 300px;
+  top: 350px;
 }
 
 .dog-part {
