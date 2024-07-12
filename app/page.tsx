@@ -37,8 +37,8 @@ const theme = createTheme({
               <Image
                 src="/ばーちゃるぺっとロゴ.png" // アップロードした画像のパスを指定
                 alt="Virtual Pet App Logo"
-                width= {1000} // 必要に応じて調整
-                height={1000} // 必要に応じて調整
+                width= {800} // 必要に応じて調整
+                height={800} // 必要に応じて調整
                 className="mx-auto w-7/10 h-auto"
               />
             <Button variant="contained" color="secondary" size="large" onClick={goToLogin} sx={{ color: 'white' }}>
