@@ -1,0 +1,65 @@
+"use client";
+
+declare global {
+  interface Navigator {
+    standalone?: boolean;
+  }
+}
+
+import React,{useState,useEffect} from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { CssBaseline, createTheme, ThemeProvider } from '@mui/material';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+
+const cache = createCache({ key: 'css', prepend: true });
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#AD8B8B',
+    },
+    secondary: {
+      main: '#FFE1E1',
+    },
+  },
+});
+
+const isPWA = () => {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+};
+
+const NotPwaHeader = () => {
+  const [isStandalone, setIsStandalone] = useState(isPWA());
+
+  useEffect(() => {
+    const handler = () => setIsStandalone(isPWA());
+
+    window.addEventListener('resize', handler);
+    window.addEventListener('orientationchange', handler);
+
+    return () => {
+      window.removeEventListener('resize', handler);
+      window.removeEventListener('orientationchange', handler);
+    };
+  }, []);
+
+  return (
+    <CacheProvider value={cache}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {!isStandalone && (
+        <AppBar position="fixed" color="secondary" sx={{ top: 0, height: '7%' }}>
+          <Toolbar>
+            <Typography variant="body1" color="primary" sx={{ height: '50%' }} />
+          </Toolbar>
+        </AppBar>
+        )}
+      </ThemeProvider>
+    </CacheProvider>
+  );
+};
+
+export default NotPwaHeader;

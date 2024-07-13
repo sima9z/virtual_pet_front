@@ -40,8 +40,8 @@ export default function Login() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Container style={{ padding: '0 2%' }}>
-          <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh" gap="50px">
-            <Typography variant="h3">ログイン</Typography>
+          <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">
+            <Typography variant="h3" marginBottom="50px">ログイン</Typography>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: "100%", maxWidth: "400px", gap: "30px" }}>
               <TextField
                 label="Email"
