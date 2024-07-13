@@ -10,7 +10,6 @@ import { Button } from '@mui/material';
 import { blue } from '@mui/material/colors';
 
 const cache = createCache({ key: 'css', prepend: true });
-const theme = createTheme();
 
 export default function Home() {
   const router = useRouter();
