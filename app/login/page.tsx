@@ -21,7 +21,7 @@ export default function Login() {
   const router = useRouter();
 
   const goToPreparation = () => {
-    router.push('/preparation');
+    router.push('/customize');
   };
 
   const theme = createTheme({
