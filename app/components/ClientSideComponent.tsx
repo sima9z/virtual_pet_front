@@ -1,18 +1,20 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import usePwaStatus from './hooks/usePwaStatus';
 import NotPwaHeader from './organisms/notPwaHeader';
 
 const ClientSideComponent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isPwa, setIsPwa] = useState<boolean>(false);
+  const isPwa = usePwaStatus();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-      const isStandaloneApple = ('standalone' in window.navigator) && (window.navigator.standalone);
-      setIsPwa(isStandalone || Boolean(isStandaloneApple));
-    }
+    setIsClient(true);
   }, []);
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <>
