@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import DogSitAnimation from './DogSitAnimation';
 import DogWalkAnimation from './DogWalkAnimation';
 import './dogAnimation.css';
@@ -11,7 +11,7 @@ const DogAnimation = () => {
   };
 
   return (
-    <div className="container">
+    <div>
       {animationState === 'sit' ? (
         <DogSitAnimation onComplete={handleSitComplete} />
       ) : (
