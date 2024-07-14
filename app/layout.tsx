@@ -20,10 +20,14 @@ export default function RootLayout({
     <html lang="ja">
       <head>
         <link rel="manifest" href="/manifest.json" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+        <meta http-equiv="cache-control" content="no-cache"/>
+        <meta http-equiv="expires" content="0"/>
+        <meta http-equiv="pragma" content="no-cache"/>
       </head>
       <body className={inter.className}>
         <ClientSideComponent>
-          {children}
+          <main>{children}</main>
           <Footer />
         </ClientSideComponent>
       </body>

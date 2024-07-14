@@ -26,7 +26,7 @@ const Footer = () => {
     <CacheProvider value={cache}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <AppBar position="fixed" color="secondary" sx={{ top: 'auto', bottom: 0, height: '7%' }}>
+        <AppBar position="fixed" color="secondary" sx={{ top: 'auto', bottom: 0, height: '7vh' }}>
           <Toolbar>
             <Typography variant="body1" color="primary" sx={{ height: '50%' }}>
               © 2024 Shimadu Yu

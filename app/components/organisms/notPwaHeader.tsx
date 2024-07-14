@@ -52,7 +52,7 @@ const NotPwaHeader = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {!isStandalone && (
-        <AppBar position="fixed" color="secondary" sx={{ top: 0, height: '7%' }}>
+        <AppBar position="fixed" color="secondary" sx={{ top: 0, height: '7vh' }}>
           <Toolbar>
             <Box display="flex" justifyContent="flex-end" alignItems="center" width="100%">
               <Typography variant="body1" color="primary" sx={{ height: '50%' }} />
