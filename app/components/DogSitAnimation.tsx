@@ -12,7 +12,6 @@ import bodyImage from '../../public/ダックス胴体.png';
 import earImage from '../../public/ダックス耳.png';
 import earImageRight from '../../public/ダックス奥耳.png';
 import jawImage from '../../public/ダックス顎.png';
-import './dogAnimation.css';
 
 interface DogSitAnimationProps {
   onComplete: () => void;
@@ -241,18 +240,73 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className="dog-container" ref={containerRef}>
-      <Image ref={legBackLeftRef} src={legImageBackLeft} alt="Back Left Leg" className="dog-part back-left-leg" />
-      <Image ref={legBackRightRef} src={legImageBackRight} alt="Back Right Leg" className="dog-part back-right-leg" />
-      <Image ref={legFrontLeftRef} src={legImageFrontLeft} alt="Front Left Leg" className="dog-part front-left-leg" />
-      <Image ref={legFrontRightRef} src={legImageFrontRight} alt="Front Right Leg" className="dog-part front-right-leg" />
-      <Image ref={tailRef} src={tailImage} alt="Tail" className="dog-part tail" />
-      <Image ref={headFaceRef} src={headImageFace} alt="Face" className="dog-part head-face" />
-      <Image ref={headEyeRef} src={headImageEye} alt="Eye" className="dog-part head-eye" />
-      <Image ref={bodyRef} src={bodyImage} alt="Body" className="dog-part body" />
-      <Image ref={earRef} src={earImage} alt="Ear" className="dog-part ear" />
-      <Image ref={earRightRef} src={earImageRight} alt="EarRight" className="dog-part ear-right" />
-      <Image ref={jawRef} src={jawImage} alt="jaw" className="dog-part jaw" />
+    <div className="dog-container relative w-[450px] h-[350px] mx-auto" ref={containerRef}>
+      <Image
+        ref={legBackLeftRef}
+        src={legImageBackLeft}
+        alt="Back Left Leg"
+        className="dog-part absolute top-[170px] left-[300px]"
+      />
+      <Image
+        ref={legBackRightRef}
+        src={legImageBackRight}
+        alt="Back Right Leg"
+        className="dog-part absolute top-[220px] left-[220px]"
+      />
+      <Image
+        ref={legFrontLeftRef}
+        src={legImageFrontLeft}
+        alt="Front Left Leg"
+        className="dog-part absolute top-[170px] left-[80px]"
+      />
+      <Image
+        ref={legFrontRightRef}
+        src={legImageFrontRight}
+        alt="Front Right Leg"
+        className="dog-part absolute top-[130px] left-[0px]"
+      />
+      <Image
+        ref={tailRef}
+        src={tailImage}
+        alt="Tail"
+        className="dog-part absolute top-[60px] left-[350px]"
+      />
+      <Image
+        ref={headFaceRef}
+        src={headImageFace}
+        alt="Face"
+        className="dog-part absolute top-[5px] left-[60px]"
+      />
+      <Image
+        ref={headEyeRef}
+        src={headImageEye}
+        alt="Eye"
+        className="dog-part absolute top-[15px] left-[125px]"
+      />
+      <Image
+        ref={bodyRef}
+        src={bodyImage}
+        alt="Body"
+        className="dog-part absolute top-[100px] left-[85px]"
+      />
+      <Image
+        ref={earRef}
+        src={earImage}
+        alt="Ear"
+        className="dog-part absolute top-[20px] left-[180px]"
+      />
+      <Image
+        ref={earRightRef}
+        src={earImageRight}
+        alt="EarRight"
+        className="dog-part absolute top-[-7px] left-[103px]"
+      />
+      <Image
+        ref={jawRef}
+        src={jawImage}
+        alt="Jaw"
+        className="dog-part absolute top-[75px] left-[90px]"
+      />
     </div>
   );
 };

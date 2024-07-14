@@ -13,7 +13,15 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      spacing: {
+        '450px': '450px',
+        '350px': '350px',
+        // 他のカスタムサイズも追加可能
+      },
     },
+  },
+  variants: {
+    extend: {},
   },
   plugins: [],
 };
