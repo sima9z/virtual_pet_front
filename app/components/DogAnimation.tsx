@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import DogSitAnimation from './DogSitAnimation';
 import DogWalkAnimation from './DogWalkAnimation';
-import './dogAnimation.css';
 
 const DogAnimation = () => {
   const [animationState, setAnimationState] = useState('sit');
