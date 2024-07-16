@@ -4,6 +4,7 @@ import React from 'react';
 import { Button, CssBaseline, ThemeProvider, createTheme, Drawer, Box, List, Divider, ListItem } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import LogoutButton from '../atoms/LogoutButton';
 
 const cache = createCache({ key: 'css', prepend: true });
 
@@ -66,6 +67,7 @@ export default function AnchorTemporaryDrawer() {
           <Button variant="contained" color="primary" sx={{ color: 'white', fontSize: "24px" }}>
             ステータス
           </Button>
+          <LogoutButton />
         </List>
       </Box>
     );

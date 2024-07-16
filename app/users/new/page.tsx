@@ -6,20 +6,30 @@ import { TextField, CssBaseline, ThemeProvider, createTheme, Container, Box, But
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 
+import { signup } from '../../api/auth';
+
 const cache = createCache({ key: 'css', prepend: true });
 
 export default function Login() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('name:', name);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('passwordConfirmation:', passwordConfirmation);
+    try {
+      const user = await signup(name, email, password, passwordConfirmation);
+      console.log('Signed up user:', user);
+      router.push('/login');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred');
+      }
+    }
   };
 
   const router = useRouter();
@@ -76,7 +86,7 @@ export default function Login() {
                 required
               />
               <TextField
-                label="password_confirmation"
+                label="Password Confirmation"
                 type="password"
                 variant="outlined"
                 margin="normal"
@@ -88,6 +98,7 @@ export default function Login() {
               <Button type="submit" variant="contained" color="secondary" sx={{ color: 'white', marginTop: '20px' }}>
                 新規登録
               </Button>
+              {error && <Typography color="error">{error}</Typography>}
             </form>
           </Box>
         </Container>

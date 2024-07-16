@@ -6,16 +6,28 @@ import { TextField, CssBaseline, ThemeProvider, createTheme, Container, Box, But
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 
+import { login } from '../api/auth';
+
 const cache = createCache({ key: 'css', prepend: true });
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
+    try {
+      const user = await login(email, password);
+      console.log('Logged in user:', user);
+      router.push('/main');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred');
+      }
+    }
   };
 
   const router = useRouter();
@@ -70,6 +82,7 @@ export default function Login() {
                 ログイン
               </Button>
             </form>
+            {error && <Typography color="error">{error}</Typography>}
             <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem">
               <Link href="#" color="secondary" underline="hover">
                 パスワードを忘れた場合
