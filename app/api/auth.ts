@@ -3,57 +3,72 @@ import { User, LoginResponse, LogoutResponse, ErrorResponse } from './types';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
-  const response = await fetch(`${API_BASE_URL}/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-    credentials: 'include', // クッキーを含むように設定
-  });
+  try {
+    const response = await fetch(`${API_BASE_URL}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+      credentials: 'include', // クッキーを含むように設定
+    });
 
-  const data: LoginResponse | ErrorResponse = await response.json();
-  if (!response.ok) {
-    const errorResponse = data as ErrorResponse;
-    throw new Error(errorResponse.errors?.join(', ') || errorResponse.error || 'Failed to login');
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || 'Failed to login');
+    }
+
+    const data: LoginResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error logging in:', error);
+    throw new Error('Failed to parse JSON response');
   }
-
-  return data as LoginResponse;
 };
 
 export const logout = async (): Promise<LogoutResponse> => {
-  const response = await fetch(`${API_BASE_URL}/logout`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include', // クッキーを含むように設定
-  });
+  try {
+    const response = await fetch(`${API_BASE_URL}/logout`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include', // クッキーを含むように設定
+    });
 
-  const data: LogoutResponse | ErrorResponse = await response.json();
-  if (!response.ok) {
-    const errorResponse = data as ErrorResponse;
-    throw new Error(errorResponse.errors?.join(', ') || errorResponse.error || 'Failed to logout');
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || 'Failed to logout');
+    }
+
+    const data: LogoutResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error logging out:', error);
+    throw new Error('Failed to parse JSON response');
   }
-
-  return data as LogoutResponse;
 };
 
 export const signup = async (name: string, email: string, password: string, passwordConfirmation: string): Promise<User> => {
-  const response = await fetch(`${API_BASE_URL}/signup`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ user: { name, email, password, password_confirmation: passwordConfirmation } }),
-    credentials: 'include', // クッキーを含むように設定
-  });
+  try {
+    const response = await fetch(`${API_BASE_URL}/signup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user: { name, email, password, password_confirmation: passwordConfirmation } }),
+      credentials: 'include', // クッキーを含むように設定
+    });
 
-  const data: User | ErrorResponse = await response.json();
-  if (!response.ok) {
-    const errorResponse = data as ErrorResponse;
-    throw new Error(errorResponse.errors?.join(', ') || errorResponse.error || 'Failed to sign up');
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || 'Failed to sign up');
+    }
+
+    const data: User = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error signing up:', error);
+    throw new Error('Failed to parse JSON response');
   }
-
-  return data as User;
 };
