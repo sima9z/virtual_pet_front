@@ -1,7 +1,9 @@
 import { User, LoginResponse, LogoutResponse, ErrorResponse } from './types';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
-  const response = await fetch('http://localhost:3000/login', {
+  const response = await fetch(`${API_BASE_URL}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -20,7 +22,7 @@ export const login = async (email: string, password: string): Promise<LoginRespo
 };
 
 export const logout = async (): Promise<LogoutResponse> => {
-  const response = await fetch('http://localhost:3000/logout', {
+  const response = await fetch(`${API_BASE_URL}/logout`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -38,7 +40,7 @@ export const logout = async (): Promise<LogoutResponse> => {
 };
 
 export const signup = async (name: string, email: string, password: string, passwordConfirmation: string): Promise<User> => {
-  const response = await fetch('http://localhost:3000/signup', {
+  const response = await fetch(`${API_BASE_URL}/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
