@@ -9,23 +9,23 @@ import createCache from '@emotion/cache';
 const cache = createCache({ key: 'css', prepend: true });
 
 export default function Login() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log('name:', name);
     console.log('Email:', email);
     console.log('Password:', password);
+    console.log('passwordConfirmation:', passwordConfirmation);
   };
 
   const router = useRouter();
 
   const goToPreparation = () => {
     router.push('/customize');
-  };
-
-  const goToPreparation2 = () => {
-    router.push('/users/new');
   };
 
   const theme = createTheme({
@@ -45,8 +45,17 @@ export default function Login() {
         <CssBaseline />
         <Container style={{ padding: '0 2%' }}>
           <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">
-            <Typography variant="h3" marginBottom="50px">ログイン</Typography>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: "100%", maxWidth: "400px", gap: "30px" }}>
+            <Typography variant="h3" marginBottom="20px">新規ユーザー登録</Typography>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: "100%", maxWidth: "400px", gap: "20px" }}>
+            <TextField
+                label="name"
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
               <TextField
                 label="Email"
                 variant="outlined"
@@ -66,23 +75,20 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <Button type="submit" variant="contained" color="secondary" sx={{ color: 'white', marginTop: '50px' }}>
-                ログイン
+              <TextField
+                label="password_confirmation"
+                type="password"
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                value={passwordConfirmation}
+                onChange={(e) => setPasswordConfirmation(e.target.value)}
+                required
+              />
+              <Button type="submit" variant="contained" color="secondary" sx={{ color: 'white', marginTop: '20px' }}>
+                新規登録
               </Button>
             </form>
-            <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem">
-              <Link href="#" color="secondary" underline="hover">
-                パスワードを忘れた場合
-              </Link>
-              <Box display="flex" flexDirection="column" alignItems="flex-end" gap="10px">
-                <Link href="#" color="secondary" underline="hover" onClick={goToPreparation2}>
-                  新規ユーザー登録
-                </Link>
-                <Link href="#" color="secondary" underline="hover" onClick={goToPreparation}>
-                  ゲストでログインする
-                </Link>
-              </Box>
-            </Box>
           </Box>
         </Container>
       </ThemeProvider>
