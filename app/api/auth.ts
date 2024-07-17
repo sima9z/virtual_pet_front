@@ -17,6 +17,7 @@ export const login = async (email: string, password: string): Promise<LoginRespo
     console.log('Response Text:', responseText); // ログに出力
 
     if (!response.ok) {
+      console.error('Error Status:', response.status);
       throw new Error(responseText || 'Failed to login');
     }
 
