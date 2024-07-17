@@ -13,12 +13,14 @@ export const login = async (email: string, password: string): Promise<LoginRespo
       credentials: 'include', // クッキーを含むように設定
     });
 
+    const responseText = await response.text(); // レスポンスをテキスト形式で取得
+    console.log('Response Text:', responseText); // ログに出力
+
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || 'Failed to login');
+      throw new Error(responseText || 'Failed to login');
     }
 
-    const data: LoginResponse = await response.json();
+    const data: LoginResponse = JSON.parse(responseText); // テキストをJSONとして解析
     return data;
   } catch (error) {
     console.error('Error logging in:', error);
@@ -36,12 +38,14 @@ export const logout = async (): Promise<LogoutResponse> => {
       credentials: 'include', // クッキーを含むように設定
     });
 
+    const responseText = await response.text(); // レスポンスをテキスト形式で取得
+    console.log('Response Text:', responseText); // ログに出力
+
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || 'Failed to logout');
+      throw new Error(responseText || 'Failed to logout');
     }
 
-    const data: LogoutResponse = await response.json();
+    const data: LogoutResponse = JSON.parse(responseText); // テキストをJSONとして解析
     return data;
   } catch (error) {
     console.error('Error logging out:', error);
@@ -60,12 +64,14 @@ export const signup = async (name: string, email: string, password: string, pass
       credentials: 'include', // クッキーを含むように設定
     });
 
+    const responseText = await response.text(); // レスポンスをテキスト形式で取得
+    console.log('Response Text:', responseText); // ログに出力
+
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || 'Failed to sign up');
+      throw new Error(responseText || 'Failed to sign up');
     }
 
-    const data: User = await response.json();
+    const data: User = JSON.parse(responseText); // テキストをJSONとして解析
     return data;
   } catch (error) {
     console.error('Error signing up:', error);
