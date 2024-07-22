@@ -2,27 +2,31 @@ import { User, LoginResponse, LogoutResponse, ErrorResponse } from './types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-const getCsrfToken = async (): Promise<string> => {
+const getCsrfToken = async (): Promise<void> => {
   const response = await fetch(`${API_BASE_URL}/csrf_token`, {
-    credentials: 'include', // クッキーを含むように設定
+    credentials: 'include', // 必要に応じてクッキーを含める
   });
 
   const data = await response.json();
-  return data.csrfToken;
+  localStorage.setItem('csrfToken', data.csrfToken);
 };
 
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
   try {
-    const csrfToken = await getCsrfToken();
+    // CSRFトークンがローカルストレージにない場合は取得する
+    if (!localStorage.getItem('csrfToken')) {
+      await getCsrfToken();
+    }
+    const csrfToken = localStorage.getItem('csrfToken');
     
     const response = await fetch(`${API_BASE_URL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken,
+        'X-CSRF-Token': csrfToken || '', // CSRFトークンをヘッダーに追加
       },
       body: JSON.stringify({ email, password }),
-      credentials: 'include', // クッキーを含むように設定
+      credentials: 'include', // 必要に応じてクッキーを含める
     });
 
     const responseText = await response.text(); // レスポンスをテキスト形式で取得
@@ -43,15 +47,15 @@ export const login = async (email: string, password: string): Promise<LoginRespo
 
 export const logout = async (): Promise<LogoutResponse> => {
   try {
-    const csrfToken = await getCsrfToken(); // CSRFトークンを取得
+    const csrfToken = localStorage.getItem('csrfToken'); // ローカルストレージからCSRFトークンを取得
 
     const response = await fetch(`${API_BASE_URL}/logout`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken, // ヘッダーにCSRFトークンを含める
+        'X-CSRF-Token': csrfToken || '', // ヘッダーにCSRFトークンを追加
       },
-      credentials: 'include', // クッキーを含むように設定
+      credentials: 'include', // 必要に応じてクッキーを含める
     });
 
     const responseText = await response.text(); // レスポンスをテキスト形式で取得
@@ -71,16 +75,16 @@ export const logout = async (): Promise<LogoutResponse> => {
 
 export const signup = async (name: string, email: string, password: string, passwordConfirmation: string): Promise<User> => {
   try {
-    const csrfToken = await getCsrfToken();
+    const csrfToken = localStorage.getItem('csrfToken'); // ローカルストレージからCSRFトークンを取得
 
     const response = await fetch(`${API_BASE_URL}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken,
+        'X-CSRF-Token': csrfToken || '', // ヘッダーにCSRFトークンを追加
       },
       body: JSON.stringify({ user: { name, email, password, password_confirmation: passwordConfirmation } }),
-      credentials: 'include', // クッキーを含むように設定
+      credentials: 'include', // 必要に応じてクッキーを含める
     });
 
     const responseText = await response.text(); // レスポンスをテキスト形式で取得
