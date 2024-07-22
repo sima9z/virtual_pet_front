@@ -4,42 +4,41 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const getCsrfToken = async (): Promise<void> => {
   const response = await fetch(`${API_BASE_URL}/csrf_token`, {
-    credentials: 'include', // 必要に応じてクッキーを含める
+    credentials: 'include',
   });
 
   const data = await response.json();
-  console.log('CSRF Token:', data.csrfToken); // デバッグ用にトークンをログに出力
+  console.log('CSRF Token:', data.csrfToken);
   localStorage.setItem('csrfToken', data.csrfToken);
 };
 
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
   try {
-    // CSRFトークンがローカルストレージにない場合は取得する
     if (!localStorage.getItem('csrfToken')) {
       await getCsrfToken();
     }
     const csrfToken = localStorage.getItem('csrfToken');
-    console.log('CSRF Token from Local Storage:', csrfToken); // デバッグ用にトークンをログに出力
+    console.log('CSRF Token from Local Storage:', csrfToken);
     
     const response = await fetch(`${API_BASE_URL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken || '', // CSRFトークンをヘッダーに追加
+        'X-CSRF-Token': csrfToken || '',
       },
       body: JSON.stringify({ email, password }),
-      credentials: 'include', // 必要に応じてクッキーを含める
+      credentials: 'include',
     });
 
-    const responseText = await response.text(); // レスポンスをテキスト形式で取得
-    console.log('Response Text:', responseText); // ログに出力
+    const responseText = await response.text();
+    console.log('Response Text:', responseText);
 
     if (!response.ok) {
       console.error('Error Status:', response.status);
       throw new Error(responseText || 'Failed to login');
     }
 
-    const data: LoginResponse = JSON.parse(responseText); // テキストをJSONとして解析
+    const data: LoginResponse = JSON.parse(responseText);
     return data;
   } catch (error) {
     console.error('Error logging in:', error);
@@ -49,26 +48,26 @@ export const login = async (email: string, password: string): Promise<LoginRespo
 
 export const logout = async (): Promise<LogoutResponse> => {
   try {
-    const csrfToken = localStorage.getItem('csrfToken'); // ローカルストレージからCSRFトークンを取得
-    console.log('CSRF Token from Local Storage:', csrfToken); // デバッグ用にトークンをログに出力
+    const csrfToken = localStorage.getItem('csrfToken');
+    console.log('CSRF Token from Local Storage:', csrfToken);
 
     const response = await fetch(`${API_BASE_URL}/logout`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken || '', // ヘッダーにCSRFトークンを追加
+        'X-CSRF-Token': csrfToken || '',
       },
-      credentials: 'include', // 必要に応じてクッキーを含める
+      credentials: 'include',
     });
 
-    const responseText = await response.text(); // レスポンスをテキスト形式で取得
-    console.log('Response Text:', responseText); // ログに出力
+    const responseText = await response.text();
+    console.log('Response Text:', responseText);
 
     if (!response.ok) {
       throw new Error(responseText || 'Failed to logout');
     }
 
-    const data: LogoutResponse = JSON.parse(responseText); // テキストをJSONとして解析
+    const data: LogoutResponse = JSON.parse(responseText);
     return data;
   } catch (error) {
     console.error('Error logging out:', error);
@@ -78,27 +77,27 @@ export const logout = async (): Promise<LogoutResponse> => {
 
 export const signup = async (name: string, email: string, password: string, passwordConfirmation: string): Promise<User> => {
   try {
-    const csrfToken = localStorage.getItem('csrfToken'); // ローカルストレージからCSRFトークンを取得
-    console.log('CSRF Token from Local Storage:', csrfToken); // デバッグ用にトークンをログに出力
+    const csrfToken = localStorage.getItem('csrfToken');
+    console.log('CSRF Token from Local Storage:', csrfToken);
 
     const response = await fetch(`${API_BASE_URL}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken || '', // ヘッダーにCSRFトークンを追加
+        'X-CSRF-Token': csrfToken || '',
       },
       body: JSON.stringify({ user: { name, email, password, password_confirmation: passwordConfirmation } }),
-      credentials: 'include', // 必要に応じてクッキーを含める
+      credentials: 'include',
     });
 
-    const responseText = await response.text(); // レスポンスをテキスト形式で取得
-    console.log('Response Text:', responseText); // ログに出力
+    const responseText = await response.text();
+    console.log('Response Text:', responseText);
 
     if (!response.ok) {
       throw new Error(responseText || 'Failed to sign up');
     }
 
-    const data: User = JSON.parse(responseText); // テキストをJSONとして解析
+    const data: User = JSON.parse(responseText);
     return data;
   } catch (error) {
     console.error('Error signing up:', error);
