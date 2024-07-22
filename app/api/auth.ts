@@ -10,16 +10,15 @@ const getCsrfToken = async (): Promise<void> => {
   const data = await response.json();
   console.log('CSRF Token:', data.csrfToken);
   localStorage.setItem('csrfToken', data.csrfToken);
+  await new Promise(resolve => setTimeout(resolve, 100)); // 一時的な待機を追加
 };
 
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
   try {
-    if (!localStorage.getItem('csrfToken')) {
-      await getCsrfToken();
-    }
+    await getCsrfToken(); // CSRFトークンの取得を強制
     const csrfToken = localStorage.getItem('csrfToken');
     console.log('CSRF Token from Local Storage:', csrfToken);
-    
+
     const response = await fetch(`${API_BASE_URL}/login`, {
       method: 'POST',
       headers: {
@@ -48,6 +47,7 @@ export const login = async (email: string, password: string): Promise<LoginRespo
 
 export const logout = async (): Promise<LogoutResponse> => {
   try {
+    await getCsrfToken(); // CSRFトークンの取得を強制
     const csrfToken = localStorage.getItem('csrfToken');
     console.log('CSRF Token from Local Storage:', csrfToken);
 
@@ -77,6 +77,7 @@ export const logout = async (): Promise<LogoutResponse> => {
 
 export const signup = async (name: string, email: string, password: string, passwordConfirmation: string): Promise<User> => {
   try {
+    await getCsrfToken(); // CSRFトークンの取得を強制
     const csrfToken = localStorage.getItem('csrfToken');
     console.log('CSRF Token from Local Storage:', csrfToken);
 
