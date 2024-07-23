@@ -7,6 +7,7 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 
 import { login } from '../api/auth';
+import { checkPets } from '../api/checkPets';
 
 const cache = createCache({ key: 'css', prepend: true });
 
@@ -15,12 +16,21 @@ export default function Login() {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
 
+  const router = useRouter();
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const user = await login(email, password);
       console.log('Logged in user:', user);
-      router.push('/main');
+
+      // ペットの存在をチェックするAPIを呼び出し
+      const data = await checkPets();
+      if (data.pets_exist) {
+        router.push('/main');
+      } else {
+        router.push('/customize');
+      }
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -29,9 +39,7 @@ export default function Login() {
       }
     }
   };
-
-  const router = useRouter();
-
+  
   const goToPreparation = () => {
     router.push('/customize');
   };
