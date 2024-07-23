@@ -25,6 +25,40 @@ export default function Customize() {
     setSelectedPetLook(event.target.value);
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const endpoint = selectedPetType === '犬' ? '/api/dogs' : '/api/cats';
+    const petData = {
+      name: petName,
+      breed: selectedPetLook,
+      age: 0,
+      experience: 0,
+      level: 1,
+      hungry: 0,
+      thirsty: 0,
+      is_adult: false,
+    };
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(petData),
+      });
+
+      if (response.ok) {
+        goToMainPage();
+      } else {
+        console.error('Failed to create pet');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  };
+
   const goToMainPage = () => {
     router.push('/main');
   };
@@ -47,7 +81,7 @@ export default function Customize() {
         <Container style={{ padding: '0 2%' }}>
           <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">
             <Typography variant="h3" marginBottom="30px">ペットのカスタマイズ</Typography>
-            <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: "100%", maxWidth: "600px", gap: "30px" }}>
+            <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: "100%", maxWidth: "600px", gap: "30px" }} onSubmit={handleSubmit}>
               <TextField
                 label="ペットの名前"
                 variant="outlined"
@@ -99,7 +133,7 @@ export default function Customize() {
                   </Box>
                 </Box>
               </Box>
-              <Button type="submit" variant="contained" color="secondary" sx={{ color: 'white', marginTop: '30px' }} onClick={goToMainPage}>
+              <Button type="submit" variant="contained" color="secondary" sx={{ color: 'white', marginTop: '30px' }}>
                 登録
               </Button>
             </form>
