@@ -14,7 +14,9 @@ type CreatePetsButtonProps = {
   onSuccess: () => void;
 };
 
-const CreatePetsButton: React.FC<CreatePetsButtonProps> = ({ petName, selectedPetType, selectedPetLook, onSuccess }) => {
+const CreatePetsButton: React.FC<CreatePetsButtonProps> = (props) => {
+  const { petName, selectedPetType, selectedPetLook, onSuccess } = props;
+
   const [userId, setUserId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
