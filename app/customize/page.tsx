@@ -13,9 +13,9 @@ import CreatePetsButton from '../components/atoms/CreatePetsButton';
 const cache = createCache({ key: 'css', prepend: true });
 
 const Customize: React.FC = () => {
-  const [petName, setPetName] = useState<string>('');
-  const [selectedPetType, setSelectedPetType] = useState<string>('');
-  const [selectedPetLook, setSelectedPetLook] = useState<string>('');
+  const [petName, setPetName] = useState('');
+  const [selectedPetType, setSelectedPetType] = useState('');
+  const [selectedPetLook, setSelectedPetLook] = useState('');
 
   const router = useRouter();
 
