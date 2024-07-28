@@ -2,61 +2,29 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CssBaseline, ThemeProvider, createTheme, Container, Box, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { CssBaseline, ThemeProvider, createTheme, Container, Box, TextField, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import Image from 'next/image';
+
+import CreatePetsButton from '../components/atoms/CreatePetsButton';
 
 const cache = createCache({ key: 'css', prepend: true });
 
-export default function Customize() {
-  const [petName, setPetName] = useState('');
-  const [selectedPetType, setSelectedPetType] = useState('');
-  const [selectedPetLook, setSelectedPetLook] = useState('');
+const Customize: React.FC = () => {
+  const [petName, setPetName] = useState<string>('');
+  const [selectedPetType, setSelectedPetType] = useState<string>('');
+  const [selectedPetLook, setSelectedPetLook] = useState<string>('');
 
   const router = useRouter();
 
-  const handlePetTypeChange = (event: any) => {
-    setSelectedPetType(event.target.value);
+  const handlePetTypeChange = (event: SelectChangeEvent<string>) => {
+    setSelectedPetType(event.target.value as string);
   };
 
-  const handlePetLookChange = (event: any) => {
-    setSelectedPetLook(event.target.value);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const endpoint = selectedPetType === '犬' ? '/api/dogs' : '/api/cats';
-    const petData = {
-      name: petName,
-      breed: selectedPetLook,
-      age: 0,
-      experience: 0,
-      level: 1,
-      hungry: 0,
-      thirsty: 0,
-      is_adult: false,
-    };
-
-    try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(petData),
-      });
-
-      if (response.ok) {
-        goToMainPage();
-      } else {
-        console.error('Failed to create pet');
-      }
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
+  const handlePetLookChange = (event: SelectChangeEvent<string>) => {
+    setSelectedPetLook(event.target.value as string);
   };
 
   const goToMainPage = () => {
@@ -81,25 +49,27 @@ export default function Customize() {
         <Container style={{ padding: '0 2%' }}>
           <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">
             <Typography variant="h3" marginBottom="30px">ペットのカスタマイズ</Typography>
-            <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: "100%", maxWidth: "600px", gap: "30px" }} onSubmit={handleSubmit}>
+            <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: "100%", maxWidth: "600px", gap: "30px" }}>
               <TextField
                 label="ペットの名前"
                 variant="outlined"
                 margin="normal"
                 fullWidth
                 value={petName}
-                onChange={(e) => setPetName(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPetName(e.target.value)}
                 required
               />
               <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem">
                 <Box flex="1" display="flex" justifyContent="center" alignItems="center" bgcolor="#e0e0e0" height="200px">
-                  <Image
-                    src="/犬.png"
-                    alt="Virtual Pet Image"
-                    width={200}
-                    height={200}
-                    style={{ objectFit: 'cover' }}
-                  />
+                  {selectedPetType && (
+                    <Image
+                      src={`/${selectedPetType === '犬' ? '犬' : '猫'}.png`}
+                      alt="Virtual Pet Image"
+                      width={selectedPetType === '犬' ? 200 : 150} // 犬なら200、猫なら150
+                      height={selectedPetType === '犬' ? 200 : 150} // 犬なら200、猫なら150
+                      style={{ objectFit: 'cover' }}
+                    />
+                  )}
                 </Box>
                 <Box flex="1" display="flex" flexDirection="column" justifyContent="space-between" marginLeft="20px">
                   <FormControl fullWidth>
@@ -126,16 +96,17 @@ export default function Customize() {
                         onChange={handlePetLookChange}
                       >
                         <MenuItem value="タイプ1">タイプ1</MenuItem>
-                        <MenuItem value="タイプ2">タイプ2</MenuItem>
-                        <MenuItem value="タイプ3">タイプ3</MenuItem>
                       </Select>
                     </FormControl>
                   </Box>
                 </Box>
               </Box>
-              <Button type="submit" variant="contained" color="secondary" sx={{ color: 'white', marginTop: '30px' }}>
-                登録
-              </Button>
+              <CreatePetsButton 
+                petName={petName}
+                selectedPetType={selectedPetType}
+                selectedPetLook={selectedPetLook}
+                onSuccess={goToMainPage}
+              />
             </form>
           </Box>
         </Container>
@@ -143,3 +114,5 @@ export default function Customize() {
     </CacheProvider>
   );
 }
+
+export default Customize;

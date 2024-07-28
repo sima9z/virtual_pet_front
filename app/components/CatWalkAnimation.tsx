@@ -34,39 +34,39 @@ const CatWalkAnimation: React.FC = () => {
 
     const legAnims = [
       gsap.to(legBackLeftRef.current, {
-        rotation: 20,
+        rotation: 25,
         transformOrigin: 'top',
-        duration: 0.8,
+        duration: 1.0,
         repeat,
         yoyo,
         ease: 'power1.inOut',
         delay: 0,
       }),
       gsap.to(legBackRightRef.current, {
-        rotation: -20,
+        rotation: -25,
         transformOrigin: 'top',
-        duration: 0.8,
+        duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power2.inOut',
+        ease: 'power1.inOut',
         delay: 0.4,
       }),
       gsap.to(legFrontLeftRef.current, {
-        rotation: 20,
+        rotation: 25,
         transformOrigin: 'top',
-        duration: 0.8,
+        duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power3.inOut',
+        ease: 'power1.inOut',
         delay: 0.8,
       }),
       gsap.to(legFrontRightRef.current, {
-        rotation: -20,
+        rotation: -25,
         transformOrigin: 'top',
-        duration: 0.8,
+        duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power4.inOut',
+        ease: 'power1.inOut',
         delay: 1.2,
       }),
     ];
@@ -81,7 +81,7 @@ const CatWalkAnimation: React.FC = () => {
     });
 
     const beardLeftAnim = gsap.to(beardLeftRef.current, {
-      rotation: 10, // 軽く回転させる
+      rotation: -10, // 軽く回転させる
       transformOrigin: 'left', 
       duration: 0.5,
       repeat: -1,
