@@ -14,7 +14,7 @@ interface CreatePetsButtonProps  {
   onSuccess: () => void;
 };
 
-const CreatePetsButton: React.FC<CreatePetsButtonProps> = ({ petName, selectedPetType, selectedPetLook, onSuccess }) => {
+const CreatePetsButton: React.FC<CreatePetsButtonProps> = ({ petName, selectedPetType, selectedPetLook, onSuccess }: CreatePetsButtonProps) => {
   const [userId, setUserId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
