@@ -55,7 +55,7 @@ const theme = createTheme({
             <Button variant="contained" color="secondary" size="large" onClick={goToLogin} sx={{ color: 'white' }}>
               Login
             </Button>
-            <CheckEnv />
+            {/* <CheckEnv /> */}
           </Box>
         </Container>
       </ThemeProvider>
