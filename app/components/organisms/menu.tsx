@@ -1,12 +1,14 @@
 "use client";
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 
-import { Button, CssBaseline, ThemeProvider, createTheme, Drawer, Box, List, Divider, ListItem, Modal } from '@mui/material';
+import { Button, CssBaseline, ThemeProvider, createTheme, Drawer, Box, List, ListItem } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import LogoutButton from '../atoms/LogoutButton';
 import PetStatusModal from './petStatusModal';
 import { getPetDetails } from '../../api/getPetDetails';
+import { petAction } from '../../api/petActions';
+import { getPetInfo } from '../../api/getPetInfo';
 
 const cache = createCache({ key: 'css', prepend: true });
 
@@ -24,6 +26,7 @@ const theme = createTheme({
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 interface PetInfo {
+  id: number;
   name: string;
   breed: string;
   age: number;
@@ -43,6 +46,20 @@ export default function AnchorTemporaryDrawer() {
 
   const [openModal, setOpenModal] = useState(false);
   const [petInfo, setPetInfo] = useState<PetInfo | null>(null);
+  const [petType, setPetType] = useState<'dog' | 'cat' | null>(null);
+
+  useEffect(() => {
+    async function fetchPetType() {
+      try {
+        const { petType } = await getPetInfo();
+        setPetType(petType as 'dog' | 'cat');
+      } catch (error) {
+        console.error('Error fetching pet type:', error);
+      }
+    }
+
+    fetchPetType();
+  }, []);
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -71,6 +88,25 @@ export default function AnchorTemporaryDrawer() {
   
     const handleCloseModal = () => setOpenModal(false);
 
+    const handleAction = async (action: 'feed' | 'water' | 'walk') => {
+      if (petType && petInfo) {
+        try {
+          await petAction(petType, petInfo.id, action);
+          alert(`${action} action performed successfully for ${petType}`);
+        } catch (error) {
+          console.error(`Error performing ${action} action:`, error);
+          alert(`Failed to perform ${action} action for ${petType}`);
+        }
+      } else {
+        if (!petType) {
+          alert('Pet type not determined');
+        }
+        if (!petInfo) {
+          alert('Pet information not available');
+        }
+      }
+    };
+
     const list = (anchor: Anchor) => (
       <Box
         sx={{ 
@@ -84,15 +120,24 @@ export default function AnchorTemporaryDrawer() {
         onClick={toggleDrawer(anchor, false)}
         onKeyDown={toggleDrawer(anchor, false)}
       >
-        <List sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: "50px 0", width: '80%', margin:"0 auto" }}>
-          {['ご飯', 'お水', '散歩', 'お風呂', '遊ぶ'].map((text) => (
+        <List sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: "50px 0", width: '90%', margin:"0 auto" }}>
+          {['ご飯', 'お水', '散歩'].map((text) => (
             <ListItem key={text} disablePadding sx={{ width: 'auto' }}>
-              <Button variant="contained" color="secondary" sx={{ color: 'white', fontSize: "24px" }}>
+              <Button
+              variant="contained"
+              color="secondary"
+              sx={{ color: 'white', fontSize: "24px" }}
+              onClick={() => handleAction(text === 'ご飯' ? 'feed' : text === 'お水' ? 'water' : 'walk')}
+              >
                 {text}
               </Button>
             </ListItem>
           ))}
-          <Button variant="contained" color="primary" sx={{ color: 'white', fontSize: "24px" }} onClick={handleOpenModal}>
+          <Button
+          variant="contained"
+          color="primary"
+          sx={{ color: 'white', fontSize: "24px" }}
+          onClick={handleOpenModal}>
             ステータス
           </Button>
           <LogoutButton />
@@ -105,7 +150,13 @@ export default function AnchorTemporaryDrawer() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
             <React.Fragment>
-              <Button onClick={toggleDrawer("top", true)} variant="contained" color="secondary" sx={{ color: 'white', marginTop:"7vh", fontWeight:"bold", fontSize:"24px" }}>menu</Button>
+              <Button
+              onClick={toggleDrawer("top", true)}
+              variant="contained"
+              color="secondary"
+              sx={{ color: 'white', marginTop:"7vh", fontWeight:"bold", fontSize:"24px" }}>
+                menu
+              </Button>
               <Drawer
                 anchor="top"
                 open={state["top"]}
