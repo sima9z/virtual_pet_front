@@ -1,6 +1,15 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const getPetDetails = async (): Promise<{ name: string; breed: string; age: number; is_adult: boolean; level: number; experience: number; states: number }> => {
+export const getPetDetails = async (): Promise<{
+  id: number,
+  name: string;
+  breed: string;
+  age: number;
+  is_adult: boolean;
+  level: number;
+  experience: number;
+  states: number
+}> => {
   const response = await fetch(`${API_BASE_URL}/pet_details`, {
     method: 'GET',
     headers: {
