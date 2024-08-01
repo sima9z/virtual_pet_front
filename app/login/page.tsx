@@ -26,6 +26,7 @@ export default function Login() {
 
       // ペットの存在をチェックするAPIを呼び出し
       const data = await checkPets();
+      console.log('Pets exist:', data.pets_exist);
       if (data.pets_exist) {
         router.push('/main');
       } else {

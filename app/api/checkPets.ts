@@ -5,9 +5,9 @@ export const checkPets = async (): Promise<{ pets_exist: boolean }> => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'credentials': 'include'  
+      'Accept': 'application/json',  
     },
+    credentials: 'include',
   });
 
   if (!response.ok) {
@@ -15,5 +15,6 @@ export const checkPets = async (): Promise<{ pets_exist: boolean }> => {
   }
 
   const data = await response.json();
+  console.log('checkPets response:', data);
   return data;
 };
