@@ -16,6 +16,7 @@ const Customize: React.FC = () => {
   const [petName, setPetName] = useState<string>('');
   const [selectedPetType, setSelectedPetType] = useState<string>('');
   const [selectedPetLook, setSelectedPetLook] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -27,91 +28,47 @@ const Customize: React.FC = () => {
     setSelectedPetLook(event.target.value as string);
   };
 
-  const goToMainPage = () => {
-    router.push('/main');
-  };
+  const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
 
-  const CreatePets = () => {
-    const [userId, setUserId] = useState<string | null>(null);
-    const [error, setError] = useState<string | null>(null);
-  
-    useEffect(() => {
-      const fetchUserId = async () => {
-        try {
-          const response = await fetch(`${API_BASE_URL}/users/current_user`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            credentials: 'include' 
-          });
-  
-          if (response.ok) {
-            const data = await response.json();
-            console.log('User ID:', data.id);
-            setUserId(data.id);
-          } else {
-            console.error('Failed to fetch user ID', response.statusText);
-            setError('Failed to fetch user ID');
-          }
-        } catch (error) {
-          console.error('An error occurred:', error);
-          setError('An error occurred while fetching user ID');
-        }
-      };
-  
-      fetchUserId();
-    }, []);
-  
-    const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-  
-      if (!userId) {
-        console.error('No user ID available');
-        setError('No user ID available');
-        return;
-      }
-  
-      const endpoint = selectedPetType === '犬' ? `users/${userId}/dog` : `users/${userId}/cat`;
-      const url = `${API_BASE_URL}/${endpoint}`;
-  
-      console.log('Endpoint:', url);
-  
-      const petData = {
-        name: petName,
-        breed: selectedPetLook,
-        age: 0,
-        experience: 0,
-        level: 1,
-        states: JSON.stringify({ hungry: 0, thirsty: 0 }),
-        is_adult: false,
-      };
-  
-      try {
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-          credentials: 'include',
-          body: JSON.stringify(petData),
-        });
-  
-        if (response.ok) {
-          console.log('Pet created successfully');
-          goToMainPage();
-        } else {
-          console.error('Failed to create pet');
-          setError('Failed to create pet');
-        }
-      } catch (error) {
-        console.error('An error occurred:', error);
-        setError('An error occurred while creating pet');
-      }
+    const endpoint = selectedPetType === '犬' ? `/dogs` : `/cats`;
+    const url = `${API_BASE_URL}${endpoint}`;
+
+    console.log('Endpoint:', url);
+
+    const petData = {
+      name: petName,
+      breed: selectedPetLook,
+      age: 0,
+      experience: 0,
+      level: 1,
+      states: JSON.stringify({ hungry: 0, thirsty: 0 }),
+      is_adult: false,
     };
-  }
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(petData),
+      });
+
+      if (response.ok) {
+        console.log('Pet created successfully');
+        router.push('/main');
+      } else {
+        console.error('Failed to create pet');
+        setError('Failed to create pet');
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      setError('An error occurred while creating pet');
+    }
+  };
 
   const theme = createTheme({
     palette: {
@@ -183,10 +140,10 @@ const Customize: React.FC = () => {
                   </Box>
                 </Box>
               </Box>
-              <Button type="submit" variant="contained" color="primary" sx={{ color: 'white', marginTop: '30px' }} onClick={CreatePets}>
+              <Button type="submit" variant="contained" color="primary" sx={{ color: 'white', marginTop: '30px' }} onClick={handleSubmit}>
                 登録
               </Button>
-              {/* {error && <p style={{ color: 'red' }}>{error}</p>} */}
+              {error && <p style={{ color: 'red' }}>{error}</p>}
             </form>
           </Box>
         </Container>
