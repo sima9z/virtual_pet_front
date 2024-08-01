@@ -1,8 +1,12 @@
 "use client";
 
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 // import DogRandomAnimation from '../components/dogRandomAnimation';
 import DogAnimation from '../components/DogAnimation';
+import CatWalkAnimation from '../components/CatWalkAnimation';
+
+import {getPetInfo} from '../api/getPetInfo'
+
 import BackgroundImage from "../components/atoms/BackgroundImage"
 import AnchorTemporaryDrawer from "../components/organisms/menu"
 
@@ -24,6 +28,22 @@ const theme = createTheme({
 });
 
 export default function Main() {
+  const [petType, setPetType] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchPetInfo() {
+      try {
+        const petInfo = await getPetInfo();
+        console.log('Pet type:', petInfo.petType); 
+        setPetType(petInfo.petType);
+      } catch (error) {
+        console.error('Error fetching pet information:', error);
+      }
+    }
+
+    fetchPetInfo();
+  }, []);
+
   return (
     <CacheProvider value={cache}>
       <ThemeProvider theme={theme}>
@@ -33,7 +53,9 @@ export default function Main() {
             <AnchorTemporaryDrawer></AnchorTemporaryDrawer>
           </div>
           <div className="flex justify-center items-end h-full">
-            <DogAnimation />
+            {petType === 'dog' && <DogAnimation />}
+            {petType === 'cat' && <CatWalkAnimation />}
+            {petType === 'none' && <p>No pet found</p>}
             <BackgroundImage src='/ばーちゃるぺっと背景.jpg' />
           </div>
         </div>
