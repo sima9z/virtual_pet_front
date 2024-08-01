@@ -11,20 +11,8 @@ import { blue } from '@mui/material/colors';
 
 const cache = createCache({ key: 'css', prepend: true });
 
-const CheckEnv = () => {
-  useEffect(() => {
-    console.log("API Base URL inside CheckEnv:", process.env.NEXT_PUBLIC_API_BASE_URL);
-  }, []);
-
-  return <div>Check the console for the API Base URL in CheckEnv</div>;
-};
-
 export default function Home() {
   const router = useRouter();
-
-  useEffect(() => {
-    console.log("API Base URL:", process.env.NEXT_PUBLIC_API_BASE_URL);
-  }, []);
 
   const goToLogin = () => {
     router.push('/login');
@@ -55,7 +43,6 @@ const theme = createTheme({
             <Button variant="contained" color="secondary" size="large" onClick={goToLogin} sx={{ color: 'white' }}>
               Login
             </Button>
-            {/* <CheckEnv /> */}
           </Box>
         </Container>
       </ThemeProvider>
