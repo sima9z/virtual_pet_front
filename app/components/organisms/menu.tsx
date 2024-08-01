@@ -1,10 +1,12 @@
 "use client";
-import React from 'react';
+import React, {useState} from 'react';
 
-import { Button, CssBaseline, ThemeProvider, createTheme, Drawer, Box, List, Divider, ListItem } from '@mui/material';
+import { Button, CssBaseline, ThemeProvider, createTheme, Drawer, Box, List, Divider, ListItem, Modal } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import LogoutButton from '../atoms/LogoutButton';
+import PetStatusModal from './petStatusModal';
+import { getPetDetails } from '../../api/getPetDetails';
 
 const cache = createCache({ key: 'css', prepend: true });
 
@@ -21,6 +23,16 @@ const theme = createTheme({
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
+interface PetInfo {
+  name: string;
+  breed: string;
+  age: number;
+  is_adult: boolean;
+  level: number;
+  experience: number;
+  states: number;
+}
+
 export default function AnchorTemporaryDrawer() {
   const [state, setState] = React.useState({
     top: false,
@@ -28,6 +40,9 @@ export default function AnchorTemporaryDrawer() {
     bottom: false,
     right: false,
   });
+
+  const [openModal, setOpenModal] = useState(false);
+  const [petInfo, setPetInfo] = useState<PetInfo | null>(null);
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -42,6 +57,19 @@ export default function AnchorTemporaryDrawer() {
 
       setState({ ...state, [anchor]: open });
     };
+
+    const handleOpenModal = async () => {
+      try {
+        const data = await getPetDetails();
+        console.log('Pet details:', data);
+        setPetInfo(data);
+        setOpenModal(true);
+      } catch (error) {
+        console.error('Error fetching pet information:', error);
+      }
+    };
+  
+    const handleCloseModal = () => setOpenModal(false);
 
     const list = (anchor: Anchor) => (
       <Box
@@ -64,7 +92,7 @@ export default function AnchorTemporaryDrawer() {
               </Button>
             </ListItem>
           ))}
-          <Button variant="contained" color="primary" sx={{ color: 'white', fontSize: "24px" }}>
+          <Button variant="contained" color="primary" sx={{ color: 'white', fontSize: "24px" }} onClick={handleOpenModal}>
             ステータス
           </Button>
           <LogoutButton />
@@ -85,6 +113,11 @@ export default function AnchorTemporaryDrawer() {
               >
                 {list("top")}
               </Drawer>
+              <PetStatusModal
+                open={openModal}
+                onClose={handleCloseModal}
+                petInfo={petInfo}
+              />
             </React.Fragment>
       </ThemeProvider>
     </CacheProvider>
