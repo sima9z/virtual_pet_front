@@ -49,16 +49,20 @@ export default function AnchorTemporaryDrawer() {
   const [petType, setPetType] = useState<'dog' | 'cat' | null>(null);
 
   useEffect(() => {
-    async function fetchPetType() {
+    async function fetchData() {
       try {
         const { petType } = await getPetInfo();
         setPetType(petType as 'dog' | 'cat');
+        
+        const petDetails = await getPetDetails();
+        console.log('Pet details:', petDetails);
+        setPetInfo(petDetails);
       } catch (error) {
-        console.error('Error fetching pet type:', error);
+        console.error('Error fetching pet data:', error);
       }
     }
 
-    fetchPetType();
+    fetchData();
   }, []);
 
   const toggleDrawer =
