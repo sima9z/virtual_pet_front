@@ -49,6 +49,10 @@ export default function Login() {
     router.push('/users/new');
   };
 
+  const unimplementedAlert = () =>{
+    alert(`未実装です`);
+  }
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -92,7 +96,7 @@ export default function Login() {
               </Button>
             </form>
             {error && <Typography color="error">{error}</Typography>}
-            <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem">
+            <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem" onClick={unimplementedAlert}>
               <Link href="#" color="secondary" underline="hover">
                 パスワードを忘れた場合
               </Link>
@@ -100,7 +104,7 @@ export default function Login() {
                 <Link href="#" color="secondary" underline="hover" onClick={goToPreparation2}>
                   新規ユーザー登録
                 </Link>
-                <Link href="#" color="secondary" underline="hover" onClick={goToPreparation}>
+                <Link href="#" color="secondary" underline="hover" onClick={unimplementedAlert}>
                   ゲストでログインする
                 </Link>
               </Box>
