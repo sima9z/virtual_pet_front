@@ -96,8 +96,8 @@ export default function Login() {
               </Button>
             </form>
             {error && <Typography color="error">{error}</Typography>}
-            <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem" onClick={unimplementedAlert}>
-              <Link href="#" color="secondary" underline="hover">
+            <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem">
+              <Link href="#" color="secondary" underline="hover" onClick={unimplementedAlert}>
                 パスワードを忘れた場合
               </Link>
               <Box display="flex" flexDirection="column" alignItems="flex-end" gap="10px">
