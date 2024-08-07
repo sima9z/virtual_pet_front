@@ -28,6 +28,9 @@ const Footer = () => {
   const goToPreparation = () => {
     router.push('/kiyaku');
   };
+  const goToPreparation2 = () => {
+    router.push('https://kiyac.app/privacypolicy/3QB6GsYYlo7FzDYekrOB');
+  };
 
   return (
     <CacheProvider value={cache}>
@@ -39,9 +42,12 @@ const Footer = () => {
               <Typography variant="body1" color="primary">
                 © 2024 Shimadu Yu
               </Typography>
-              <Box display="flex" flexDirection="column" alignItems="flex-end" gap="10px">
+              <Box display="flex" justifyContent="space-between" gap="20px">
                 <Link href="#" color="primary" underline="hover" onClick={goToPreparation}>
                     利用規約
+                </Link>
+                <Link href="#" color="primary" underline="hover" onClick={goToPreparation2}>
+                    プライバシーポリシー
                 </Link>
               </Box>
             </Box>
