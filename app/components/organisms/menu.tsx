@@ -33,6 +33,9 @@ interface PetInfo {
   is_adult: boolean;
   level: number;
   experience: number;
+  physical: number;
+  satiety: number;
+  happiness: number;
   states: number;
 }
 

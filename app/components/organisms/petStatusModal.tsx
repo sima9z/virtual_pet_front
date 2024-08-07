@@ -12,6 +12,9 @@ interface PetStatusModalProps {
     is_adult:boolean;
     level: number;
     experience: number;
+    physical: number;
+    satiety: number;
+    happiness: number;
     states:number;
   } | null;
 }
@@ -36,6 +39,9 @@ const PetStatusModal: React.FC<PetStatusModalProps> = ({ open, onClose, petInfo 
             <Typography>大人: {petInfo.is_adult ? 'Yes' : 'No'}</Typography>
             <Typography>レベル: {petInfo.level}</Typography>
             <Typography>経験値: {petInfo.experience}</Typography>
+            <Typography>体力: {petInfo.physical}</Typography>
+            <Typography>満腹度: {petInfo.satiety}</Typography>
+            <Typography>幸福度: {petInfo.happiness}</Typography>
             <Typography>ステータス: {petInfo.states}</Typography>
           </Box>
         )}
