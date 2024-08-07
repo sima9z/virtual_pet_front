@@ -8,6 +8,9 @@ export const getPetDetails = async (): Promise<{
   is_adult: boolean;
   level: number;
   experience: number;
+  physical: number;
+  satiety: number;
+  happiness: number;
   states: number
 }> => {
   const response = await fetch(`${API_BASE_URL}/pet_details`, {
