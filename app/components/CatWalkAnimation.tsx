@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import Image from 'next/image';
 
@@ -28,13 +28,21 @@ const CatWalkAnimation: React.FC = () => {
   const initialSpeed = 3; // 初期速度を設定
   const directionRef = useRef(1); // 移動方向を保持する
 
+  const legAnims = useRef<gsap.core.Tween[]>([]);
+  const beardRightAnim = useRef<gsap.core.Tween | null>(null);
+  const beardLeftAnim = useRef<gsap.core.Tween | null>(null);
+  const headAnim = useRef<gsap.core.Tween | null>(null);
+  const containerAnim = useRef<gsap.core.Tween | null>(null);
+
+  const [isClickable, setIsClickable] = useState(true); // クリック可能状態を管理
+
   useEffect(() => {
     const repeat = -1;
     const yoyo = true;
 
-    const legAnims = [
+    legAnims.current = [
       gsap.to(legBackLeftRef.current, {
-        rotation: 25,
+        rotation: 20,
         transformOrigin: 'top',
         duration: 1.0,
         repeat,
@@ -43,35 +51,35 @@ const CatWalkAnimation: React.FC = () => {
         delay: 0,
       }),
       gsap.to(legBackRightRef.current, {
-        rotation: -25,
+        rotation: -20,
         transformOrigin: 'top',
         duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power1.inOut',
+        ease: 'power2.inOut',
         delay: 0.4,
       }),
       gsap.to(legFrontLeftRef.current, {
-        rotation: 25,
+        rotation: 20,
         transformOrigin: 'top',
         duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power1.inOut',
+        ease: 'power3.inOut',
         delay: 0.8,
       }),
       gsap.to(legFrontRightRef.current, {
-        rotation: -25,
+        rotation: -20,
         transformOrigin: 'top',
         duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power1.inOut',
+        ease: 'power4.inOut',
         delay: 1.2,
       }),
     ];
 
-    const beardRightAnim = gsap.to(beardRightRef.current, {
+    beardRightAnim.current = gsap.to(beardRightRef.current, {
       rotation: 10, // 軽く回転させる
       transformOrigin: 'right', 
       duration: 0.5,
@@ -80,7 +88,7 @@ const CatWalkAnimation: React.FC = () => {
       ease: "power1.inOut", // 動きを滑らかにする
     });
 
-    const beardLeftAnim = gsap.to(beardLeftRef.current, {
+    beardLeftAnim.current = gsap.to(beardLeftRef.current, {
       rotation: -10, // 軽く回転させる
       transformOrigin: 'left', 
       duration: 0.5,
@@ -89,7 +97,7 @@ const CatWalkAnimation: React.FC = () => {
       ease: "power1.inOut", // 動きを滑らかにする
     });
 
-    const headAnim = gsap.to([faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current], {
+    headAnim.current = gsap.to([faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current], {
       y: 5,
       duration: 1,
       repeat: -1,
@@ -103,9 +111,7 @@ const CatWalkAnimation: React.FC = () => {
       const viewportWidth = window.innerWidth;
       const direction = directionRef.current;
     
-      gsap.killTweensOf(containerRef.current); // 既存のアニメーションを停止
-    
-      gsap.to(containerRef.current, {
+      containerAnim.current = gsap.to(containerRef.current, {
         x: direction * -(viewportWidth / 2 - containerWidth / 2),
         duration: initialSpeed,
         ease: 'linear',
@@ -126,15 +132,46 @@ const CatWalkAnimation: React.FC = () => {
     animate();
     
     return () => {
-      legAnims.forEach(anim => anim.kill());
-      beardRightAnim.kill();
-      beardLeftAnim.kill();
-      headAnim.kill();
+      legAnims.current.forEach(anim => anim.kill());
+      if (beardRightAnim.current) beardRightAnim.current.kill();
+      if (beardLeftAnim.current) beardLeftAnim.current.kill();
+      if (headAnim.current) headAnim.current.kill();
+      if (containerAnim.current) containerAnim.current.kill();
     };
-    }, []);
+  }, [initialSpeed]);
+
+  const handleContainerClick = (ref: React.RefObject<HTMLDivElement>) => {
+    if (!isClickable) return; // クリック不可状態なら何もしない
+
+    setIsClickable(false); // クリック不可に設定
+
+    // 元のアニメーションを一時停止
+    legAnims.current.forEach(anim => anim.pause());
+    if (beardRightAnim.current) beardRightAnim.current.pause();
+    if (beardLeftAnim.current) beardLeftAnim.current.pause();
+    if (headAnim.current) headAnim.current.pause();
+    if (containerAnim.current) containerAnim.current.pause();
+
+    gsap.to(ref.current, {
+      keyframes: [
+        { y: -200, rotation: "+=180", duration: 0.3, ease: 'power1.inOut' },
+        { y: 0, rotation: "+=180", duration: 0.3, ease: 'power1.inOut' }
+      ],
+      transformOrigin: 'center',
+      onComplete: () => {
+        // 元のアニメーションを再開
+        legAnims.current.forEach(anim => anim.resume());
+        if (beardRightAnim.current) beardRightAnim.current.resume();
+        if (beardLeftAnim.current) beardLeftAnim.current.resume();
+        if (headAnim.current) headAnim.current.resume();
+        if (containerAnim.current) containerAnim.current.resume();
+        setTimeout(() => setIsClickable(true), 2000); // 2秒後に再びクリック可能に
+      }
+    });
+  };
 
   return (
-    <div className="cat-container relative w-[450px] h-[350px] mx-auto" ref={containerRef}>
+    <div className="cat-container relative w-[450px] h-[350px] mx-auto cursor-pointer" ref={containerRef} onClick={() => handleContainerClick(containerRef)}>
       <Image
         ref={legBackLeftRef}
         src={legImageBackLeft}
