@@ -48,7 +48,7 @@ export default function Main() {
     <CacheProvider value={cache}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <div className="relative h-[93vh]">
+        <div className="relative h-[93vh] overflow-hidden">
           <div className="absolute top-0 right-0 m-4">
             <AnchorTemporaryDrawer></AnchorTemporaryDrawer>
           </div>
