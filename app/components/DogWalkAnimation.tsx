@@ -14,7 +14,11 @@ import earImage from '../../public/ダックス耳.png';
 import earImageRight from '../../public/ダックス奥耳.png';
 import jawImage from '../../public/ダックス顎.png';
 
-const DogWalkAnimation: React.FC = () => {
+interface DogWalkAnimationProps {
+  onSitClick: (x: number, y: number) => void;
+}
+
+const DogWalkAnimation: React.FC<DogWalkAnimationProps> = ({ onSitClick }) => {
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
   const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
@@ -50,7 +54,7 @@ const DogWalkAnimation: React.FC = () => {
         duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power2.inOut',
+        ease: 'power1.inOut',
         delay: 0.4,
       }),
       gsap.to(legFrontLeftRef.current, {
@@ -59,7 +63,7 @@ const DogWalkAnimation: React.FC = () => {
         duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power3.inOut',
+        ease: 'power1.inOut',
         delay: 0.8,
       }),
       gsap.to(legFrontRightRef.current, {
@@ -68,7 +72,7 @@ const DogWalkAnimation: React.FC = () => {
         duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power4.inOut',
+        ease: 'power1.inOut',
         delay: 1.2,
       }),
     ];
@@ -124,8 +128,15 @@ const DogWalkAnimation: React.FC = () => {
     };
     }, []);
 
+    const handleClick = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        onSitClick(rect.left, rect.top);
+      }
+    };
+
   return (
-    <div className="dog-container relative w-[450px] h-[350px] mx-auto" ref={containerRef}>
+    <div className="dog-container relative w-[450px] h-[350px] mx-auto cursor-pointer" ref={containerRef} onClick={handleClick}>
       <Image
         ref={legBackLeftRef}
         src={legImageBackLeft}

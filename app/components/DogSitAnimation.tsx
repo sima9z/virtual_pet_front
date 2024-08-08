@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
 import legImageBackRight from '../../public/ダックス奥後ろ足.png';
@@ -15,9 +15,10 @@ import jawImage from '../../public/ダックス顎.png';
 
 interface DogSitAnimationProps {
   onComplete: () => void;
+  position: { x: number; y: number };
 }
 
-const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
+const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position }) => {
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
   const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
@@ -32,6 +33,10 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (containerRef.current) {
+      gsap.set(containerRef.current, { x: position.x, y: position.y });
+    }
+
     const tl = gsap.timeline({ onComplete });
 
     // 座るアニメーション
@@ -71,7 +76,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         rotation: 10,
         transformOrigin: 'top',
         duration: 1.0,
-        ease: 'power3.out',
+        ease: 'power1.out',
       },
       '<'
     );
@@ -83,7 +88,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         rotation: 70,
         transformOrigin: 'top',
         duration: 1.0,
-        ease: 'power3.out',
+        ease: 'power1.out',
       },
       '<'
     );
@@ -95,7 +100,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         rotation: 30,
         transformOrigin: 'top',
         duration: 1.0,
-        ease: 'power3.out',
+        ease: 'power1.out',
       },
       '<'
     );
@@ -107,7 +112,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         rotation: -40,
         transformOrigin: 'top',
         duration: 1.0,
-        ease: 'power3.out',
+        ease: 'power1.out',
       },
       '<'
     );
@@ -119,7 +124,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         rotation: -40,
         transformOrigin: 'top',
         duration: 1.0,
-        ease: 'power3.out',
+        ease: 'power1.out',
       },
       '<'
     );
@@ -129,7 +134,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         rotation: 30,
         transformOrigin: 'top',
         duration: 1.0,
-        ease: 'power3.out',
+        ease: 'power1.out',
       },
       '<'
     );
@@ -139,7 +144,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
       rotation: 0,
       transformOrigin: 'top',
       duration: 1.5,
-      ease: 'power3.in',
+      ease: 'power1.in',
     });
     tl.to(
       legFrontRightRef.current,
@@ -149,7 +154,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         rotation: 0,
         transformOrigin: 'top',
         duration: 1.5,
-        ease: 'power3.in',
+        ease: 'power1.in',
       },
       '<'
     );
@@ -161,7 +166,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         rotation: 0,
         transformOrigin: 'top',
         duration: 1.5,
-        ease: 'power3.in',
+        ease: 'power1.in',
       },
       '<'
     );
@@ -173,7 +178,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         rotation: 0,
         transformOrigin: 'top',
         duration: 1.5,
-        ease: 'power3.in',
+        ease: 'power1.in',
       },
       '<'
     );
@@ -185,7 +190,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         rotation: 0,
         transformOrigin: 'top',
         duration: 1.5,
-        ease: 'power3.in',
+        ease: 'power1.in',
       },
       '<'
     );
@@ -197,7 +202,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         rotation: 0,
         transformOrigin: 'top',
         duration: 1.5,
-        ease: 'power3.in',
+        ease: 'power1.in',
       },
       '<'
     );
@@ -208,7 +213,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         y: 0,
         rotation: 0,
         transformOrigin: 'bottom',
-        duration: 3.1,
+        duration: 2.0,
       },
       '<'
     );
@@ -219,7 +224,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         y: 0,
         rotation: 0,
         transformOrigin: 'top',
-        duration: 3.1,
+        duration: 2.0,
       },
       '<'
     );
@@ -229,7 +234,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
         y: 0,
         rotation: 0,
         transformOrigin: 'bottom',
-        duration: 3.1,
+        duration: 2.0,
       },
       '<'
     );
@@ -237,7 +242,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete }) => {
     return () => {
       tl.kill();
     };
-  }, [onComplete]);
+  }, [onComplete, position]);
 
   return (
     <div className="dog-container relative w-[450px] h-[350px] mx-auto" ref={containerRef}>
