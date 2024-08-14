@@ -1,18 +1,59 @@
 "use client"
 
-import React from 'react';
+import React, {useState,useRef} from 'react';
+import { Button, CssBaseline, ThemeProvider, createTheme, Drawer, Box, List, ListItem } from '@mui/material';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+
 import TestUserIdFetch from '../api/TestUserIdFetch';
 
 import CatWalkAnimation from '../components/CatWalkAnimation';
 import DogAnimation from '../components/DogAnimation';
 
+const cache = createCache({ key: 'css', prepend: true });
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#E8AFAF',
+    },
+    secondary: {
+      main: '#f8bbd0',
+    },
+  },
+});
+
+interface DogActionAnimationHandle {
+  playButtonClick: () => void;
+}
+
 const TestPage = () => {
+  const [showBall, setShowBall] = useState(false);
+  const [showHearts, setShowHearts] = useState(false);
+  const dogActionRef = useRef<DogActionAnimationHandle>(null);
+
+  const handlePlayButtonClick = () => {
+    setShowBall(true);
+    setShowHearts(true);
+    if (dogActionRef.current) {
+      dogActionRef.current.playButtonClick();
+    }
+  };
+
   return (
-    <div>
-      <h1>Test User ID Fetch</h1>
-      <TestUserIdFetch />
-      <DogAnimation></DogAnimation>
-    </div>
+    <CacheProvider value={cache}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <h1>Test User ID Fetch</h1>
+        <TestUserIdFetch />
+        <Button              
+        variant="contained"
+        color="secondary"
+        sx={{ color: 'white', fontSize: "24px" }}
+        onClick={handlePlayButtonClick}>遊ぶ</Button>
+        <DogAnimation showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} />
+      </ThemeProvider>
+    </CacheProvider>
   );
 };
 

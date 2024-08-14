@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect,useRef} from 'react';
 // import DogRandomAnimation from '../components/dogRandomAnimation';
 import DogAnimation from '../components/DogAnimation';
 import CatWalkAnimation from '../components/CatWalkAnimation';
@@ -27,8 +27,16 @@ const theme = createTheme({
   },
 });
 
+interface DogAnimationHandle {
+  playButtonClick: () => void;
+}
+
 export default function Main() {
   const [petType, setPetType] = useState<string | null>(null);
+
+  const [showBall, setShowBall] = useState(false);
+  const [showHearts, setShowHearts] = useState(false);
+  const dogActionRef = useRef<DogAnimationHandle>(null);
 
   useEffect(() => {
     async function fetchPetInfo() {
@@ -44,16 +52,35 @@ export default function Main() {
     fetchPetInfo();
   }, []);
 
+  useEffect(() => {
+    if (dogActionRef.current) {
+      console.log("DogActionAnimation is mounted and ref is set", dogActionRef.current);
+    } else {
+      console.log("DogActionAnimation ref is still null");
+    }
+  }, [dogActionRef.current]);
+
+
+  const handlePlayAction = () => {
+    console.log("handlePlayAction called");
+    if (dogActionRef.current) {
+      console.log("dogActionRef is set, triggering playButtonClick");
+      dogActionRef.current.playButtonClick();
+    } else {
+      console.log("dogActionRef is null");
+    }
+  };
+
   return (
     <CacheProvider value={cache}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="relative h-[93vh] overflow-hidden">
           <div className="absolute top-0 right-0 m-4">
-            <AnchorTemporaryDrawer></AnchorTemporaryDrawer>
+            <AnchorTemporaryDrawer onPlay={handlePlayAction}></AnchorTemporaryDrawer>
           </div>
           <div className="flex justify-center items-end h-full">
-            {petType === 'dog' && <DogAnimation />}
+            {petType === 'dog' && <DogAnimation showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts}  />}
             {petType === 'cat' && <CatWalkAnimation />}
             {petType === 'none' && <p>No pet found</p>}
             <BackgroundImage src='/ばーちゃるぺっと背景.jpg' />

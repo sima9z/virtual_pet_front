@@ -23,6 +23,10 @@ const theme = createTheme({
   },
 });
 
+interface AnchorTemporaryDrawerProps {
+  onPlay: () => void;
+}
+
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 interface PetInfo {
@@ -39,7 +43,7 @@ interface PetInfo {
   states: number;
 }
 
-export default function AnchorTemporaryDrawer() {
+export default function AnchorTemporaryDrawer({ onPlay }: AnchorTemporaryDrawerProps) {
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -95,11 +99,19 @@ export default function AnchorTemporaryDrawer() {
   
     const handleCloseModal = () => setOpenModal(false);
 
-    const handleAction = async (action: 'feed' | 'water' | 'walk') => {
+    const handleAction = async (action: 'feed' | 'water' | 'play') => {
+      console.log(`handleAction called with action: ${action}`);
+
       if (petType && petInfo) {
         try {
           await petAction(petType, petInfo.id, action);
           alert(`${action} action performed successfully for ${petType}`);
+
+          if (action === 'play') {
+            console.log("Calling onPlay");
+            onPlay(); 
+          }
+
         } catch (error) {
           console.error(`Error performing ${action} action:`, error);
           alert(`Failed to perform ${action} action for ${petType}`);
@@ -128,13 +140,13 @@ export default function AnchorTemporaryDrawer() {
         onKeyDown={toggleDrawer(anchor, false)}
       >
         <List sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: "50px 0", width: '90%', margin:"0 auto" }}>
-          {['ご飯', 'お水', '散歩'].map((text) => (
+          {['ご飯', 'お水', '遊ぶ'].map((text) => (
             <ListItem key={text} disablePadding sx={{ width: 'auto' }}>
               <Button
               variant="contained"
               color="secondary"
               sx={{ color: 'white', fontSize: "24px" }}
-              onClick={() => handleAction(text === 'ご飯' ? 'feed' : text === 'お水' ? 'water' : 'walk')}
+              onClick={() => handleAction(text === 'ご飯' ? 'feed' : text === 'お水' ? 'water' : 'play')}
               >
                 {text}
               </Button>

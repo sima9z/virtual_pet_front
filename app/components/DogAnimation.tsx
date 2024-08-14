@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { forwardRef,useEffect, useRef, useState, useImperativeHandle } from 'react';
 import gsap from 'gsap';
 import Image from 'next/image';
 
@@ -14,7 +14,17 @@ import earImage from '../../public/ダックス耳.png';
 import earImageRight from '../../public/ダックス奥耳.png';
 import jawImage from '../../public/ダックス顎.png';
 
-const DogAnimation: React.FC = () => {
+import heartImage from '../../public/ハートマーク.png';
+import vesselImage from '../../public/容器.png';
+import ballImage from '../../public/ボール.png';
+
+interface DogAnimationHandle {
+  playButtonClick: () => void;
+}
+
+const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShowBall: React.Dispatch<React.SetStateAction<boolean>>; showHearts:boolean; setShowHearts:React.Dispatch<React.SetStateAction<boolean>> }>(
+  ({ showBall, setShowBall, showHearts , setShowHearts}, ref) => {
+
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
   const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
@@ -27,10 +37,87 @@ const DogAnimation: React.FC = () => {
   const earRightRef = useRef<HTMLImageElement | null>(null);
   const jawRef = useRef<HTMLImageElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const heartRef = useRef<HTMLImageElement | null>(null);
+  const heartRef2 = useRef<HTMLImageElement | null>(null);
+  const ballRef = useRef<HTMLImageElement | null>(null);
+
   const initialSpeed = 3; // 初期速度を設定
   const directionRef = useRef(1); // 移動方向を保持する
 
   const [isSitting, setIsSitting] = useState(false);
+
+  useImperativeHandle(ref, () => ({
+    playButtonClick
+  }));
+
+  const startWalkingAnimation = () => {
+    const repeat = -1;
+    const yoyo = true;
+
+    const legAnims = [
+      gsap.to(legBackLeftRef.current, {
+        rotation: 20,
+        transformOrigin: 'top',
+        duration: 1.0,
+        repeat,
+        yoyo,
+        ease: 'power1.inOut',
+        delay: 0,
+      }),
+      gsap.to(legBackRightRef.current, {
+        rotation: -20,
+        transformOrigin: 'top',
+        duration: 1.0,
+        repeat,
+        yoyo,
+        ease: 'power2.inOut',
+        delay: 0.4,
+      }),
+      gsap.to(legFrontLeftRef.current, {
+        rotation: 20,
+        transformOrigin: 'top',
+        duration: 1.0,
+        repeat,
+        yoyo,
+        ease: 'power3.inOut',
+        delay: 0.8,
+      }),
+      gsap.to(legFrontRightRef.current, {
+        rotation: -20,
+        transformOrigin: 'right',
+        duration: 1.0,
+        repeat,
+        yoyo,
+        ease: 'power4.inOut',
+        delay: 1.2,
+      }),
+    ];
+
+    const tailAnim = gsap.to(tailRef.current, {
+      rotation: 5,
+      transformOrigin: 'bottom',
+      duration: 0.5,
+      repeat: -1,
+      yoyo: true,
+    });
+
+    const headAnim = gsap.to([headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
+      y: 5,
+      duration: 1,
+      repeat: -1,
+      yoyo: true,
+    });
+
+    // 初回のアニメーションを開始
+    animate();
+
+    return () => {
+      legAnims.forEach(anim => anim.kill());
+      tailAnim.kill();
+      headAnim.kill();
+    };
+  };
 
   const animate = () => {
     if (!containerRef.current || isSitting) return;
@@ -59,74 +146,6 @@ const DogAnimation: React.FC = () => {
   };
 
   useEffect(() => {
-    const startWalkingAnimation = () => {
-      const repeat = -1;
-      const yoyo = true;
-
-      const legAnims = [
-        gsap.to(legBackLeftRef.current, {
-          rotation: 20,
-          transformOrigin: 'top',
-          duration: 1.0,
-          repeat,
-          yoyo,
-          ease: 'power1.inOut',
-          delay: 0,
-        }),
-        gsap.to(legBackRightRef.current, {
-          rotation: -20,
-          transformOrigin: 'top',
-          duration: 1.0,
-          repeat,
-          yoyo,
-          ease: 'power2.inOut',
-          delay: 0.4,
-        }),
-        gsap.to(legFrontLeftRef.current, {
-          rotation: 20,
-          transformOrigin: 'top',
-          duration: 1.0,
-          repeat,
-          yoyo,
-          ease: 'power3.inOut',
-          delay: 0.8,
-        }),
-        gsap.to(legFrontRightRef.current, {
-          rotation: -20,
-          transformOrigin: 'right',
-          duration: 1.0,
-          repeat,
-          yoyo,
-          ease: 'power4.inOut',
-          delay: 1.2,
-        }),
-      ];
-
-      const tailAnim = gsap.to(tailRef.current, {
-        rotation: 5,
-        transformOrigin: 'bottom',
-        duration: 0.5,
-        repeat: -1,
-        yoyo: true,
-      });
-
-      const headAnim = gsap.to([headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
-        y: 5,
-        duration: 1,
-        repeat: -1,
-        yoyo: true,
-      });
-
-      // 初回のアニメーションを開始
-      animate();
-
-      return () => {
-        legAnims.forEach(anim => anim.kill());
-        tailAnim.kill();
-        headAnim.kill();
-      };
-    };
-
     if (!isSitting) {
       const stopWalkingAnimation = startWalkingAnimation();
       return stopWalkingAnimation;
@@ -139,6 +158,8 @@ const DogAnimation: React.FC = () => {
     const tl = gsap.timeline({
       onComplete: () => {
         setIsSitting(false);
+        setShowBall(false);  // ボールの画像を消す
+        setShowHearts(false);
         animate(); // 立ち上がった後に移動アニメーションを再開
       }
     });
@@ -349,9 +370,144 @@ const DogAnimation: React.FC = () => {
   }, [isSitting]);
 
   const handleClick = () => {
-    setIsSitting(true);
-    gsap.killTweensOf(containerRef.current); // お座り中に移動アニメーションを停止
+    if (!isSitting) {
+      setIsSitting(true);
+      gsap.killTweensOf(containerRef.current); // お座り中に移動アニメーションを停止
+    }
   };
+
+  const playButtonClick = () => {
+    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current]); // 足のアニメーションも停止
+
+      // 足と体の状態をリセット
+    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current], {
+      rotation: 0,
+      x: 0,
+      y: 0,
+    });
+    gsap.set(containerRef.current, {
+      scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
+    });
+
+    console.log("Setting showBall and showHearts to true");
+    setShowBall(true);
+    setShowHearts(true);
+
+    const heartTl = gsap.timeline();
+
+    heartTl.to(
+      heartRef.current,
+      {
+        rotation: 30,
+        transformOrigin: 'center',
+        duration: 1.0,
+        ease: 'power1.out',
+        repeat: -1, // ハートのアニメーションを繰り返す
+        yoyo: true,
+      }
+    );
+  
+    heartTl.to(
+      heartRef2.current,
+      {
+        rotation: -30,
+        transformOrigin: 'center',
+        duration: 1.0,
+        ease: 'power1.out',
+        repeat: -1, // ハートのアニメーションを繰り返す
+        yoyo: true,
+      },
+      "<" // 同時に実行する
+    );
+
+    const jumpTl = gsap.timeline();
+
+    jumpTl.to(containerRef.current, {
+      y: -50,  // ジャンプの高さ
+      duration: 0.5,
+      ease: "power1.out"
+    },
+    );
+    jumpTl.to(containerRef.current, {
+        y: 0,  // 元の位置に戻る
+        duration: 0.5,
+        ease: "power1.in"
+      },
+    );
+    jumpTl.to(containerRef.current, {
+      y: -50,  // ジャンプの高さ
+      duration: 0.5,
+      ease: "power1.out"
+    },
+    );
+    jumpTl.to(containerRef.current, {
+        y: 0,  // 元の位置に戻る
+        duration: 0.5,
+        ease: "power1.in"
+      },
+    );
+  
+    const ballTl = gsap.timeline({
+      onComplete: () => {
+        heartTl.kill(); // ハートのアニメーションを停止
+        setShowBall(false); // ボールの表示をリセット
+        setShowHearts(false); // ハートの表示をリセット
+        startWalkingAnimation(); // 歩行アニメーションを再開
+        animate(); // 歩行アニメーションを再開
+      },
+    });
+
+    ballTl.to(
+      ballRef.current,
+      {
+        duration: 0.5,
+        x: 100, // x軸方向の移動
+        ease: "power1.inOut", // 加速と減速の設定
+        y: -70, // y軸方向に跳ねる
+        rotation: 360, // ボールが回転する
+      }
+    );
+  
+    ballTl.to(
+      ballRef.current,
+      {
+        duration: 0.5,
+        x: 200, // さらにx軸方向に移動
+        ease: "power1.inOut", // 跳ねるように
+        y: 0, // y軸方向に元の位置に戻る
+        rotation: 720, // さらに回転
+      }
+    );
+  
+    ballTl.to(
+      ballRef.current,
+      {
+        duration: 0.6,
+        x: 250, // x軸方向の移動
+        ease: "power1.inOut", // 加速と減速の設定
+        y: -40, // y軸方向に跳ねる
+        rotation: 1080, // ボールが回転する
+      }
+    );
+  
+    ballTl.to(
+      ballRef.current,
+      {
+        duration: 0.6,
+        x: 300, // さらにx軸方向に移動
+        ease: "power1.inOut", // 跳ねるように
+        y: 0, // y軸方向に元の位置に戻る
+        rotation: 1440, // さらに回転
+      }
+    );
+  };
+
+  useEffect(() => {
+    if (showBall) {
+      playButtonClick();  // ボールが表示されたら自動的にアニメーションを開始
+    }
+  }, [showBall]);
 
   return (
     <div className="dog-container relative w-[450px] h-[350px] mx-auto cursor-pointer" ref={containerRef} onClick={handleClick}>
@@ -421,8 +577,39 @@ const DogAnimation: React.FC = () => {
         alt="Jaw"
         className="dog-part absolute top-[75px] left-[90px]"
       />
+      {showHearts && (
+        <>
+          <Image
+            ref={heartRef}
+            src={heartImage}
+            alt="heart"
+            className="dog-part absolute top-[0px] left-[-30px] w-12"
+          />
+          <Image
+            ref={heartRef2}
+            src={heartImage}
+            alt="heart"
+            className="dog-part absolute top-[50px] left-[-30px] w-9"
+          />
+        </>
+      )}
+
+      {showBall && (
+        <Image
+          ref={ballRef}
+          src={ballImage}
+          alt="Ball"
+          className="dog-part absolute top-[220px] left-[-150px]"
+        />
+      )}
+
+      {/* <Image
+        src={vesselImage}
+        alt="heart"
+        className="dog-part absolute top-[250px] left-[-120px]"
+      /> */}
     </div>
   );
-};
+});
 
 export default DogAnimation;
