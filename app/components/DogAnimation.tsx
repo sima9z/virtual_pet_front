@@ -19,11 +19,12 @@ import vesselImage from '../../public/容器.png';
 import ballImage from '../../public/ボール.png';
 
 interface DogAnimationHandle {
+  feedWaterButtonClick: () => void;
   playButtonClick: () => void;
 }
 
-const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShowBall: React.Dispatch<React.SetStateAction<boolean>>; showHearts:boolean; setShowHearts:React.Dispatch<React.SetStateAction<boolean>> }>(
-  ({ showBall, setShowBall, showHearts , setShowHearts}, ref) => {
+const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; showBall: boolean; setShowBall: React.Dispatch<React.SetStateAction<boolean>>; showHearts:boolean; setShowHearts:React.Dispatch<React.SetStateAction<boolean>> }>(
+  ({ showVesse, setshowVesse,showBall, setShowBall, showHearts , setShowHearts}, ref) => {
 
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
@@ -48,7 +49,8 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
   const [isSitting, setIsSitting] = useState(false);
 
   useImperativeHandle(ref, () => ({
-    playButtonClick
+    playButtonClick,
+    feedWaterButtonClick
   }));
 
   const startWalkingAnimation = () => {
@@ -57,22 +59,22 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
 
     const legAnims = [
       gsap.to(legBackLeftRef.current, {
-        rotation: 20,
+        rotation: 30,
         transformOrigin: 'top',
         duration: 1.0,
         repeat,
         yoyo,
         ease: 'power1.inOut',
-        delay: 0,
+        delay: 0, //待機時間
       }),
       gsap.to(legBackRightRef.current, {
-        rotation: -20,
+        rotation: -30,
         transformOrigin: 'top',
         duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power2.inOut',
-        delay: 0.4,
+        ease: 'power1.inOut',
+        delay: 0.6,
       }),
       gsap.to(legFrontLeftRef.current, {
         rotation: 20,
@@ -80,8 +82,8 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
         duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power3.inOut',
-        delay: 0.8,
+        ease: 'power1.inOut',
+        delay: 1.2,
       }),
       gsap.to(legFrontRightRef.current, {
         rotation: -20,
@@ -89,8 +91,8 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
         duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power4.inOut',
-        delay: 1.2,
+        ease: 'power1.inOut',
+        delay: 1.8,
       }),
     ];
 
@@ -122,7 +124,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
   const animate = () => {
     if (!containerRef.current || isSitting) return;
 
-    const containerWidth = containerRef.current.offsetWidth;
+    const containerWidth = containerRef.current.offsetWidth; //containerRefの幅
     const viewportWidth = window.innerWidth;
     const direction = directionRef.current;
 
@@ -131,12 +133,12 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
     gsap.to(containerRef.current, {
       x: direction * -(viewportWidth / 2 - containerWidth / 2),
       duration: initialSpeed,
-      ease: 'linear',
+      ease: 'linear', //等速
       onComplete: () => {
         directionRef.current *= -1; // 方向を反転
-        requestAnimationFrame(() => {
+        requestAnimationFrame(() => { //パフォーマンス
           gsap.to(containerRef.current, {
-            scaleX: directionRef.current,
+            scaleX: directionRef.current, // 反転
             duration: 0.5, // 反転時のdurationを固定
             onComplete: animate // 次のアニメーションを呼び出す
           });
@@ -158,7 +160,8 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
     const tl = gsap.timeline({
       onComplete: () => {
         setIsSitting(false);
-        setShowBall(false);  // ボールの画像を消す
+        setShowBall(false);
+        setshowVesse(false);
         setShowHearts(false);
         animate(); // 立ち上がった後に移動アニメーションを再開
       }
@@ -365,14 +368,50 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
     );
 
     return () => {
-      tl.kill();
+      tl.kill(); //クリーンアップ
     };
   }, [isSitting]);
 
   const handleClick = () => {
     if (!isSitting) {
       setIsSitting(true);
-      gsap.killTweensOf(containerRef.current); // お座り中に移動アニメーションを停止
+      gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+    }
+  };
+
+  const feedWaterButtonClick = () => {
+    if (!isSitting) {
+    setIsSitting(true);
+    setshowVesse(true);
+    setShowHearts(true);
+    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+
+    const heartTl = gsap.timeline();
+
+    heartTl.to(
+      heartRef.current,
+      {
+        rotation: 30,
+        transformOrigin: 'center',
+        duration: 1.0,
+        ease: 'power1.out',
+        repeat: -1,
+        yoyo: true,
+      }
+    );
+  
+    heartTl.to(
+      heartRef2.current,
+      {
+        rotation: -30,
+        transformOrigin: 'center',
+        duration: 1.0,
+        ease: 'power1.out',
+        repeat: -1,
+        yoyo: true,
+      },
+      "<" // 同時に実行する
+    );
     }
   };
 
@@ -403,7 +442,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
         transformOrigin: 'center',
         duration: 1.0,
         ease: 'power1.out',
-        repeat: -1, // ハートのアニメーションを繰り返す
+        repeat: -1,
         yoyo: true,
       }
     );
@@ -415,7 +454,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
         transformOrigin: 'center',
         duration: 1.0,
         ease: 'power1.out',
-        repeat: -1, // ハートのアニメーションを繰り返す
+        repeat: -1,
         yoyo: true,
       },
       "<" // 同時に実行する
@@ -504,6 +543,12 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
   };
 
   useEffect(() => {
+    if (showVesse) {
+      feedWaterButtonClick();  // ボールが表示されたら自動的にアニメーションを開始
+    }
+  }, [showVesse]);
+
+  useEffect(() => {
     if (showBall) {
       playButtonClick();  // ボールが表示されたら自動的にアニメーションを開始
     }
@@ -533,7 +578,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
         ref={legFrontRightRef}
         src={legImageFrontRight}
         alt="Front Right Leg"
-        className="dog-part absolute top-[130px] left-[0px]"
+        className="dog-part absolute top-[120px] left-[10px]"
       />
       <Image
         ref={tailRef}
@@ -603,11 +648,13 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
         />
       )}
 
-      {/* <Image
+      {showVesse && ( 
+        <Image
         src={vesselImage}
         alt="heart"
         className="dog-part absolute top-[250px] left-[-120px]"
-      /> */}
+        />
+      )}
     </div>
   );
 });

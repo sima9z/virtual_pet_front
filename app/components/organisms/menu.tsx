@@ -24,6 +24,7 @@ const theme = createTheme({
 });
 
 interface AnchorTemporaryDrawerProps {
+  onFeed: () => void;
   onPlay: () => void;
 }
 
@@ -43,7 +44,7 @@ interface PetInfo {
   states: number;
 }
 
-export default function AnchorTemporaryDrawer({ onPlay }: AnchorTemporaryDrawerProps) {
+export default function AnchorTemporaryDrawer({ onFeed, onPlay }: AnchorTemporaryDrawerProps) {
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -107,7 +108,9 @@ export default function AnchorTemporaryDrawer({ onPlay }: AnchorTemporaryDrawerP
           await petAction(petType, petInfo.id, action);
           alert(`${action} action performed successfully for ${petType}`);
 
-          if (action === 'play') {
+          if(action === 'feed'|| action === 'water'){
+            onFeed();
+          } else if (action === 'play') {
             console.log("Calling onPlay");
             onPlay(); 
           }
