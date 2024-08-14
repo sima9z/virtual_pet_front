@@ -612,4 +612,6 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showBall: boolean; setShow
   );
 });
 
+DogAnimation.displayName = 'DogAnimation';
+
 export default DogAnimation;
