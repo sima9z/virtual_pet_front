@@ -25,12 +25,21 @@ const theme = createTheme({
 
 interface DogActionAnimationHandle {
   playButtonClick: () => void;
+  feedWaterButtonClick: () => void;
 }
 
 const TestPage = () => {
   const [showBall, setShowBall] = useState(false);
+  const [showVesse, setshowVesse] = useState(false);
   const [showHearts, setShowHearts] = useState(false);
   const dogActionRef = useRef<DogActionAnimationHandle>(null);
+
+  const handleFeedWaterAction = () => {
+    setShowHearts(true);
+    if (dogActionRef.current) {
+      dogActionRef.current.feedWaterButtonClick();
+    }
+  };
 
   const handlePlayButtonClick = () => {
     setShowBall(true);
@@ -51,7 +60,7 @@ const TestPage = () => {
         color="secondary"
         sx={{ color: 'white', fontSize: "24px" }}
         onClick={handlePlayButtonClick}>遊ぶ</Button>
-        <DogAnimation showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} />
+        <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} />
       </ThemeProvider>
     </CacheProvider>
   );

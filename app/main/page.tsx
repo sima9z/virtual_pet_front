@@ -28,15 +28,18 @@ const theme = createTheme({
 });
 
 interface DogAnimationHandle {
-  playButtonClick: () => void;
+  playButtonClick: () => void; //何も返さない→実行するだけで結果を期待しない
+  feedWaterButtonClick: () => void;
 }
 
 export default function Main() {
   const [petType, setPetType] = useState<string | null>(null);
 
   const [showBall, setShowBall] = useState(false);
+  const [showVesse, setshowVesse] = useState(false);
   const [showHearts, setShowHearts] = useState(false);
-  const dogActionRef = useRef<DogAnimationHandle>(null);
+
+  const dogActionRef = useRef<DogAnimationHandle>(null); //値が変更されてもコンポーネントが再レンダリングされない
 
   useEffect(() => {
     async function fetchPetInfo() {
@@ -53,13 +56,18 @@ export default function Main() {
   }, []);
 
   useEffect(() => {
-    if (dogActionRef.current) {
+    if (dogActionRef.current) { //保持している値にアクセス
       console.log("DogActionAnimation is mounted and ref is set", dogActionRef.current);
     } else {
       console.log("DogActionAnimation ref is still null");
     }
   }, [dogActionRef.current]);
 
+  const handleFeedWaterAction = () => {
+    if (dogActionRef.current) {
+      dogActionRef.current.feedWaterButtonClick();
+    }
+  };
 
   const handlePlayAction = () => {
     console.log("handlePlayAction called");
@@ -77,10 +85,10 @@ export default function Main() {
         <CssBaseline />
         <div className="relative h-[93vh] overflow-hidden">
           <div className="absolute top-0 right-0 m-4">
-            <AnchorTemporaryDrawer onPlay={handlePlayAction}></AnchorTemporaryDrawer>
+            <AnchorTemporaryDrawer onFeed={handleFeedWaterAction} onPlay={handlePlayAction}></AnchorTemporaryDrawer>
           </div>
           <div className="flex justify-center items-end h-full">
-            {petType === 'dog' && <DogAnimation showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts}  />}
+            {petType === 'dog' && <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts}  />}
             {petType === 'cat' && <CatWalkAnimation />}
             {petType === 'none' && <p>No pet found</p>}
             <BackgroundImage src='/ばーちゃるぺっと背景.jpg' />
