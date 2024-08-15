@@ -544,13 +544,13 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
 
   useEffect(() => {
     if (showVesse) {
-      feedWaterButtonClick();  // ボールが表示されたら自動的にアニメーションを開始
+      feedWaterButtonClick();  
     }
   }, [showVesse]);
 
   useEffect(() => {
     if (showBall) {
-      playButtonClick();  // ボールが表示されたら自動的にアニメーションを開始
+      playButtonClick(); 
     }
   }, [showBall]);
 
