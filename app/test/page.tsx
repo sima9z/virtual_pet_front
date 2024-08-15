@@ -7,7 +7,6 @@ import createCache from '@emotion/cache';
 
 import TestUserIdFetch from '../api/TestUserIdFetch';
 
-import CatWalkAnimation from '../components/CatWalkAnimation';
 import DogAnimation from '../components/DogAnimation';
 
 const cache = createCache({ key: 'css', prepend: true });
