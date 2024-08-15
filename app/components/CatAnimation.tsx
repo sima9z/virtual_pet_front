@@ -526,4 +526,6 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
   );
 });
 
+CatAnimation.displayName = 'CatAnimation';
+
 export default CatAnimation;
