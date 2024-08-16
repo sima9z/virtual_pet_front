@@ -59,6 +59,12 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
     feedWaterButtonClick
   }));
 
+  // ランダムな位置を計算する関数
+  const getRandomPosition = () => {
+    const viewportWidth = window.innerWidth;
+    return Math.random() * -(viewportWidth - viewportWidth / 2);
+  };
+
   const startWalkingAnimation = () => {
     const repeat = -1;
     const yoyo = true;
@@ -146,10 +152,12 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
     const viewportWidth = window.innerWidth;
     const direction = directionRef.current;
 
+    const randomStartPosition = getRandomPosition(); // ランダムな初期位置を取得
+
     gsap.killTweensOf(containerRef.current);
   
     containerAnim.current = gsap.to(containerRef.current, {
-      x: direction * -(viewportWidth / 2 - containerWidth / 2),
+      x: direction * randomStartPosition, // ランダムな初期位置から開始
       duration: initialSpeed,
       ease: 'linear',
       onComplete: () => {
