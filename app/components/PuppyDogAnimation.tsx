@@ -14,18 +14,7 @@ import earImage from '../../public/ダックス耳.png';
 import earImageRight from '../../public/ダックス奥耳.png';
 import jawImage from '../../public/ダックス顎.png';
 
-import heartImage from '../../public/ハートマーク.png';
-import vesselImage from '../../public/容器.png';
-import ballImage from '../../public/ボール.png';
-
-interface DogAnimationHandle {
-  feedWaterButtonClick: () => void;
-  playButtonClick: () => void;
-}
-
-const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; showBall: boolean; setShowBall: React.Dispatch<React.SetStateAction<boolean>>; showHearts:boolean; setShowHearts:React.Dispatch<React.SetStateAction<boolean>> }>(
-  ({ showVesse, setshowVesse,showBall, setShowBall, showHearts , setShowHearts}, ref) => {
-
+const PuppyDogAnimation = ()=>{
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
   const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
@@ -39,19 +28,10 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
   const jawRef = useRef<HTMLImageElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const heartRef = useRef<HTMLImageElement | null>(null);
-  const heartRef2 = useRef<HTMLImageElement | null>(null);
-  const ballRef = useRef<HTMLImageElement | null>(null);
-
   const initialSpeed = 3; // 初期速度を設定
   const directionRef = useRef(1); // 移動方向を保持する
 
   const [isSitting, setIsSitting] = useState(false);
-
-  useImperativeHandle(ref, () => ({
-    playButtonClick,
-    feedWaterButtonClick
-  }));
 
   // ランダムな位置を計算する関数
   const getRandomPosition = () => {
@@ -130,8 +110,6 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
   const animate = () => {
     if (!containerRef.current || isSitting) return;
 
-    const containerWidth = containerRef.current.offsetWidth; //containerRefの幅
-    const viewportWidth = window.innerWidth;
     const direction = directionRef.current;
 
     const randomStartPosition = getRandomPosition(); // ランダムな初期位置を取得
@@ -144,9 +122,10 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
       ease: 'linear', //等速
       onComplete: () => {
         directionRef.current *= -1; // 方向を反転
+        const currentScale = parseFloat(gsap.getProperty(containerRef.current, "scaleX").toString()); // 現在のスケールを数値に変換
         requestAnimationFrame(() => { //パフォーマンス
           gsap.to(containerRef.current, {
-            scaleX: directionRef.current, // 反転
+            scaleX: directionRef.current * Math.abs(currentScale), // 現在のスケールに方向を掛けて反転
             duration: 0.5, // 反転時のdurationを固定
             onComplete: animate // 次のアニメーションを呼び出す
           });
@@ -174,14 +153,9 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
       x: 0,
       y: 0,
     });
-    gsap.set(containerRef.current, {
-      scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
-    });
 
     const tl = gsap.timeline({
       onComplete: () => {
-        setshowVesse(false);
-        setShowHearts(false);
         setIsSitting(false);
         startWalkingAnimation(); // 立ち上がった後に移動アニメーションを再開
       }
@@ -398,233 +372,8 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
     }
   };
 
-  const feedWaterButtonClick = () => {
-    if (!isSitting) {
-    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
-    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current]);
-
-    // 足と体の状態をリセット
-    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
-      rotation: 0,
-      x: 0,
-      y: 0,
-    });
-    gsap.set(containerRef.current, {
-      scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
-    });
-    
-    setshowVesse(true);
-    setShowHearts(true);
-    setIsSitting(true);
-      
-    console.log("heartTl started")
-
-    const heartTl = gsap.timeline();
-
-    heartTl.to(
-      heartRef.current,
-      {
-        rotation: 30,
-        transformOrigin: 'center',
-        duration: 1.0,
-        ease: 'power1.out',
-        repeat: -1,
-        yoyo: true,
-      }
-    );
-  
-    heartTl.to(
-      heartRef2.current,
-      {
-        rotation: -30,
-        transformOrigin: 'center',
-        duration: 1.0,
-        ease: 'power1.out',
-        repeat: -1,
-        yoyo: true,
-      },
-      "<" // 同時に実行する
-    );
-    }
-  };
-
-  const playButtonClick = () => {
-    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
-    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current]); // 足のアニメーションも停止
-
-      // 足と体の状態をリセット
-    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
-      rotation: 0,
-      x: 0,
-      y: 0,
-    });
-    gsap.set(containerRef.current, {
-      scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
-    });
-
-    console.log("Setting showBall and showHearts to true");
-    setShowBall(true);
-    setShowHearts(true);
-
-    const heartTl = gsap.timeline();
-
-    heartTl.to(
-      heartRef.current,
-      {
-        rotation: 30,
-        transformOrigin: 'center',
-        duration: 1.0,
-        ease: 'power1.out',
-        repeat: -1,
-        yoyo: true,
-      }
-    );
-  
-    heartTl.to(
-      heartRef2.current,
-      {
-        rotation: -30,
-        transformOrigin: 'center',
-        duration: 1.0,
-        ease: 'power1.out',
-        repeat: -1,
-        yoyo: true,
-      },
-      "<" // 同時に実行する
-    );
-
-    const jumpTl = gsap.timeline();
-
-    jumpTl.to(containerRef.current, {
-      y: -50,  // ジャンプの高さ
-      duration: 0.5,
-      ease: "power1.out"
-    },
-    );
-    jumpTl.to(containerRef.current, {
-        y: 0,  // 元の位置に戻る
-        duration: 0.5,
-        ease: "power1.in"
-      },
-    );
-    jumpTl.to(containerRef.current, {
-      y: -50,  // ジャンプの高さ
-      duration: 0.5,
-      ease: "power1.out"
-    },
-    );
-    jumpTl.to(containerRef.current, {
-        y: 0,  // 元の位置に戻る
-        duration: 0.5,
-        ease: "power1.in"
-      },
-    );
-  
-    const ballTl = gsap.timeline({
-      onComplete: () => {
-        heartTl.kill(); // ハートのアニメーションを停止
-        setShowBall(false); // ボールの表示をリセット
-        setShowHearts(false); // ハートの表示をリセット
-        startWalkingAnimation(); // 歩行アニメーションを再開
-      },
-    });
-
-    ballTl.to(
-      ballRef.current,
-      {
-        duration: 0.5,
-        x: 100, // x軸方向の移動
-        ease: "power1.inOut", // 加速と減速の設定
-        y: -70, // y軸方向に跳ねる
-        rotation: 360, // ボールが回転する
-      }
-    );
-  
-    ballTl.to(
-      ballRef.current,
-      {
-        duration: 0.5,
-        x: 200, // さらにx軸方向に移動
-        ease: "power1.inOut", // 跳ねるように
-        y: 0, // y軸方向に元の位置に戻る
-        rotation: 720, // さらに回転
-      }
-    );
-  
-    ballTl.to(
-      ballRef.current,
-      {
-        duration: 0.6,
-        x: 250, // x軸方向の移動
-        ease: "power1.inOut", // 加速と減速の設定
-        y: -40, // y軸方向に跳ねる
-        rotation: 1080, // ボールが回転する
-      }
-    );
-  
-    ballTl.to(
-      ballRef.current,
-      {
-        duration: 0.6,
-        x: 300, // さらにx軸方向に移動
-        ease: "power1.inOut", // 跳ねるように
-        y: 0, // y軸方向に元の位置に戻る
-        rotation: 1440, // さらに回転
-      }
-    );
-  };
-
-  useEffect(() => {
-    if (showVesse) {
-      feedWaterButtonClick();  
-    }
-  }, [showVesse]);
-
-  useEffect(() => {
-    if (showBall) {
-      playButtonClick(); 
-    }
-  }, [showBall]);
-
-  useEffect(() => {
-    if (showHearts && heartRef.current && heartRef2.current) {
-      console.log("heartTl started");
-  
-      const heartTl = gsap.timeline();
-  
-      heartTl.to(
-        heartRef.current,
-        {
-          rotation: 30,
-          transformOrigin: 'center',
-          duration: 1.0,
-          ease: 'power1.out',
-          repeat: -1,
-          yoyo: true,
-        }
-      );
-  
-      heartTl.to(
-        heartRef2.current,
-        {
-          rotation: -30,
-          transformOrigin: 'center',
-          duration: 1.0,
-          ease: 'power1.out',
-          repeat: -1,
-          yoyo: true,
-        },
-        "<" // 同時に実行する
-      );
-  
-      return () => {
-        heartTl.kill(); // クリーンアップ
-      };
-    }
-  }, [showHearts]);
-
   return (
-    <div className="dog-container relative w-[450px] h-[350px] mx-auto cursor-pointer" ref={containerRef} onClick={handleClick}>
+    <div className="dog-container relative w-[450px] h-[350px] mx-auto cursor-pointer" ref={containerRef} onClick={handleClick} style={{ transform: 'scale(0.5)' }}>
       <Image
         ref={legBackLeftRef}
         src={legImageBackLeft}
@@ -691,43 +440,10 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
         alt="Jaw"
         className="dog-part absolute top-[75px] left-[90px]"
       />
-      {showHearts && (
-        <>
-          <Image
-            ref={heartRef}
-            src={heartImage}
-            alt="heart"
-            className="dog-part absolute top-[0px] left-[-30px] w-12"
-          />
-          <Image
-            ref={heartRef2}
-            src={heartImage}
-            alt="heart"
-            className="dog-part absolute top-[50px] left-[-30px] w-9"
-          />
-        </>
-      )}
-
-      {showBall && (
-        <Image
-          ref={ballRef}
-          src={ballImage}
-          alt="Ball"
-          className="dog-part absolute top-[220px] left-[-150px]"
-        />
-      )}
-
-      {showVesse && ( 
-        <Image
-        src={vesselImage}
-        alt="heart"
-        className="dog-part absolute top-[250px] left-[-120px]"
-        />
-      )}
     </div>
   );
-});
+}
 
-DogAnimation.displayName = 'DogAnimation';
+PuppyDogAnimation.displayName = 'PuppyDogAnimation';
 
-export default DogAnimation;
+export default PuppyDogAnimation;

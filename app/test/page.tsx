@@ -7,7 +7,7 @@ import createCache from '@emotion/cache';
 
 import TestUserIdFetch from '../api/TestUserIdFetch';
 
-import DogAnimation from '../components/DogAnimation';
+import PuppyDogAnimation from '../components/PuppyDogAnimation';
 
 const cache = createCache({ key: 'css', prepend: true });
 
@@ -22,32 +22,7 @@ const theme = createTheme({
   },
 });
 
-interface DogActionAnimationHandle {
-  playButtonClick: () => void;
-  feedWaterButtonClick: () => void;
-}
-
 const TestPage = () => {
-  const [showBall, setShowBall] = useState(false);
-  const [showVesse, setshowVesse] = useState(false);
-  const [showHearts, setShowHearts] = useState(false);
-  const dogActionRef = useRef<DogActionAnimationHandle>(null);
-
-  const handleFeedWaterAction = () => {
-    setShowHearts(true);
-    if (dogActionRef.current) {
-      dogActionRef.current.feedWaterButtonClick();
-    }
-  };
-
-  const handlePlayButtonClick = () => {
-    setShowBall(true);
-    setShowHearts(true);
-    if (dogActionRef.current) {
-      dogActionRef.current.playButtonClick();
-    }
-  };
-
   return (
     <CacheProvider value={cache}>
       <ThemeProvider theme={theme}>
@@ -57,9 +32,8 @@ const TestPage = () => {
         <Button              
         variant="contained"
         color="secondary"
-        sx={{ color: 'white', fontSize: "24px" }}
-        onClick={handlePlayButtonClick}>遊ぶ</Button>
-        <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} />
+        sx={{ color: 'white', fontSize: "24px" }}>遊ぶ</Button>
+        <PuppyDogAnimation />
       </ThemeProvider>
     </CacheProvider>
   );
