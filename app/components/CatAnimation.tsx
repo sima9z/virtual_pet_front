@@ -65,7 +65,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
 
     legAnims.current = [
       gsap.to(legBackLeftRef.current, {
-        rotation: 20,
+        rotation: 30,
         transformOrigin: 'top',
         duration: 1.0,
         repeat,
@@ -74,30 +74,30 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
         delay: 0,
       }),
       gsap.to(legBackRightRef.current, {
-        rotation: -20,
+        rotation: -30,
         transformOrigin: 'top',
         duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power2.inOut',
+        ease: 'power1.inOut',
         delay: 0.4,
       }),
       gsap.to(legFrontLeftRef.current, {
-        rotation: 20,
+        rotation: 30,
         transformOrigin: 'top',
         duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power3.inOut',
+        ease: 'power1.inOut',
         delay: 0.8,
       }),
       gsap.to(legFrontRightRef.current, {
-        rotation: -20,
+        rotation: -30,
         transformOrigin: 'top',
         duration: 1.0,
         repeat,
         yoyo,
-        ease: 'power4.inOut',
+        ease: 'power1.inOut',
         delay: 1.2,
       }),
     ];
@@ -145,6 +145,8 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
     const containerWidth = containerRef.current.offsetWidth;
     const viewportWidth = window.innerWidth;
     const direction = directionRef.current;
+
+    gsap.killTweensOf(containerRef.current);
   
     containerAnim.current = gsap.to(containerRef.current, {
       x: direction * -(viewportWidth / 2 - containerWidth / 2),
@@ -203,6 +205,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
         if (beardLeftAnim.current) beardLeftAnim.current.resume();
         if (headAnim.current) headAnim.current.resume();
         if (containerAnim.current) containerAnim.current.resume();
+        
         setTimeout(() => setIsClickable(true), 2000); // 2秒後に再びクリック可能に
       }
     });
@@ -254,21 +257,21 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
       const timeoutId = setTimeout(() => {
         setshowVesse(false);
         setShowHearts(false);
+
         legAnims.current.forEach(anim => anim.resume());
         if (beardRightAnim.current) beardRightAnim.current.resume();
         if (beardLeftAnim.current) beardLeftAnim.current.resume();
         if (headAnim.current) headAnim.current.resume();
 
         startWalkingAnimation(); // 歩行アニメーションを再開
-      }, 50); // 50ms 程度の遅延を入れて要素が確実にレンダリングされるのを待つ
+      }); // 50ms 程度の遅延を入れて要素が確実にレンダリングされるのを待つ
 
       return () => clearTimeout(timeoutId); // クリーンアップ
     });
   };
 
   const playButtonClick = () => {
-
-    legAnims.current.forEach(anim => anim.pause());
+    legAnims.current.forEach(anim => anim.kill());
     if (beardRightAnim.current) beardRightAnim.current.pause();
     if (beardLeftAnim.current) beardLeftAnim.current.pause();
     if (headAnim.current) headAnim.current.pause();
@@ -347,11 +350,6 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
         heartTl.kill(); // ハートのアニメーションを停止
         setShowBall(false); // ボールの表示をリセット
         setShowHearts(false); // ハートの表示をリセット
-
-        legAnims.current.forEach(anim => anim.resume());
-        if (beardRightAnim.current) beardRightAnim.current.resume();
-        if (beardLeftAnim.current) beardLeftAnim.current.resume();
-        if (headAnim.current) headAnim.current.resume();
   
         startWalkingAnimation(); // 歩行アニメーションを再開
       },
