@@ -8,8 +8,6 @@ interface PetStatusModalProps {
   petInfo: {
     name:String;
     breed: String;
-    age:number;
-    is_adult:boolean;
     level: number;
     experience: number;
     physical: number;
@@ -35,8 +33,6 @@ const PetStatusModal: React.FC<PetStatusModalProps> = ({ open, onClose, petInfo 
           <Box mt={2}>
             <Typography>名前: {petInfo.name}</Typography>
             <Typography>種類: {petInfo.breed}</Typography>
-            <Typography>年齢: {petInfo.age}</Typography>
-            <Typography>大人: {petInfo.is_adult ? 'Yes' : 'No'}</Typography>
             <Typography>レベル: {petInfo.level}</Typography>
             <Typography>経験値: {petInfo.experience}</Typography>
             <Typography>体力: {petInfo.physical}</Typography>

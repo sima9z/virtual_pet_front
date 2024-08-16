@@ -34,8 +34,6 @@ interface PetInfo {
   id: number;
   name: string;
   breed: string;
-  age: number;
-  is_adult: boolean;
   level: number;
   experience: number;
   physical: number;
