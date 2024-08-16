@@ -157,13 +157,25 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
   useEffect(() => {
     if (!isSitting) return;
 
+    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current]);
+  
+    // 足と体の状態をリセット
+    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
+      rotation: 0,
+      x: 0,
+      y: 0,
+    });
+    gsap.set(containerRef.current, {
+      scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
+    });
+
     const tl = gsap.timeline({
       onComplete: () => {
-        setIsSitting(false);
-        setShowBall(false);
         setshowVesse(false);
         setShowHearts(false);
-        animate(); // 立ち上がった後に移動アニメーションを再開
+        setIsSitting(false);
+        startWalkingAnimation(); // 立ち上がった後に移動アニメーションを再開
       }
     });
 
@@ -375,16 +387,29 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
   const handleClick = () => {
     if (!isSitting) {
       setIsSitting(true);
-      gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
     }
   };
 
   const feedWaterButtonClick = () => {
     if (!isSitting) {
-    setIsSitting(true);
+    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current]);
+
+    // 足と体の状態をリセット
+    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
+      rotation: 0,
+      x: 0,
+      y: 0,
+    });
+    gsap.set(containerRef.current, {
+      scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
+    });
+    
     setshowVesse(true);
     setShowHearts(true);
-    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+    setIsSitting(true);
+      
+    console.log("heartTl started")
 
     const heartTl = gsap.timeline();
 
@@ -417,10 +442,10 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
 
   const playButtonClick = () => {
     gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
-    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current]); // 足のアニメーションも停止
+    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current]); // 足のアニメーションも停止
 
       // 足と体の状態をリセット
-    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current], {
+    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
       rotation: 0,
       x: 0,
       y: 0,
@@ -493,7 +518,6 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
         setShowBall(false); // ボールの表示をリセット
         setShowHearts(false); // ハートの表示をリセット
         startWalkingAnimation(); // 歩行アニメーションを再開
-        animate(); // 歩行アニメーションを再開
       },
     });
 
@@ -553,6 +577,43 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
       playButtonClick(); 
     }
   }, [showBall]);
+
+  useEffect(() => {
+    if (showHearts && heartRef.current && heartRef2.current) {
+      console.log("heartTl started");
+  
+      const heartTl = gsap.timeline();
+  
+      heartTl.to(
+        heartRef.current,
+        {
+          rotation: 30,
+          transformOrigin: 'center',
+          duration: 1.0,
+          ease: 'power1.out',
+          repeat: -1,
+          yoyo: true,
+        }
+      );
+  
+      heartTl.to(
+        heartRef2.current,
+        {
+          rotation: -30,
+          transformOrigin: 'center',
+          duration: 1.0,
+          ease: 'power1.out',
+          repeat: -1,
+          yoyo: true,
+        },
+        "<" // 同時に実行する
+      );
+  
+      return () => {
+        heartTl.kill(); // クリーンアップ
+      };
+    }
+  }, [showHearts]);
 
   return (
     <div className="dog-container relative w-[450px] h-[350px] mx-auto cursor-pointer" ref={containerRef} onClick={handleClick}>
