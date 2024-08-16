@@ -165,32 +165,27 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
 
   useEffect(() => {
     if (!isSitting) {
-      const stopWalkingAnimation = startWalkingAnimation();
-      return stopWalkingAnimation;
+      // isSittingがfalseになり、画像が切り替わった後にstartWalkingAnimationを呼び出す
+      startWalkingAnimation();
     }
   }, [isSitting]);
-
-  useEffect(() => {
-    if (!isSitting) return;
-
-        setIsSitting(false);
-        setShowBall(false);
-        setshowVesse(false);
-        setShowHearts(false);
-        animate(); // 立ち上がった後に移動アニメーションを再開
-    });
 
   const handleContainerClick = (ref: React.RefObject<HTMLDivElement>) => {
     if (!isClickable) return; // クリック不可状態なら何もしない
 
     setIsClickable(false); // クリック不可に設定
 
-    // 元のアニメーションを一時停止
-    legAnims.current.forEach(anim => anim.pause());
-    if (beardRightAnim.current) beardRightAnim.current.pause();
-    if (beardLeftAnim.current) beardLeftAnim.current.pause();
-    if (headAnim.current) headAnim.current.pause();
-    if (containerAnim.current) containerAnim.current.pause();
+    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
+
+    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current], {
+      rotation: 0,
+      x: 0,
+      y: 0,
+    });
+    gsap.set(containerRef.current, {
+      scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
+    });
 
     gsap.to(ref.current, {
       keyframes: [
@@ -200,85 +195,64 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
       transformOrigin: 'center',
       onComplete: () => {
         // 元のアニメーションを再開
-        legAnims.current.forEach(anim => anim.resume());
-        if (beardRightAnim.current) beardRightAnim.current.resume();
-        if (beardLeftAnim.current) beardLeftAnim.current.resume();
-        if (headAnim.current) headAnim.current.resume();
-        if (containerAnim.current) containerAnim.current.resume();
-        
+        startWalkingAnimation();
+
         setTimeout(() => setIsClickable(true), 2000); // 2秒後に再びクリック可能に
       }
     });
   };
 
   const feedWaterButtonClick = () => {
+    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
+  
     setIsSitting(true);
     setshowVesse(true);
     setShowHearts(true);
+    
+    if (heartRef.current && heartRef2.current) {
+      const heartTl = gsap.timeline();
 
-    legAnims.current.forEach(anim => anim.pause());
-    if (beardRightAnim.current) beardRightAnim.current.pause();
-    if (beardLeftAnim.current) beardLeftAnim.current.pause();
-    if (headAnim.current) headAnim.current.pause();
-    if (containerAnim.current) containerAnim.current.pause();
+      heartTl.to(
+        heartRef.current,
+        {
+          rotation: 30,
+          transformOrigin: 'center',
+          duration: 1.0,
+          ease: 'power1.out',
+          repeat: -1,
+          yoyo: true,
+        }
+      );
+    
+      heartTl.to(
+        heartRef2.current,
+        {
+          rotation: -30,
+          transformOrigin: 'center',
+          duration: 1.0,
+          ease: 'power1.out',
+          repeat: -1,
+          yoyo: true,
+        },
+        "<" // 同時に実行する
+      );
 
-    const heartTl = gsap.timeline();
-
-    heartTl.to(
-      heartRef.current,
-      {
-        rotation: 30,
-        transformOrigin: 'center',
-        duration: 1.0,
-        ease: 'power1.out',
-        repeat: -1,
-        yoyo: true,
-      }
-    );
-  
-    heartTl.to(
-      heartRef2.current,
-      {
-        rotation: -30,
-        transformOrigin: 'center',
-        duration: 1.0,
-        ease: 'power1.out',
-        repeat: -1,
-        yoyo: true,
-      },
-      "<" // 同時に実行する
-    );
-
-  // 3秒後に状態をリセットし、アニメーションを再開
-    gsap.delayedCall(3, () => {
-      heartTl.kill();
-      setIsSitting(false); // isSitting を false に設定して立ち上がる
-
-      const timeoutId = setTimeout(() => {
+      // 3秒後に状態をリセットし、アニメーションを再開
+      gsap.delayedCall(3, () => {
+        heartTl.kill();
         setshowVesse(false);
         setShowHearts(false);
-
-        legAnims.current.forEach(anim => anim.resume());
-        if (beardRightAnim.current) beardRightAnim.current.resume();
-        if (beardLeftAnim.current) beardLeftAnim.current.resume();
-        if (headAnim.current) headAnim.current.resume();
-
-        startWalkingAnimation(); // 歩行アニメーションを再開
-      }); // 50ms 程度の遅延を入れて要素が確実にレンダリングされるのを待つ
-
-      return () => clearTimeout(timeoutId); // クリーンアップ
-    });
+        setIsSitting(false); // isSitting を false に設定して立ち上がる
+      }
+    )}
   };
 
   const playButtonClick = () => {
-    legAnims.current.forEach(anim => anim.kill());
-    if (beardRightAnim.current) beardRightAnim.current.pause();
-    if (beardLeftAnim.current) beardLeftAnim.current.pause();
-    if (headAnim.current) headAnim.current.pause();
-    if (containerAnim.current) containerAnim.current.pause();
+    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
 
-      // 足と体の状態をリセット
-    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, beardRightRef.current,beardLeftRef.current,faceRef.current, bodyRef.current, earRef.current, tailRef.current], {
+    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current], {
       rotation: 0,
       x: 0,
       y: 0,
@@ -438,7 +412,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
         ref={legFrontRightRef}
         src={legImageFrontRight}
         alt="Front Right Leg"
-        className="cat-part absolute top-[180px] left-[140px] z-0"
+        className="cat-part absolute top-[180px] left-[130px] z-0"
       />
       <Image
         ref={tailRef}
@@ -493,13 +467,13 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
             ref={heartRef}
             src={heartImage}
             alt="heart"
-            className="cat-part absolute top-[0px] left-[-30px] w-12"
+            className="cat-part absolute top-[20px] left-[70px] w-12"
           />
           <Image
             ref={heartRef2}
             src={heartImage}
             alt="heart"
-            className="cat-part absolute top-[50px] left-[-30px] w-9"
+            className="cat-part absolute top-[50px] left-[40px] w-9"
           />
         </>
       )}
@@ -517,7 +491,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
         <Image
         src={vesselImage}
         alt="heart"
-        className="cat-part absolute top-[250px] left-[-120px]"
+        className="cat-part absolute top-[250px] left-[-50px]"
         />
       )}
     </div>
