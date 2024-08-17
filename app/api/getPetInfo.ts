@@ -1,6 +1,6 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const getPetInfo = async (): Promise<{ petType: string }> => {
+export const getPetInfo = async (): Promise<{ petType: string, offspringCount: number }> => {
   const response = await fetch(`${API_BASE_URL}/pet_info`, {
     method: 'GET',
     headers: {

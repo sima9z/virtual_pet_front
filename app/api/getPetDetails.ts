@@ -9,7 +9,8 @@ export const getPetDetails = async (): Promise<{
   physical: number;
   satiety: number;
   happiness: number;
-  states: number
+  states: number;
+  offspring_count: number;
 }> => {
   const response = await fetch(`${API_BASE_URL}/pet_details`, {
     method: 'GET',
