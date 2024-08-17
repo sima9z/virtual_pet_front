@@ -14,6 +14,7 @@ interface PetStatusModalProps {
     satiety: number;
     happiness: number;
     states:number;
+    offspring_count: number;
   } | null;
 }
 
@@ -39,6 +40,7 @@ const PetStatusModal: React.FC<PetStatusModalProps> = ({ open, onClose, petInfo 
             <Typography>満腹度: {petInfo.satiety}</Typography>
             <Typography>幸福度: {petInfo.happiness}</Typography>
             <Typography>ステータス: {petInfo.states}</Typography>
+            <Typography>子供の数: {petInfo.offspring_count}</Typography>
           </Box>
         )}
         <Button onClick={onClose} variant="contained" color="primary" sx={{ mt: 2 }}>

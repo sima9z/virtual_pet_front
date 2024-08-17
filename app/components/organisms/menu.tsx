@@ -40,6 +40,7 @@ interface PetInfo {
   satiety: number;
   happiness: number;
   states: number;
+  offspring_count: number;
 }
 
 export default function AnchorTemporaryDrawer({ onFeed, onPlay }: AnchorTemporaryDrawerProps) {

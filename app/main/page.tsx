@@ -13,6 +13,7 @@ import AnchorTemporaryDrawer from "../components/organisms/menu"
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import PuppyDogAnimation from '../components/PuppyDogAnimation';
 
 const cache = createCache({ key: 'css', prepend: true });
 
@@ -39,6 +40,7 @@ interface CatAnimationHandle {
 
 export default function Main() {
   const [petType, setPetType] = useState<string | null>(null);
+  const [offspringCount, setOffspringCount] = useState<number>(0); // 繁殖回数のステート
 
   const [showBall, setShowBall] = useState(false);
   const [showVesse, setshowVesse] = useState(false);
@@ -53,6 +55,7 @@ export default function Main() {
         const petInfo = await getPetInfo();
         console.log('Pet type:', petInfo.petType); 
         setPetType(petInfo.petType);
+        setOffspringCount(petInfo.offspringCount); // 繁殖回数をセット
       } catch (error) {
         console.error('Error fetching pet information:', error);
       }
@@ -125,7 +128,14 @@ export default function Main() {
             <AnchorTemporaryDrawer onFeed={handleFeedWaterAction} onPlay={handlePlayAction}></AnchorTemporaryDrawer>
           </div>
           <div className="flex justify-center items-end h-full">
-            {petType === 'dog' && <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts}  />}
+            {petType === 'dog' && (
+              <>
+                <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} />
+                {Array.from({ length: offspringCount }).map((_, index) => (
+                  <PuppyDogAnimation key={index}/>
+                ))}
+              </>  
+            )}
             {petType === 'cat' && <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} />}
             {petType === 'none' && <p>No pet found</p>}
             <BackgroundImage src='/ばーちゃるぺっと背景.jpg' />
