@@ -147,7 +147,7 @@ export default function AnchorTemporaryDrawer({ onFeed, onPlay }: AnchorTemporar
               <Button
               variant="contained"
               color="secondary"
-              sx={{ color: 'white', fontSize: "24px" }}
+              sx={{ color: 'white', fontSize: "24px", zIndex: 1000  }}
               onClick={() => handleAction(text === 'ご飯' ? 'feed' : text === 'お水' ? 'water' : 'play')}
               >
                 {text}
@@ -157,7 +157,7 @@ export default function AnchorTemporaryDrawer({ onFeed, onPlay }: AnchorTemporar
           <Button
           variant="contained"
           color="primary"
-          sx={{ color: 'white', fontSize: "24px" }}
+          sx={{ color: 'white', fontSize: "24px", zIndex: 1000  }}
           onClick={handleOpenModal}>
             ステータス
           </Button>
@@ -175,13 +175,14 @@ export default function AnchorTemporaryDrawer({ onFeed, onPlay }: AnchorTemporar
               onClick={toggleDrawer("top", true)}
               variant="contained"
               color="secondary"
-              sx={{ color: 'white', marginTop:"7vh", fontWeight:"bold", fontSize:"24px" }}>
+              sx={{ color: 'white', marginTop:"7vh", fontWeight:"bold", fontSize:"24px", zIndex: 1000  }}>
                 menu
               </Button>
               <Drawer
                 anchor="top"
                 open={state["top"]}
                 onClose={toggleDrawer("top", false)}
+                sx={{ zIndex: 1000 }}
               >
                 {list("top")}
               </Drawer>
