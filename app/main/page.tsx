@@ -66,6 +66,12 @@ export default function Main() {
     fetchPetInfo();
   }, []);
 
+  // 新しいオフスプリングが追加されたら再レンダリングをトリガー
+  useEffect(() => {
+    // オフスプリング数の変更を監視してコンポーネントを再レンダリング
+    console.log(`offspringCount changed: ${offspringCount}`);
+  }, [offspringCount]);
+
   useEffect(() => {
     if (dogActionRef.current || catActionRef.current) { 
       if (dogActionRef.current) {
@@ -136,7 +142,7 @@ export default function Main() {
                   <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} />
                 </div>
                 {Array.from({ length: offspringCount }).map((_, index) => (
-                  <div key={index} className="absolute inset-0 flex justify-center items-end">
+                  <div key={index} className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 80px)' }}>
                     <PuppyDogAnimation />
                   </div>
                 ))}
@@ -147,11 +153,11 @@ export default function Main() {
             {petType === 'cat' && (
               <>
                 <div className="relative w-full h-full">
-                  <div className="absolute inset-0 flex justify-center items-end">
+                  <div className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 40px)' }}>
                   <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} />
                   </div>
                   {Array.from({ length: offspringCount }).map((_, index) => (
-                    <div key={index} className="absolute inset-0 flex justify-center items-end">
+                    <div key={index} className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 80px)' }}>
                       <PuppyCatAnimation key={index} />
                     </div>
                   ))}
