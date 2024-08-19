@@ -13,7 +13,9 @@ import AnchorTemporaryDrawer from "../components/organisms/menu"
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+
 import PuppyDogAnimation from '../components/PuppyDogAnimation';
+import PuppyCatAnimation from '../components/PuppyCatAnimation';
 
 const cache = createCache({ key: 'css', prepend: true });
 
@@ -142,7 +144,20 @@ export default function Main() {
             </>
           )}
           <div className="flex justify-center items-end h-full w-full">
-            {petType === 'cat' && <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} />}
+            {petType === 'cat' && (
+              <>
+                <div className="relative w-full h-full">
+                  <div className="absolute inset-0 flex justify-center items-end">
+                  <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} />
+                  </div>
+                  {Array.from({ length: offspringCount }).map((_, index) => (
+                    <div key={index} className="absolute inset-0 flex justify-center items-end">
+                      <PuppyCatAnimation key={index} />
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
             {petType === 'none' && <p>No pet found</p>}
             <BackgroundImage src='/ばーちゃるぺっと背景.jpg' />
           </div>
