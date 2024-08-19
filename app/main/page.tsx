@@ -127,15 +127,21 @@ export default function Main() {
           <div className="absolute top-0 right-0 m-4">
             <AnchorTemporaryDrawer onFeed={handleFeedWaterAction} onPlay={handlePlayAction}></AnchorTemporaryDrawer>
           </div>
-          <div className="flex justify-center items-end h-full">
-            {petType === 'dog' && (
-              <>
-                <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} />
+          {petType === 'dog' && (
+            <>
+              <div className="relative w-full h-full">
+                <div className="absolute inset-0 flex justify-center items-end">
+                  <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} />
+                </div>
                 {Array.from({ length: offspringCount }).map((_, index) => (
-                  <PuppyDogAnimation key={index}/>
+                  <div key={index} className="absolute inset-0 flex justify-center items-end">
+                    <PuppyDogAnimation />
+                  </div>
                 ))}
-              </>  
-            )}
+              </div>
+            </>
+          )}
+          <div className="flex justify-center items-end h-full w-full">
             {petType === 'cat' && <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} />}
             {petType === 'none' && <p>No pet found</p>}
             <BackgroundImage src='/ばーちゃるぺっと背景.jpg' />
