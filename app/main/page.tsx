@@ -6,6 +6,7 @@ import DogAnimation from '../components/DogAnimation';
 import CatAnimation from '../components/CatAnimation';
 
 import {getPetInfo} from '../api/getPetInfo'
+import {petPhysicalRecover} from '../api/petPhysicalRecover'
 
 import BackgroundImage from "../components/atoms/BackgroundImage"
 import AnchorTemporaryDrawer from "../components/organisms/menu"
@@ -141,6 +142,16 @@ export default function Main() {
       if (catActionRef.current) catActionRef.current.playButtonClick();
     }
   }, [showBall]);
+
+  useEffect(() => {
+    if (petType && petDetails) { // ログイン後にリクエストを送信
+      const intervalId = setInterval(() => {
+        petPhysicalRecover();
+      }, 60000);
+  
+      return () => clearInterval(intervalId); // クリーンアップ
+    }
+  }, [petType, petDetails]);
 
   return (
     <CacheProvider value={cache}>
