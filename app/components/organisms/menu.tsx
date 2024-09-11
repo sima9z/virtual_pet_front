@@ -30,7 +30,7 @@ interface AnchorTemporaryDrawerProps {
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
-interface PetInfo {
+interface PetDetails {
   id: number;
   name: string;
   breed: string;
@@ -43,7 +43,7 @@ interface PetInfo {
   offspring_count: number;
 }
 
-export default function AnchorTemporaryDrawer({ onFeed, onPlay }: AnchorTemporaryDrawerProps) {
+export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFeed, onPlay }: AnchorTemporaryDrawerProps & { petDetails: PetDetails | null; setPetDetails: React.Dispatch<React.SetStateAction<PetDetails | null>>; }) {
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -52,7 +52,6 @@ export default function AnchorTemporaryDrawer({ onFeed, onPlay }: AnchorTemporar
   });
 
   const [openModal, setOpenModal] = useState(false);
-  const [petInfo, setPetInfo] = useState<PetInfo | null>(null);
   const [petType, setPetType] = useState<'dog' | 'cat' | null>(null);
 
   useEffect(() => {
@@ -63,7 +62,7 @@ export default function AnchorTemporaryDrawer({ onFeed, onPlay }: AnchorTemporar
         
         const petDetails = await getPetDetails();
         console.log('Pet details:', petDetails);
-        setPetInfo(petDetails);
+        setPetDetails(petDetails);
       } catch (error) {
         console.error('Error fetching pet data:', error);
       }
@@ -90,7 +89,7 @@ export default function AnchorTemporaryDrawer({ onFeed, onPlay }: AnchorTemporar
       try {
         const data = await getPetDetails();
         console.log('Pet details:', data);
-        setPetInfo(data);
+        setPetDetails(data);
         setOpenModal(true);
       } catch (error) {
         console.error('Error fetching pet information:', error);
@@ -102,10 +101,14 @@ export default function AnchorTemporaryDrawer({ onFeed, onPlay }: AnchorTemporar
     const handleAction = async (action: 'feed' | 'water' | 'play') => {
       console.log(`handleAction called with action: ${action}`);
 
-      if (petType && petInfo) {
+      if (petType && petDetails) {
         try {
-          await petAction(petType, petInfo.id, action);
+          await petAction(petType, petDetails.id, action);
           alert(`${action} action performed successfully for ${petType}`);
+
+          // アクションが成功した後に最新のペット情報を取得して状態を更新
+          const updatedPetInfo = await getPetDetails();
+          setPetDetails(updatedPetInfo);  // 親コンポーネントのstateを更新
 
           if(action === 'feed'|| action === 'water'){
             onFeed();
@@ -122,7 +125,7 @@ export default function AnchorTemporaryDrawer({ onFeed, onPlay }: AnchorTemporar
         if (!petType) {
           alert('Pet type not determined');
         }
-        if (!petInfo) {
+        if (!petDetails) {
           alert('Pet information not available');
         }
       }
@@ -189,7 +192,7 @@ export default function AnchorTemporaryDrawer({ onFeed, onPlay }: AnchorTemporar
               <PetStatusModal
                 open={openModal}
                 onClose={handleCloseModal}
-                petInfo={petInfo}
+                petDetails={petDetails}
               />
             </React.Fragment>
       </ThemeProvider>
