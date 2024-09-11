@@ -153,6 +153,7 @@ export default function Main() {
             onPlay={handlePlayAction}
             petDetails={petDetails} 
             setPetDetails={setPetDetails}
+            setOffspringCount={setOffspringCount}
             >
             </AnchorTemporaryDrawer>
           </div>

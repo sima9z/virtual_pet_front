@@ -26,6 +26,7 @@ const theme = createTheme({
 interface AnchorTemporaryDrawerProps {
   onFeed: () => void;
   onPlay: () => void;
+  setOffspringCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
@@ -43,7 +44,11 @@ interface PetDetails {
   offspring_count: number;
 }
 
-export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFeed, onPlay }: AnchorTemporaryDrawerProps & { petDetails: PetDetails | null; setPetDetails: React.Dispatch<React.SetStateAction<PetDetails | null>>; }) {
+export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFeed, onPlay, setOffspringCount }: AnchorTemporaryDrawerProps & { 
+  petDetails: PetDetails | null; 
+  setPetDetails: React.Dispatch<React.SetStateAction<PetDetails | null>>;
+  setOffspringCount: React.Dispatch<React.SetStateAction<number>>; 
+}) {
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -109,7 +114,7 @@ export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFee
           // アクションが成功した後に最新のペット情報を取得して状態を更新
           const updatedPetInfo = await getPetDetails();
           setPetDetails(updatedPetInfo);  // 親コンポーネントのstateを更新
-
+          setOffspringCount(updatedPetInfo.offspring_count); // 繁殖回数も更新
           if(action === 'feed'|| action === 'water'){
             onFeed();
           } else if (action === 'play') {
