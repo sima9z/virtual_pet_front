@@ -624,7 +624,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
   }, [showHearts]);
 
   return (
-    <div className="dog-container relative w-[450px] h-[350px] mx-auto cursor-pointer" ref={containerRef} onClick={handleClick}>
+    <div className="dog-container relative w-[450px] h-[350px] mx-auto cursor-pointer z-50" ref={containerRef} onClick={handleClick}>
       <Image
         ref={legBackLeftRef}
         src={legImageBackLeft}

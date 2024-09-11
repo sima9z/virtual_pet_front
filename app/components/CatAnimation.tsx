@@ -395,7 +395,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
   }, [showBall]);
 
   return (
-    <div className="cat-container relative w-[450px] h-[350px] mx-auto cursor-pointer" ref={containerRef} onClick={() => handleContainerClick(containerRef)}>
+    <div className="cat-container relative w-[450px] h-[350px] mx-auto cursor-pointer z-50" ref={containerRef} onClick={() => handleContainerClick(containerRef)}>
       {!isSitting && (
         <>
       <Image
