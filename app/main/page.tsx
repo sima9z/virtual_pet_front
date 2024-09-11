@@ -40,8 +40,22 @@ interface CatAnimationHandle {
   feedWaterButtonClick: () => void;
 }
 
+interface PetDetails {
+  id: number;
+  name: string;
+  breed: string;
+  level: number;
+  experience: number;
+  physical: number;
+  satiety: number;
+  happiness: number;
+  states: number;
+  offspring_count: number;
+}
+
 export default function Main() {
   const [petType, setPetType] = useState<string | null>(null);
+  const [petDetails, setPetDetails] = useState<PetDetails | null>(null);
   const [offspringCount, setOffspringCount] = useState<number>(0); // 繁殖回数のステート
 
   const [showBall, setShowBall] = useState(false);
@@ -57,6 +71,7 @@ export default function Main() {
         const petInfo = await getPetInfo();
         console.log('Pet type:', petInfo.petType); 
         setPetType(petInfo.petType);
+        setPetDetails(petDetails);
         setOffspringCount(petInfo.offspringCount); // 繁殖回数をセット
       } catch (error) {
         console.error('Error fetching pet information:', error);
@@ -133,7 +148,14 @@ export default function Main() {
         <CssBaseline />
         <div className="relative h-[93vh] overflow-hidden">
           <div className="absolute top-0 right-0 m-4">
-            <AnchorTemporaryDrawer onFeed={handleFeedWaterAction} onPlay={handlePlayAction}></AnchorTemporaryDrawer>
+            <AnchorTemporaryDrawer 
+            onFeed={handleFeedWaterAction} 
+            onPlay={handlePlayAction}
+            petDetails={petDetails} 
+            setPetDetails={setPetDetails}
+            setOffspringCount={setOffspringCount}
+            >
+            </AnchorTemporaryDrawer>
           </div>
           {petType === 'dog' && (
             <>
@@ -154,7 +176,7 @@ export default function Main() {
               <>
                 <div className="relative w-full h-full">
                   <div className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 40px)' }}>
-                  <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} />
+                    <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} />
                   </div>
                   {Array.from({ length: offspringCount }).map((_, index) => (
                     <div key={index} className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 80px)' }}>

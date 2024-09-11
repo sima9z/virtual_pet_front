@@ -5,7 +5,7 @@ import { Box, Typography, Button, Modal } from '@mui/material';
 interface PetStatusModalProps {
   open: boolean;
   onClose: () => void;
-  petInfo: {
+  petDetails: {
     name:String;
     breed: String;
     level: number;
@@ -18,7 +18,7 @@ interface PetStatusModalProps {
   } | null;
 }
 
-const PetStatusModal: React.FC<PetStatusModalProps> = ({ open, onClose, petInfo }) => {
+const PetStatusModal: React.FC<PetStatusModalProps> = ({ open, onClose, petDetails }) => {
   return (
     <Modal
       open={open}
@@ -30,17 +30,17 @@ const PetStatusModal: React.FC<PetStatusModalProps> = ({ open, onClose, petInfo 
         <Typography variant="h6" component="h2">
           ペットのステータス
         </Typography>
-        {petInfo && (
+        {petDetails && (
           <Box mt={2}>
-            <Typography>名前: {petInfo.name}</Typography>
-            <Typography>種類: {petInfo.breed}</Typography>
-            <Typography>レベル: {petInfo.level}</Typography>
-            <Typography>経験値: {petInfo.experience}</Typography>
-            <Typography>体力: {petInfo.physical}</Typography>
-            <Typography>満腹度: {petInfo.satiety}</Typography>
-            <Typography>幸福度: {petInfo.happiness}</Typography>
-            <Typography>ステータス: {petInfo.states}</Typography>
-            <Typography>子供の数: {petInfo.offspring_count}</Typography>
+            <Typography>名前: {petDetails.name}</Typography>
+            <Typography>種類: {petDetails.breed}</Typography>
+            <Typography>レベル: {petDetails.level}</Typography>
+            <Typography>経験値: {petDetails.experience}</Typography>
+            <Typography>体力: {petDetails.physical}</Typography>
+            <Typography>満腹度: {petDetails.satiety}</Typography>
+            <Typography>幸福度: {petDetails.happiness}</Typography>
+            <Typography>ステータス: {petDetails.states}</Typography>
+            <Typography>子供の数: {petDetails.offspring_count}</Typography>
           </Box>
         )}
         <Button onClick={onClose} variant="contained" color="primary" sx={{ mt: 2 }}>
