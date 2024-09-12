@@ -25,6 +25,7 @@ const theme = createTheme({
 
 interface AnchorTemporaryDrawerProps {
   onFeed: () => void;
+  onStroke: () => void;
   onPlay: () => void;
   setOffspringCount: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -44,7 +45,7 @@ interface PetDetails {
   offspring_count: number;
 }
 
-export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFeed, onPlay, setOffspringCount }: AnchorTemporaryDrawerProps & { 
+export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFeed, onStroke, onPlay, setOffspringCount }: AnchorTemporaryDrawerProps & { 
   petDetails: PetDetails | null; 
   setPetDetails: React.Dispatch<React.SetStateAction<PetDetails | null>>;
   setOffspringCount: React.Dispatch<React.SetStateAction<number>>; 
@@ -103,7 +104,7 @@ export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFee
   
     const handleCloseModal = () => setOpenModal(false);
 
-    const handleAction = async (action: 'feed' | 'water' | 'play') => {
+    const handleAction = async (action: 'feed' | 'stroke' | 'play') => {
       console.log(`handleAction called with action: ${action}`);
 
       if (petType && petDetails) {
@@ -115,11 +116,14 @@ export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFee
           const updatedPetInfo = await getPetDetails();
           setPetDetails(updatedPetInfo);  // 親コンポーネントのstateを更新
           setOffspringCount(updatedPetInfo.offspring_count); // 繁殖回数も更新
-          if(action === 'feed'|| action === 'water'){
+          if(action === 'feed'){
             onFeed();
           } else if (action === 'play') {
             console.log("Calling onPlay");
             onPlay(); 
+          } else if (action === 'stroke') {
+            console.log("Calling onStroke")
+            onStroke();
           }
 
         } catch (error) {
@@ -150,24 +154,32 @@ export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFee
         onKeyDown={toggleDrawer(anchor, false)}
       >
         <List sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: "50px 0", width: '90%', margin:"0 auto" }}>
-          {['ご飯', 'お水', '遊ぶ'].map((text) => (
+          {['ご飯', 'なでる', '遊ぶ'].map((text) => (
             <ListItem key={text} disablePadding sx={{ width: 'auto' }}>
               <Button
-              variant="contained"
-              color="secondary"
-              sx={{ color: 'white', fontSize: "24px", zIndex: 1000  }}
-              onClick={() => handleAction(text === 'ご飯' ? 'feed' : text === 'お水' ? 'water' : 'play')}
+                variant="contained"
+                color="secondary"
+                sx={{ color: 'white', fontSize: "24px", zIndex: 1000  }}
+                onClick={() => {
+                  if (text === 'ご飯') {
+                    handleAction('feed');
+                  } else if (text === 'なでる') {
+                    handleAction('stroke');
+                  } else if (text === '遊ぶ') {
+                    handleAction('play');
+                  }
+                }}
               >
                 {text}
               </Button>
             </ListItem>
           ))}
           <Button
-          variant="contained"
-          color="primary"
-          sx={{ color: 'white', fontSize: "24px", zIndex: 1000  }}
-          onClick={handleOpenModal}>
-            ステータス
+            variant="contained"
+            color="primary"
+            sx={{ color: 'white', fontSize: "24px", zIndex: 1000  }}
+            onClick={handleOpenModal}>
+              ステータス
           </Button>
           <LogoutButton />
         </List>
@@ -180,11 +192,11 @@ export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFee
         <CssBaseline />
             <React.Fragment>
               <Button
-              onClick={toggleDrawer("top", true)}
-              variant="contained"
-              color="secondary"
-              sx={{ color: 'white', marginTop:"7vh", fontWeight:"bold", fontSize:"24px", zIndex: 1000  }}>
-                menu
+                onClick={toggleDrawer("top", true)}
+                variant="contained"
+                color="secondary"
+                sx={{ color: 'white', marginTop:"7vh", fontWeight:"bold", fontSize:"24px", zIndex: 1000  }}>
+                  menu
               </Button>
               <Drawer
                 anchor="top"

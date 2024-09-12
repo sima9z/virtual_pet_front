@@ -33,12 +33,14 @@ const theme = createTheme({
 
 interface DogAnimationHandle {
   playButtonClick: () => void; //何も返さない→実行するだけで結果を期待しない
-  feedWaterButtonClick: () => void;
+  strokeButtonClick: () => void;
+  feedButtonClick: () => void;
 }
 
 interface CatAnimationHandle {
   playButtonClick: () => void; //何も返さない→実行するだけで結果を期待しない
-  feedWaterButtonClick: () => void;
+  strokeButtonClick: () => void;
+  feedButtonClick: () => void;
 }
 
 interface PetDetails {
@@ -62,6 +64,7 @@ export default function Main() {
   const [showBall, setShowBall] = useState(false);
   const [showVesse, setshowVesse] = useState(false);
   const [showHearts, setShowHearts] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
 
   const dogActionRef = useRef<DogAnimationHandle>(null); //値が変更されてもコンポーネントが再レンダリングされない
   const catActionRef = useRef<CatAnimationHandle>(null); 
@@ -101,15 +104,27 @@ export default function Main() {
     }
   }, [dogActionRef.current, catActionRef.current]);
   
-  const handleFeedWaterAction = () => {
-    console.log("handleFeedWaterAction called");
+  const handleFeedAction = () => {
+    console.log("handleFeedAction called");
     if (dogActionRef.current) {
-      console.log("Triggering feedWaterButtonClick for Dog");
-      dogActionRef.current.feedWaterButtonClick();
+      console.log("Triggering feedButtonClick for Dog");
+      dogActionRef.current.feedButtonClick();
     }
     if (catActionRef.current) {
-      console.log("Triggering feedWaterButtonClick for Cat");
-      catActionRef.current.feedWaterButtonClick();
+      console.log("Triggering feedButtonClick for Cat");
+      catActionRef.current.feedButtonClick();
+    }
+  };
+
+  const handleStrokeAction = () => {
+    console.log("handleStrokeAction called");
+    if (dogActionRef.current) {
+      console.log("Triggering StrokeButtonClick for Dog");
+      dogActionRef.current.strokeButtonClick();
+    }
+    if (catActionRef.current) {
+      console.log("Triggering StrokeButtonClick for Cat");
+      catActionRef.current.strokeButtonClick();
     }
   };
   
@@ -128,11 +143,20 @@ export default function Main() {
   useEffect(() => {
     console.log("showVesse changed:", showVesse);
     if (showVesse) {
-      console.log("Calling feedWaterButtonClick");
-      if (dogActionRef.current) dogActionRef.current.feedWaterButtonClick();
-      if (catActionRef.current) catActionRef.current.feedWaterButtonClick();
+      console.log("Calling feedButtonClick");
+      if (dogActionRef.current) dogActionRef.current.feedButtonClick();
+      if (catActionRef.current) catActionRef.current.feedButtonClick();
     }
   }, [showVesse]);
+
+  useEffect(() => {
+    console.log("showVesse changed:", showNotes);
+    if (showNotes) {
+      console.log("Calling feedButtonClick");
+      if (dogActionRef.current) dogActionRef.current.strokeButtonClick();
+      if (catActionRef.current) catActionRef.current.strokeButtonClick();
+    }
+  }, [showNotes]);
 
   useEffect(() => {
     console.log("showBall changed:", showBall);
@@ -160,11 +184,12 @@ export default function Main() {
         <div className="relative h-[93vh] overflow-hidden">
           <div className="absolute top-0 right-0 m-4">
             <AnchorTemporaryDrawer 
-            onFeed={handleFeedWaterAction} 
-            onPlay={handlePlayAction}
-            petDetails={petDetails} 
-            setPetDetails={setPetDetails}
-            setOffspringCount={setOffspringCount}
+              onFeed={handleFeedAction}
+              onStroke={handleStrokeAction} 
+              onPlay={handlePlayAction}
+              petDetails={petDetails} 
+              setPetDetails={setPetDetails}
+              setOffspringCount={setOffspringCount}
             >
             </AnchorTemporaryDrawer>
           </div>
@@ -172,7 +197,7 @@ export default function Main() {
             <>
               <div className="relative w-full h-full">
                 <div className="absolute inset-0 flex justify-center items-end">
-                  <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} />
+                  <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} />
                 </div>
                 {Array.from({ length: offspringCount }).map((_, index) => (
                   <div key={index} className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 80px)' }}>
@@ -187,7 +212,7 @@ export default function Main() {
               <>
                 <div className="relative w-full h-full">
                   <div className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 40px)' }}>
-                    <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} />
+                    <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} />
                   </div>
                   {Array.from({ length: offspringCount }).map((_, index) => (
                     <div key={index} className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 80px)' }}>
@@ -197,7 +222,9 @@ export default function Main() {
                 </div>
               </>
             )}
+            
             {petType === 'none' && <p>No pet found</p>}
+
             <BackgroundImage src='/ばーちゃるぺっと背景.jpg' />
           </div>
         </div>

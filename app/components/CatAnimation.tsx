@@ -17,15 +17,19 @@ import heartImage from '../../public/ハートマーク.png';
 import vesselImage from '../../public/容器.png';
 import ballImage from '../../public/ボール.png';
 
+import yellowNoteImage from '../../public/音符（黄色）.png';
+import blueNoteImage from '../../public/音符（青）.png';
+
 import SitCatImage from '../../public/猫.png';
 
 interface CatAnimationHandle {
-  feedWaterButtonClick: () => void;
+  feedButtonClick: () => void;
+  strokeButtonClick: () => void;
   playButtonClick: () => void;
 }
 
-const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; showBall: boolean; setShowBall: React.Dispatch<React.SetStateAction<boolean>>; showHearts:boolean; setShowHearts:React.Dispatch<React.SetStateAction<boolean>> }>(
-  ({ showVesse, setshowVesse,showBall, setShowBall, showHearts , setShowHearts}, ref) => {
+const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; showNotes: boolean; setShowNotes:React.Dispatch<React.SetStateAction<boolean>>; showBall: boolean; setShowBall: React.Dispatch<React.SetStateAction<boolean>>; showHearts:boolean; setShowHearts:React.Dispatch<React.SetStateAction<boolean>> }>(
+  ({ showVesse, setshowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts}, ref) => {
 
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
@@ -44,6 +48,8 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
   const heartRef = useRef<HTMLImageElement | null>(null);
   const heartRef2 = useRef<HTMLImageElement | null>(null);
   const ballRef = useRef<HTMLImageElement | null>(null);
+  const yellowNoteRef = useRef<HTMLImageElement | null>(null);
+  const blueNoteRef = useRef<HTMLImageElement | null>(null);
 
   const legAnims = useRef<gsap.core.Tween[]>([]);
   const beardRightAnim = useRef<gsap.core.Tween | null>(null);
@@ -56,7 +62,8 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
 
   useImperativeHandle(ref, () => ({
     playButtonClick,
-    feedWaterButtonClick
+    strokeButtonClick,
+    feedButtonClick
   }));
 
   // ランダムな位置を計算する関数
@@ -210,7 +217,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
     });
   };
 
-  const feedWaterButtonClick = () => {
+  const feedButtonClick = () => {
     gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
     gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
   
@@ -254,6 +261,49 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
         setIsSitting(false); // isSitting を false に設定して立ち上がる
       }
     )}
+  };
+
+  const strokeButtonClick = () => {
+    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
+  
+    setIsSitting(true);
+    setShowNotes(true);
+    
+    const noteTl = gsap.timeline();
+
+    noteTl.to(
+      yellowNoteRef.current,
+      {
+        rotation: 30,
+        transformOrigin: 'center',
+        duration: 1.0,
+        ease: 'power1.out',
+        repeat: -1,
+        yoyo: true,
+      }
+    );
+  
+    noteTl.to(
+      blueNoteRef.current,
+      {
+        rotation: -30,
+        transformOrigin: 'center',
+        duration: 1.0,
+        ease: 'power1.out',
+        repeat: -1,
+        yoyo: true,
+      },
+      "<" // 同時に実行する
+    );
+
+      // 3秒後に状態をリセットし、アニメーションを再開
+      gsap.delayedCall(3, () => {
+        noteTl.kill();
+        setShowNotes(false);
+        setIsSitting(false); // isSitting を false に設定して立ち上がる
+      }
+    )
   };
 
   const playButtonClick = () => {
@@ -384,9 +434,15 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
 
   useEffect(() => {
     if (showVesse) {
-      feedWaterButtonClick();
+      feedButtonClick();
     }
   }, [showVesse]);
+
+  useEffect(() => {
+    if (showNotes) {
+      strokeButtonClick();  
+    }
+  }, [showNotes]);
 
   useEffect(() => {
     if (showBall) {
@@ -501,6 +557,23 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
         alt="heart"
         className="cat-part absolute top-[250px] left-[-50px]"
         />
+      )}
+
+      {showNotes && ( 
+        <>
+          <Image
+            ref={yellowNoteRef}
+            src={yellowNoteImage}
+            alt="yellow-note"
+            className="dog-part absolute top-[0px] left-[-30px] w-12"
+          />
+          <Image
+            ref={blueNoteRef}
+            src={blueNoteImage}
+            alt="blue-note"
+            className="dog-part absolute top-[50px] left-[-30px] w-9"
+          />
+        </>
       )}
     </div>
   );
