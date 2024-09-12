@@ -25,6 +25,7 @@ const theme = createTheme({
 
 interface AnchorTemporaryDrawerProps {
   onFeed: () => void;
+  onStroke: () => void;
   onPlay: () => void;
   setOffspringCount: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -44,7 +45,7 @@ interface PetDetails {
   offspring_count: number;
 }
 
-export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFeed, onPlay, setOffspringCount }: AnchorTemporaryDrawerProps & { 
+export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFeed, onStroke, onPlay, setOffspringCount }: AnchorTemporaryDrawerProps & { 
   petDetails: PetDetails | null; 
   setPetDetails: React.Dispatch<React.SetStateAction<PetDetails | null>>;
   setOffspringCount: React.Dispatch<React.SetStateAction<number>>; 
@@ -115,11 +116,14 @@ export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFee
           const updatedPetInfo = await getPetDetails();
           setPetDetails(updatedPetInfo);  // 親コンポーネントのstateを更新
           setOffspringCount(updatedPetInfo.offspring_count); // 繁殖回数も更新
-          if(action === 'feed'|| action === 'stroke'){
+          if(action === 'feed'){
             onFeed();
           } else if (action === 'play') {
             console.log("Calling onPlay");
             onPlay(); 
+          } else if (action === 'stroke') {
+            console.log("Calling onStroke")
+            onStroke();
           }
 
         } catch (error) {

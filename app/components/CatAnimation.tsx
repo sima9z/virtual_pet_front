@@ -56,6 +56,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
 
   useImperativeHandle(ref, () => ({
     playButtonClick,
+    strokeButtonClick,
     feedButtonClick
   }));
 
@@ -211,6 +212,52 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
   };
 
   const feedButtonClick = () => {
+    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
+  
+    setIsSitting(true);
+    setshowVesse(true);
+    setShowHearts(true);
+    
+    if (heartRef.current && heartRef2.current) {
+      const heartTl = gsap.timeline();
+
+      heartTl.to(
+        heartRef.current,
+        {
+          rotation: 30,
+          transformOrigin: 'center',
+          duration: 1.0,
+          ease: 'power1.out',
+          repeat: -1,
+          yoyo: true,
+        }
+      );
+    
+      heartTl.to(
+        heartRef2.current,
+        {
+          rotation: -30,
+          transformOrigin: 'center',
+          duration: 1.0,
+          ease: 'power1.out',
+          repeat: -1,
+          yoyo: true,
+        },
+        "<" // 同時に実行する
+      );
+
+      // 3秒後に状態をリセットし、アニメーションを再開
+      gsap.delayedCall(3, () => {
+        heartTl.kill();
+        setshowVesse(false);
+        setShowHearts(false);
+        setIsSitting(false); // isSitting を false に設定して立ち上がる
+      }
+    )}
+  };
+
+  const strokeButtonClick = () => {
     gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
     gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
   

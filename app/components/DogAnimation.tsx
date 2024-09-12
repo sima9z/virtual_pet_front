@@ -50,6 +50,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
 
   useImperativeHandle(ref, () => ({
     playButtonClick,
+    strokeButtonClick,
     feedButtonClick
   }));
 
@@ -399,6 +400,56 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
   };
 
   const feedButtonClick = () => {
+    if (!isSitting) {
+    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current]);
+
+    // 足と体の状態をリセット
+    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
+      rotation: 0,
+      x: 0,
+      y: 0,
+    });
+    gsap.set(containerRef.current, {
+      scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
+    });
+    
+    setshowVesse(true);
+    setShowHearts(true);
+    setIsSitting(true);
+      
+    console.log("heartTl started")
+
+    const heartTl = gsap.timeline();
+
+    heartTl.to(
+      heartRef.current,
+      {
+        rotation: 30,
+        transformOrigin: 'center',
+        duration: 1.0,
+        ease: 'power1.out',
+        repeat: -1,
+        yoyo: true,
+      }
+    );
+  
+    heartTl.to(
+      heartRef2.current,
+      {
+        rotation: -30,
+        transformOrigin: 'center',
+        duration: 1.0,
+        ease: 'power1.out',
+        repeat: -1,
+        yoyo: true,
+      },
+      "<" // 同時に実行する
+    );
+    }
+  };
+
+  const strokeButtonClick = () => {
     if (!isSitting) {
     gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
     gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current]);

@@ -33,11 +33,13 @@ const theme = createTheme({
 
 interface DogAnimationHandle {
   playButtonClick: () => void; //何も返さない→実行するだけで結果を期待しない
+  strokeButtonClick: () => void;
   feedButtonClick: () => void;
 }
 
 interface CatAnimationHandle {
   playButtonClick: () => void; //何も返さない→実行するだけで結果を期待しない
+  strokeButtonClick: () => void;
   feedButtonClick: () => void;
 }
 
@@ -112,6 +114,18 @@ export default function Main() {
       catActionRef.current.feedButtonClick();
     }
   };
+
+  const handleStrokeAction = () => {
+    console.log("handleStrokeAction called");
+    if (dogActionRef.current) {
+      console.log("Triggering StrokeButtonClick for Dog");
+      dogActionRef.current.strokeButtonClick();
+    }
+    if (catActionRef.current) {
+      console.log("Triggering StrokeButtonClick for Cat");
+      catActionRef.current.strokeButtonClick();
+    }
+  };
   
   const handlePlayAction = () => {
     console.log("handlePlayAction called");
@@ -160,7 +174,8 @@ export default function Main() {
         <div className="relative h-[93vh] overflow-hidden">
           <div className="absolute top-0 right-0 m-4">
             <AnchorTemporaryDrawer 
-            onFeed={handleFeedAction} 
+            onFeed={handleFeedAction}
+            onStroke={handleStrokeAction} 
             onPlay={handlePlayAction}
             petDetails={petDetails} 
             setPetDetails={setPetDetails}
