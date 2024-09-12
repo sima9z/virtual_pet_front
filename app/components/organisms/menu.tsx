@@ -157,21 +157,29 @@ export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFee
           {['ご飯', 'なでる', '遊ぶ'].map((text) => (
             <ListItem key={text} disablePadding sx={{ width: 'auto' }}>
               <Button
-              variant="contained"
-              color="secondary"
-              sx={{ color: 'white', fontSize: "24px", zIndex: 1000  }}
-              onClick={() => handleAction(text === 'ご飯' ? 'feed' : text === 'なでる' ? 'stroke' : 'play')}
+                variant="contained"
+                color="secondary"
+                sx={{ color: 'white', fontSize: "24px", zIndex: 1000  }}
+                onClick={() => {
+                  if (text === 'ご飯') {
+                    handleAction('feed');
+                  } else if (text === 'なでる') {
+                    handleAction('stroke');
+                  } else if (text === '遊ぶ') {
+                    handleAction('play');
+                  }
+                }}
               >
                 {text}
               </Button>
             </ListItem>
           ))}
           <Button
-          variant="contained"
-          color="primary"
-          sx={{ color: 'white', fontSize: "24px", zIndex: 1000  }}
-          onClick={handleOpenModal}>
-            ステータス
+            variant="contained"
+            color="primary"
+            sx={{ color: 'white', fontSize: "24px", zIndex: 1000  }}
+            onClick={handleOpenModal}>
+              ステータス
           </Button>
           <LogoutButton />
         </List>
@@ -184,11 +192,11 @@ export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFee
         <CssBaseline />
             <React.Fragment>
               <Button
-              onClick={toggleDrawer("top", true)}
-              variant="contained"
-              color="secondary"
-              sx={{ color: 'white', marginTop:"7vh", fontWeight:"bold", fontSize:"24px", zIndex: 1000  }}>
-                menu
+                onClick={toggleDrawer("top", true)}
+                variant="contained"
+                color="secondary"
+                sx={{ color: 'white', marginTop:"7vh", fontWeight:"bold", fontSize:"24px", zIndex: 1000  }}>
+                  menu
               </Button>
               <Drawer
                 anchor="top"

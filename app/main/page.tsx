@@ -64,6 +64,7 @@ export default function Main() {
   const [showBall, setShowBall] = useState(false);
   const [showVesse, setshowVesse] = useState(false);
   const [showHearts, setShowHearts] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
 
   const dogActionRef = useRef<DogAnimationHandle>(null); //値が変更されてもコンポーネントが再レンダリングされない
   const catActionRef = useRef<CatAnimationHandle>(null); 
@@ -149,6 +150,15 @@ export default function Main() {
   }, [showVesse]);
 
   useEffect(() => {
+    console.log("showVesse changed:", showNotes);
+    if (showNotes) {
+      console.log("Calling feedButtonClick");
+      if (dogActionRef.current) dogActionRef.current.strokeButtonClick();
+      if (catActionRef.current) catActionRef.current.strokeButtonClick();
+    }
+  }, [showNotes]);
+
+  useEffect(() => {
     console.log("showBall changed:", showBall);
     if (showBall) {
       console.log("Calling playButtonClick");
@@ -174,12 +184,12 @@ export default function Main() {
         <div className="relative h-[93vh] overflow-hidden">
           <div className="absolute top-0 right-0 m-4">
             <AnchorTemporaryDrawer 
-            onFeed={handleFeedAction}
-            onStroke={handleStrokeAction} 
-            onPlay={handlePlayAction}
-            petDetails={petDetails} 
-            setPetDetails={setPetDetails}
-            setOffspringCount={setOffspringCount}
+              onFeed={handleFeedAction}
+              onStroke={handleStrokeAction} 
+              onPlay={handlePlayAction}
+              petDetails={petDetails} 
+              setPetDetails={setPetDetails}
+              setOffspringCount={setOffspringCount}
             >
             </AnchorTemporaryDrawer>
           </div>
@@ -187,7 +197,7 @@ export default function Main() {
             <>
               <div className="relative w-full h-full">
                 <div className="absolute inset-0 flex justify-center items-end">
-                  <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} />
+                  <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} />
                 </div>
                 {Array.from({ length: offspringCount }).map((_, index) => (
                   <div key={index} className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 80px)' }}>
@@ -202,7 +212,7 @@ export default function Main() {
               <>
                 <div className="relative w-full h-full">
                   <div className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 40px)' }}>
-                    <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} />
+                    <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} />
                   </div>
                   {Array.from({ length: offspringCount }).map((_, index) => (
                     <div key={index} className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 80px)' }}>
@@ -212,7 +222,9 @@ export default function Main() {
                 </div>
               </>
             )}
+            
             {petType === 'none' && <p>No pet found</p>}
+
             <BackgroundImage src='/ばーちゃるぺっと背景.jpg' />
           </div>
         </div>

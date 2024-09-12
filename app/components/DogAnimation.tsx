@@ -18,13 +18,17 @@ import heartImage from '../../public/ハートマーク.png';
 import vesselImage from '../../public/容器.png';
 import ballImage from '../../public/ボール.png';
 
+import yellowNoteImage from '../../public/音符（黄色）.png';
+import blueNoteImage from '../../public/音符（青）.png';
+
 interface DogAnimationHandle {
   feedButtonClick: () => void;
+  strokeButtonClick: () => void;
   playButtonClick: () => void;
 }
 
-const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; showBall: boolean; setShowBall: React.Dispatch<React.SetStateAction<boolean>>; showHearts:boolean; setShowHearts:React.Dispatch<React.SetStateAction<boolean>> }>(
-  ({ showVesse, setshowVesse,showBall, setShowBall, showHearts , setShowHearts}, ref) => {
+const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; showNotes: boolean; setShowNotes:React.Dispatch<React.SetStateAction<boolean>>; showBall: boolean; setShowBall: React.Dispatch<React.SetStateAction<boolean>>; showHearts:boolean; setShowHearts:React.Dispatch<React.SetStateAction<boolean>> }>(
+  ({ showVesse, setshowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts}, ref) => {
 
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
@@ -42,6 +46,8 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
   const heartRef = useRef<HTMLImageElement | null>(null);
   const heartRef2 = useRef<HTMLImageElement | null>(null);
   const ballRef = useRef<HTMLImageElement | null>(null);
+  const yellowNoteRef = useRef<HTMLImageElement | null>(null);
+  const blueNoteRef = useRef<HTMLImageElement | null>(null);
 
   const initialSpeed = 3; // 初期速度を設定
   const directionRef = useRef(1); // 移動方向を保持する
@@ -183,6 +189,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
       onComplete: () => {
         setshowVesse(false);
         setShowHearts(false);
+        setShowNotes(false);
         setIsSitting(false);
         startWalkingAnimation(); // 立ち上がった後に移動アニメーションを再開
       }
@@ -451,51 +458,54 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
 
   const strokeButtonClick = () => {
     if (!isSitting) {
-    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
-    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current]);
-
-    // 足と体の状態をリセット
-    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
-      rotation: 0,
-      x: 0,
-      y: 0,
-    });
-    gsap.set(containerRef.current, {
-      scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
-    });
-    
-    setshowVesse(true);
-    setShowHearts(true);
-    setIsSitting(true);
-      
-    console.log("heartTl started")
-
-    const heartTl = gsap.timeline();
-
-    heartTl.to(
-      heartRef.current,
-      {
-        rotation: 30,
-        transformOrigin: 'center',
-        duration: 1.0,
-        ease: 'power1.out',
-        repeat: -1,
-        yoyo: true,
-      }
-    );
+      gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+      gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current]);
   
-    heartTl.to(
-      heartRef2.current,
-      {
-        rotation: -30,
-        transformOrigin: 'center',
+      // 足と体の状態をリセット
+      gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
+        rotation: 0,
+        x: 0,
+        y: 0,
+      });
+      gsap.set(containerRef.current, {
+        scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
+      });
+  
+      // リセットはせずに音符のアニメーションを開始
+      setShowNotes(true); // 音符を表示
+  
+      console.log("noteTl started");
+  
+      const noteTl = gsap.timeline();
+  
+      // 音符のアニメーション
+      noteTl.to(yellowNoteRef.current, {
+        rotation: 30,
+        transformOrigin: "center",
         duration: 1.0,
-        ease: 'power1.out',
+        ease: "power1.out",
         repeat: -1,
         yoyo: true,
-      },
-      "<" // 同時に実行する
-    );
+      });
+  
+      noteTl.to(
+        blueNoteRef.current,
+        {
+          rotation: -30,
+          transformOrigin: "center",
+          duration: 1.0,
+          ease: "power1.out",
+          repeat: -1,
+          yoyo: true,
+        },
+        "<" // 同時に実行
+      );
+  
+      // 3秒後に音符を消して歩行アニメーションを再開
+      gsap.delayedCall(3, () => {
+        setShowNotes(false); // 音符を非表示
+        startWalkingAnimation(); // 歩行アニメーションを再開
+      });
     }
   };
 
@@ -630,6 +640,41 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
       feedButtonClick();  
     }
   }, [showVesse]);
+
+  useEffect(() => {
+    if (showNotes && yellowNoteRef.current && blueNoteRef.current) {
+      console.log("noteTl started");
+  
+      const noteTl = gsap.timeline();
+  
+      // 音符のアニメーション
+      noteTl.to(yellowNoteRef.current, {
+        rotation: 30,
+        transformOrigin: "center",
+        duration: 1.0,
+        ease: "power1.out",
+        repeat: -1,
+        yoyo: true,
+      });
+  
+      noteTl.to(
+        blueNoteRef.current,
+        {
+          rotation: -30,
+          transformOrigin: "center",
+          duration: 1.0,
+          ease: "power1.out",
+          repeat: -1,
+          yoyo: true,
+        },
+        "<" // 同時に実行
+      );
+  
+      return () => {
+        noteTl.kill(); // クリーンアップ
+      };
+    }
+  }, [showNotes]);
 
   useEffect(() => {
     if (showBall) {
@@ -774,6 +819,23 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
         alt="heart"
         className="dog-part absolute top-[250px] left-[-120px]"
         />
+      )}
+
+      {showNotes && ( 
+        <>
+          <Image
+          ref={yellowNoteRef}
+          src={yellowNoteImage}
+          alt="yellow-note"
+          className="dog-part absolute top-[0px] left-[-30px] w-12"
+          />
+          <Image
+          ref={blueNoteRef}
+          src={blueNoteImage}
+          alt="blue-note"
+          className="dog-part absolute top-[50px] left-[-30px] w-9"
+          />
+        </>
       )}
     </div>
   );

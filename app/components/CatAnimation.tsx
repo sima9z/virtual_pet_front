@@ -17,15 +17,19 @@ import heartImage from '../../public/ハートマーク.png';
 import vesselImage from '../../public/容器.png';
 import ballImage from '../../public/ボール.png';
 
+import yellowNoteImage from '../../public/音符（黄色）.png';
+import blueNoteImage from '../../public/音符（青）.png';
+
 import SitCatImage from '../../public/猫.png';
 
 interface CatAnimationHandle {
   feedButtonClick: () => void;
+  strokeButtonClick: () => void;
   playButtonClick: () => void;
 }
 
-const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; showBall: boolean; setShowBall: React.Dispatch<React.SetStateAction<boolean>>; showHearts:boolean; setShowHearts:React.Dispatch<React.SetStateAction<boolean>> }>(
-  ({ showVesse, setshowVesse,showBall, setShowBall, showHearts , setShowHearts}, ref) => {
+const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; showNotes: boolean; setShowNotes:React.Dispatch<React.SetStateAction<boolean>>; showBall: boolean; setShowBall: React.Dispatch<React.SetStateAction<boolean>>; showHearts:boolean; setShowHearts:React.Dispatch<React.SetStateAction<boolean>> }>(
+  ({ showVesse, setshowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts}, ref) => {
 
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
@@ -44,6 +48,8 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
   const heartRef = useRef<HTMLImageElement | null>(null);
   const heartRef2 = useRef<HTMLImageElement | null>(null);
   const ballRef = useRef<HTMLImageElement | null>(null);
+  const yellowNoteRef = useRef<HTMLImageElement | null>(null);
+  const blueNoteRef = useRef<HTMLImageElement | null>(null);
 
   const legAnims = useRef<gsap.core.Tween[]>([]);
   const beardRightAnim = useRef<gsap.core.Tween | null>(null);
@@ -262,45 +268,42 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
     gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
   
     setIsSitting(true);
-    setshowVesse(true);
-    setShowHearts(true);
+    setShowNotes(true);
     
-    if (heartRef.current && heartRef2.current) {
-      const heartTl = gsap.timeline();
+    const noteTl = gsap.timeline();
 
-      heartTl.to(
-        heartRef.current,
-        {
-          rotation: 30,
-          transformOrigin: 'center',
-          duration: 1.0,
-          ease: 'power1.out',
-          repeat: -1,
-          yoyo: true,
-        }
-      );
-    
-      heartTl.to(
-        heartRef2.current,
-        {
-          rotation: -30,
-          transformOrigin: 'center',
-          duration: 1.0,
-          ease: 'power1.out',
-          repeat: -1,
-          yoyo: true,
-        },
-        "<" // 同時に実行する
-      );
+    noteTl.to(
+      yellowNoteRef.current,
+      {
+        rotation: 30,
+        transformOrigin: 'center',
+        duration: 1.0,
+        ease: 'power1.out',
+        repeat: -1,
+        yoyo: true,
+      }
+    );
+  
+    noteTl.to(
+      blueNoteRef.current,
+      {
+        rotation: -30,
+        transformOrigin: 'center',
+        duration: 1.0,
+        ease: 'power1.out',
+        repeat: -1,
+        yoyo: true,
+      },
+      "<" // 同時に実行する
+    );
 
       // 3秒後に状態をリセットし、アニメーションを再開
       gsap.delayedCall(3, () => {
-        heartTl.kill();
-        setshowVesse(false);
-        setShowHearts(false);
+        noteTl.kill();
+        setShowNotes(false);
         setIsSitting(false); // isSitting を false に設定して立ち上がる
       }
-    )}
+    )
   };
 
   const playButtonClick = () => {
@@ -436,6 +439,12 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
   }, [showVesse]);
 
   useEffect(() => {
+    if (showNotes) {
+      strokeButtonClick();  
+    }
+  }, [showNotes]);
+
+  useEffect(() => {
     if (showBall) {
       playButtonClick();
     }
@@ -548,6 +557,23 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
         alt="heart"
         className="cat-part absolute top-[250px] left-[-50px]"
         />
+      )}
+
+      {showNotes && ( 
+        <>
+          <Image
+            ref={yellowNoteRef}
+            src={yellowNoteImage}
+            alt="yellow-note"
+            className="dog-part absolute top-[0px] left-[-30px] w-12"
+          />
+          <Image
+            ref={blueNoteRef}
+            src={blueNoteImage}
+            alt="blue-note"
+            className="dog-part absolute top-[50px] left-[-30px] w-9"
+          />
+        </>
       )}
     </div>
   );
