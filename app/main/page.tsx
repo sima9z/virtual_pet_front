@@ -33,12 +33,12 @@ const theme = createTheme({
 
 interface DogAnimationHandle {
   playButtonClick: () => void; //何も返さない→実行するだけで結果を期待しない
-  feedWaterButtonClick: () => void;
+  feedButtonClick: () => void;
 }
 
 interface CatAnimationHandle {
   playButtonClick: () => void; //何も返さない→実行するだけで結果を期待しない
-  feedWaterButtonClick: () => void;
+  feedButtonClick: () => void;
 }
 
 interface PetDetails {
@@ -101,15 +101,15 @@ export default function Main() {
     }
   }, [dogActionRef.current, catActionRef.current]);
   
-  const handleFeedWaterAction = () => {
-    console.log("handleFeedWaterAction called");
+  const handleFeedAction = () => {
+    console.log("handleFeedAction called");
     if (dogActionRef.current) {
-      console.log("Triggering feedWaterButtonClick for Dog");
-      dogActionRef.current.feedWaterButtonClick();
+      console.log("Triggering feedButtonClick for Dog");
+      dogActionRef.current.feedButtonClick();
     }
     if (catActionRef.current) {
-      console.log("Triggering feedWaterButtonClick for Cat");
-      catActionRef.current.feedWaterButtonClick();
+      console.log("Triggering feedButtonClick for Cat");
+      catActionRef.current.feedButtonClick();
     }
   };
   
@@ -128,9 +128,9 @@ export default function Main() {
   useEffect(() => {
     console.log("showVesse changed:", showVesse);
     if (showVesse) {
-      console.log("Calling feedWaterButtonClick");
-      if (dogActionRef.current) dogActionRef.current.feedWaterButtonClick();
-      if (catActionRef.current) catActionRef.current.feedWaterButtonClick();
+      console.log("Calling feedButtonClick");
+      if (dogActionRef.current) dogActionRef.current.feedButtonClick();
+      if (catActionRef.current) catActionRef.current.feedButtonClick();
     }
   }, [showVesse]);
 
@@ -160,7 +160,7 @@ export default function Main() {
         <div className="relative h-[93vh] overflow-hidden">
           <div className="absolute top-0 right-0 m-4">
             <AnchorTemporaryDrawer 
-            onFeed={handleFeedWaterAction} 
+            onFeed={handleFeedAction} 
             onPlay={handlePlayAction}
             petDetails={petDetails} 
             setPetDetails={setPetDetails}

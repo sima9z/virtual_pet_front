@@ -20,7 +20,7 @@ import ballImage from '../../public/ボール.png';
 import SitCatImage from '../../public/猫.png';
 
 interface CatAnimationHandle {
-  feedWaterButtonClick: () => void;
+  feedButtonClick: () => void;
   playButtonClick: () => void;
 }
 
@@ -56,7 +56,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
 
   useImperativeHandle(ref, () => ({
     playButtonClick,
-    feedWaterButtonClick
+    feedButtonClick
   }));
 
   // ランダムな位置を計算する関数
@@ -210,7 +210,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
     });
   };
 
-  const feedWaterButtonClick = () => {
+  const feedButtonClick = () => {
     gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
     gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
   
@@ -384,7 +384,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
 
   useEffect(() => {
     if (showVesse) {
-      feedWaterButtonClick();
+      feedButtonClick();
     }
   }, [showVesse]);
 

@@ -19,7 +19,7 @@ import vesselImage from '../../public/容器.png';
 import ballImage from '../../public/ボール.png';
 
 interface DogAnimationHandle {
-  feedWaterButtonClick: () => void;
+  feedButtonClick: () => void;
   playButtonClick: () => void;
 }
 
@@ -50,7 +50,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
 
   useImperativeHandle(ref, () => ({
     playButtonClick,
-    feedWaterButtonClick
+    feedButtonClick
   }));
 
   // ランダムな位置を計算する関数
@@ -398,7 +398,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
     }
   };
 
-  const feedWaterButtonClick = () => {
+  const feedButtonClick = () => {
     if (!isSitting) {
     gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
     gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current]);
@@ -576,7 +576,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, { showVesse: boolean; setsho
 
   useEffect(() => {
     if (showVesse) {
-      feedWaterButtonClick();  
+      feedButtonClick();  
     }
   }, [showVesse]);
 
