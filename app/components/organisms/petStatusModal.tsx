@@ -39,7 +39,12 @@ const PetStatusModal: React.FC<PetStatusModalProps> = ({ open, onClose, petDetai
             <Typography>体力: {petDetails.physical}</Typography>
             <Typography>満腹度: {petDetails.satiety}</Typography>
             <Typography>幸福度: {petDetails.happiness}</Typography>
-            <Typography>ステータス: {petDetails.states}</Typography>
+            <Typography>
+              ステータス: 
+              {petDetails.states === 0 && "元気"}
+              {(petDetails.states & 1) !== 0 && "空腹"}
+              {(petDetails.states & 2) !== 0 && "不機嫌"}
+            </Typography>
             <Typography>子供の数: {petDetails.offspring_count}</Typography>
           </Box>
         )}

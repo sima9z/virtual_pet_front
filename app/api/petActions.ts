@@ -11,6 +11,13 @@ export const petAction = async (petType: 'dog' | 'cat',  petId: number, action: 
   });
 
   if (!response.ok) {
+    const errorData = await response.json();
+    if (errorData.error) {
+      alert(errorData.error); // ここでサーバーから返されたエラーメッセージを表示
+    } else {
+      alert(`Error performing ${action} action for ${petType}`);
+    }
     throw new Error(`Error performing ${action} action for ${petType}`);
   }
+  
 };
