@@ -112,7 +112,6 @@ export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFee
       if (petType && petDetails) {
         try {
           await petAction(petType, petDetails.id, action);
-          alert(`${action} action performed successfully for ${petType}`);
 
           // アクションが成功した後に最新のペット情報を取得して状態を更新
           const updatedPetInfo = await getPetDetails();
