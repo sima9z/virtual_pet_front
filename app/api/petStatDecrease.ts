@@ -1,8 +1,8 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const petPhysicalRecover = async (): Promise<void> => {
+export const petStatDecrease = async (): Promise<void> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/pet_physical_recover`, {
+    const response = await fetch(`${API_BASE_URL}/pet_stat_decrease`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -14,11 +14,11 @@ export const petPhysicalRecover = async (): Promise<void> => {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to recover pet physical');
+      throw new Error('Failed to decrease pet stats');
     }
 
-    console.log('Pet physical recovered successfully');
+    console.log('Pet stats decreased successfully');
   } catch (error) {
-    console.error('Error recovering pet physical:', error);
+    console.error('Error decreasing pet stats:', error);
   }
 };

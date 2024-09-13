@@ -1,12 +1,14 @@
 "use client";
 
 import React, {useState,useEffect,useRef} from 'react';
+
 // import DogRandomAnimation from '../components/dogRandomAnimation';
 import DogAnimation from '../components/DogAnimation';
 import CatAnimation from '../components/CatAnimation';
 
 import {getPetInfo} from '../api/getPetInfo'
 import {petPhysicalRecover} from '../api/petPhysicalRecover'
+import {petStatDecrease} from '../api/petStatDecrease'
 
 import BackgroundImage from "../components/atoms/BackgroundImage"
 import AnchorTemporaryDrawer from "../components/organisms/menu"
@@ -65,6 +67,10 @@ export default function Main() {
   const [showVesse, setshowVesse] = useState(false);
   const [showHearts, setShowHearts] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
+
+  // ページでインターバルを管理するためのステート
+  const [physicalRecoveryIntervalId, setPhysicalRecoveryIntervalId] = useState<number | NodeJS.Timeout | null>(null);
+  const [statDecreaseIntervalId, setStatDecreaseIntervalId] = useState<number | NodeJS.Timeout | null>(null);
 
   const dogActionRef = useRef<DogAnimationHandle>(null); //値が変更されてもコンポーネントが再レンダリングされない
   const catActionRef = useRef<CatAnimationHandle>(null); 
@@ -168,14 +174,23 @@ export default function Main() {
   }, [showBall]);
 
   useEffect(() => {
-    if (petType && petDetails) { // ログイン後にリクエストを送信
-      const intervalId = setInterval(() => {
-        petPhysicalRecover();
+    if (petType && petDetails) {
+      const physicalInterval = setInterval(() => {
+        petPhysicalRecover(); // 体力回復 (1分ごと)
       }, 60000);
+      setPhysicalRecoveryIntervalId(physicalInterval);
   
-      return () => clearInterval(intervalId); // クリーンアップ
+      const statDecreaseInterval = setInterval(() => {
+        petStatDecrease(); // 満腹度と幸福度の減少 (10分ごと)
+      }, 600000);
+      setStatDecreaseIntervalId(statDecreaseInterval);
+  
+      return () => {
+        clearInterval(physicalInterval);
+        clearInterval(statDecreaseInterval);
+      };
     }
-  }, [petType, petDetails]);
+  }, [petType, petDetails]); 
 
   return (
     <CacheProvider value={cache}>
@@ -190,6 +205,8 @@ export default function Main() {
               petDetails={petDetails} 
               setPetDetails={setPetDetails}
               setOffspringCount={setOffspringCount}
+              physicalRecoveryIntervalId={physicalRecoveryIntervalId}
+              statDecreaseIntervalId={statDecreaseIntervalId}
             >
             </AnchorTemporaryDrawer>
           </div>

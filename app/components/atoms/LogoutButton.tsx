@@ -7,12 +7,25 @@ import { useRouter } from 'next/navigation';
 
 const cache = createCache({ key: 'css', prepend: true });
 
-const LogoutButton = () => {
+interface LogoutButtonProps {
+  physicalRecoveryIntervalId: number | NodeJS.Timeout | null; 
+  statDecreaseIntervalId: number | NodeJS.Timeout | null; 
+}
+
+const LogoutButton = ({ physicalRecoveryIntervalId, statDecreaseIntervalId }:LogoutButtonProps) => {
   const [error, setError] = useState<string>('');
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
+      // インターバルをクリアする
+      if (physicalRecoveryIntervalId) {
+        clearInterval(physicalRecoveryIntervalId);
+      }
+      if (statDecreaseIntervalId) {
+        clearInterval(statDecreaseIntervalId);
+      }
+
       await logout();
       console.log('Logged out');
       router.push('/');

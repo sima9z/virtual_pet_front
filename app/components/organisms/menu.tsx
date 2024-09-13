@@ -28,6 +28,8 @@ interface AnchorTemporaryDrawerProps {
   onStroke: () => void;
   onPlay: () => void;
   setOffspringCount: React.Dispatch<React.SetStateAction<number>>;
+  physicalRecoveryIntervalId: number | NodeJS.Timeout | null; 
+  statDecreaseIntervalId: number | NodeJS.Timeout | null; 
 }
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
@@ -45,7 +47,7 @@ interface PetDetails {
   offspring_count: number;
 }
 
-export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFeed, onStroke, onPlay, setOffspringCount }: AnchorTemporaryDrawerProps & { 
+export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFeed, onStroke, onPlay, setOffspringCount, physicalRecoveryIntervalId, statDecreaseIntervalId }: AnchorTemporaryDrawerProps & { 
   petDetails: PetDetails | null; 
   setPetDetails: React.Dispatch<React.SetStateAction<PetDetails | null>>;
   setOffspringCount: React.Dispatch<React.SetStateAction<number>>; 
@@ -181,7 +183,9 @@ export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFee
             onClick={handleOpenModal}>
               ステータス
           </Button>
-          <LogoutButton />
+          <LogoutButton  
+            physicalRecoveryIntervalId={physicalRecoveryIntervalId}
+            statDecreaseIntervalId={statDecreaseIntervalId} />
         </List>
       </Box>
     );
