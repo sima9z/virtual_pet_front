@@ -20,6 +20,10 @@ import ballImage from '../../public/ボール.png';
 import yellowNoteImage from '../../public/音符（黄色）.png';
 import blueNoteImage from '../../public/音符（青）.png';
 
+import donyoriImage from '../../public/どんより1.png';
+import donyori2Image from '../../public/どんより2.png';
+import guruguruImage from '../../public/ぐるぐる.png';
+
 import SitCatImage from '../../public/猫.png';
 
 interface CatAnimationHandle {
@@ -28,8 +32,18 @@ interface CatAnimationHandle {
   playButtonClick: () => void;
 }
 
-const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; showNotes: boolean; setShowNotes:React.Dispatch<React.SetStateAction<boolean>>; showBall: boolean; setShowBall: React.Dispatch<React.SetStateAction<boolean>>; showHearts:boolean; setShowHearts:React.Dispatch<React.SetStateAction<boolean>> }>(
-  ({ showVesse, setshowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts}, ref) => {
+const CatAnimation= forwardRef<CatAnimationHandle, { 
+  showVesse: boolean; 
+  setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; 
+  showNotes: boolean; 
+  setShowNotes:React.Dispatch<React.SetStateAction<boolean>>; 
+  showBall: boolean; 
+  setShowBall: React.Dispatch<React.SetStateAction<boolean>>; 
+  showHearts:boolean; 
+  setShowHearts:React.Dispatch<React.SetStateAction<boolean>>;
+  petDetails: { states: number };
+}>(
+  ({ showVesse, setshowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref) => {
 
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
@@ -50,6 +64,9 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
   const ballRef = useRef<HTMLImageElement | null>(null);
   const yellowNoteRef = useRef<HTMLImageElement | null>(null);
   const blueNoteRef = useRef<HTMLImageElement | null>(null);
+  const donyoriRef = useRef<HTMLImageElement | null>(null);
+  const donyori2Ref = useRef<HTMLImageElement | null>(null);
+  const guruguruRef = useRef<HTMLImageElement | null>(null);
 
   const legAnims = useRef<gsap.core.Tween[]>([]);
   const beardRightAnim = useRef<gsap.core.Tween | null>(null);
@@ -59,6 +76,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
 
   const [isClickable, setIsClickable] = useState(true); // クリック可能状態を管理
   const [isSitting, setIsSitting] = useState(false);
+  const [currentAnimation, setCurrentAnimation] = useState<'normal' | 'unhappyOrHungry'>('normal');
 
   useImperativeHandle(ref, () => ({
     playButtonClick,
@@ -149,6 +167,83 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
       if (beardLeftAnim.current) beardLeftAnim.current.kill();
       if (headAnim.current) headAnim.current.kill();
       if (containerAnim.current) containerAnim.current.kill();
+    };
+  };
+
+  const startUnhappyOrHungryWalkingAnimation = () => {
+    const repeat = -1;
+    const yoyo = true;
+  
+    // 通常の歩行アニメーションよりゆっくりとした動きを追加
+    const legAnims = [
+      gsap.to(legBackLeftRef.current, {
+        rotation: 15, // 通常より小さな角度で動く
+        transformOrigin: 'top',
+        duration: 2.0, // 通常より遅い
+        repeat,
+        yoyo,
+        ease: 'power1.inOut',
+      }),
+      gsap.to(legBackRightRef.current, {
+        rotation: -15,
+        transformOrigin: 'top',
+        duration: 2.0,
+        repeat,
+        yoyo,
+        ease: 'power1.inOut',
+        delay: 0.6,
+      }),
+      gsap.to(legFrontLeftRef.current, {
+        rotation: 10,
+        transformOrigin: 'top',
+        duration: 2.0,
+        repeat,
+        yoyo,
+        ease: 'power1.inOut',
+        delay: 1.2,
+      }),
+      gsap.to(legFrontRightRef.current, {
+        rotation: -10,
+        transformOrigin: 'right',
+        duration: 2.0,
+        repeat,
+        yoyo,
+        ease: 'power1.inOut',
+        delay: 1.8,
+      }),
+    ];
+  
+    const beardAnim = [
+      gsap.to(beardRightRef.current, {
+      rotation: 10, // 軽く回転させる
+      transformOrigin: 'right', 
+      duration: 2.0,
+      repeat: -1,
+      yoyo: true,
+      ease: "power1.inOut", // 動きを滑らかにする
+    }),
+    gsap.to(beardLeftRef.current, {
+      rotation: -10, // 軽く回転させる
+      transformOrigin: 'left', 
+      duration: 2.0,
+      repeat: -1,
+      yoyo: true,
+      ease: "power1.inOut", // 動きを滑らかにする
+    })
+  ]
+  
+    // 他の体の動き
+    const headAnim = gsap.to([faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current], {
+      y: 2,
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+    });
+  
+    return () => {
+      legAnims.forEach(anim => anim.kill());
+      beardAnim.forEach(anim => anim.kill());
+      headAnim.kill();
     };
   };
 
@@ -450,6 +545,24 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
     }
   }, [showBall]);
 
+  useEffect(() => {
+    if (petDetails && (petDetails.states === 1 || petDetails.states === 2)) {
+      setCurrentAnimation('unhappyOrHungry');
+      startUnhappyOrHungryWalkingAnimation();
+    } else if (petDetails) {
+      setCurrentAnimation('normal');
+      startWalkingAnimation();
+    }
+  }, [petDetails]);
+
+  useEffect(() => {
+    if (currentAnimation === 'unhappyOrHungry') {
+      startUnhappyOrHungryWalkingAnimation();
+    } else {
+      startWalkingAnimation();
+    }
+  }, [currentAnimation]);
+
   return (
     <div className="cat-container relative w-[450px] h-[350px] mx-auto cursor-pointer z-50" ref={containerRef} onClick={() => handleContainerClick(containerRef)}>
       {!isSitting && (
@@ -572,6 +685,29 @@ const CatAnimation= forwardRef<CatAnimationHandle, { showVesse: boolean; setshow
             src={blueNoteImage}
             alt="blue-note"
             className="dog-part absolute top-[50px] left-[-30px] w-9"
+          />
+        </>
+      )}
+
+      { currentAnimation === 'unhappyOrHungry' && ( 
+        <>
+          <Image
+          ref={donyoriRef}
+          src={donyoriImage}
+          alt="donyori"
+          className="dog-part absolute top-[-20px] left-[0px] w-12"
+          />
+          <Image
+          ref={donyori2Ref}
+          src={donyori2Image}
+          alt="donyori2"
+          className="dog-part absolute top-[80px] left-[250px] w-9"
+          />
+          <Image
+          ref={guruguruRef}
+          src={guruguruImage}
+          alt="guruguru"
+          className="dog-part absolute top-[-20px] left-[270px] w-9"
           />
         </>
       )}
