@@ -1,6 +1,6 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const petAction = async (petType: 'dog' | 'cat',  petId: number, action: 'feed' | 'stroke' | 'play'): Promise<void> => {
+export const petAction = async (petType: 'dog' | 'cat',  petId: number, action: 'feed' | 'stroke' | 'play'): Promise<{ success: boolean, message: string }> => {
   try {
   const response = await fetch(`${API_BASE_URL}/${petType}s/${petId}/${action}`, { // 'dogs' or 'cats'
     method: 'POST',
@@ -15,15 +15,14 @@ export const petAction = async (petType: 'dog' | 'cat',  petId: number, action: 
 
   if (!response.ok) {
     if (responseData.error) {
-      // エラーメッセージが含まれている場合、それを表示
-      alert(responseData.error); // 例: '疲れているようです。休ませてあげましょう' など
+      // エラーメッセージが含まれている場合、それを返す
+      return { success: false, message: responseData.error };
     } else {
-      alert(`Error performing ${action} action for ${petType}`);
+      return { success: false, message: `Error performing ${action} action for ${petType}` };
     }
-    return;
   }
 
-  // 成功時のメッセージをアクションに応じて表示
+  // 成功時のメッセージをアクションに応じて設定
   let successMessage = '';
   if (action === 'feed') {
     successMessage = 'おいしそうにたべています';
@@ -33,11 +32,10 @@ export const petAction = async (petType: 'dog' | 'cat',  petId: number, action: 
     successMessage = 'ボールで楽しそうに遊んでいます';
   }
 
-  alert(successMessage);
+  return { success: true, message: successMessage };
 
 } catch (error) {
-  alert('An unexpected error occurred. Please try again.');
   console.error('Error performing action:', error);
+  return { success: false, message: 'An unexpected error occurred. Please try again.' };
 }
-  
 };
