@@ -177,35 +177,35 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
     // 通常の歩行アニメーションよりゆっくりとした動きを追加
     const legAnims = [
       gsap.to(legBackLeftRef.current, {
-        rotation: 15, // 通常より小さな角度で動く
+        rotation: 20, // 通常より小さな角度で動く
         transformOrigin: 'top',
-        duration: 2.0, // 通常より遅い
+        duration: 5.0, // 通常より遅い
         repeat,
         yoyo,
         ease: 'power1.inOut',
       }),
       gsap.to(legBackRightRef.current, {
-        rotation: -15,
+        rotation: -20,
         transformOrigin: 'top',
-        duration: 2.0,
+        duration: 5.0,
         repeat,
         yoyo,
         ease: 'power1.inOut',
         delay: 0.6,
       }),
       gsap.to(legFrontLeftRef.current, {
-        rotation: 10,
+        rotation: 15,
         transformOrigin: 'top',
-        duration: 2.0,
+        duration: 4.0,
         repeat,
         yoyo,
         ease: 'power1.inOut',
         delay: 1.2,
       }),
       gsap.to(legFrontRightRef.current, {
-        rotation: -10,
-        transformOrigin: 'right',
-        duration: 2.0,
+        rotation: -15,
+        transformOrigin: 'top',
+        duration: 4.0,
         repeat,
         yoyo,
         ease: 'power1.inOut',
@@ -217,7 +217,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
       gsap.to(beardRightRef.current, {
       rotation: 10, // 軽く回転させる
       transformOrigin: 'right', 
-      duration: 2.0,
+      duration: 5.0,
       repeat: -1,
       yoyo: true,
       ease: "power1.inOut", // 動きを滑らかにする
@@ -225,7 +225,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
     gsap.to(beardLeftRef.current, {
       rotation: -10, // 軽く回転させる
       transformOrigin: 'left', 
-      duration: 2.0,
+      duration: 5.0,
       repeat: -1,
       yoyo: true,
       ease: "power1.inOut", // 動きを滑らかにする
@@ -235,10 +235,12 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
     // 他の体の動き
     const headAnim = gsap.to([faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current], {
       y: 2,
-      duration: 2,
+      duration: 4,
       repeat: -1,
       yoyo: true,
     });
+
+    UnhappyOrHungryWalkingAnimation();
   
     return () => {
       legAnims.forEach(anim => anim.kill());
@@ -268,6 +270,32 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
             scaleX: directionRef.current,
             duration: 0.5, // 反転時のdurationを固定
             onComplete: animate // 次のアニメーションを呼び出す
+          });
+      },
+    });
+  };
+
+  const UnhappyOrHungryWalkingAnimation = () => {
+    if (!containerRef.current || isSitting) return;
+  
+    const containerWidth = containerRef.current.offsetWidth;
+    const viewportWidth = window.innerWidth;
+    const direction = directionRef.current;
+
+    const randomStartPosition = getRandomPosition(); // ランダムな初期位置を取得
+
+    gsap.killTweensOf(containerRef.current);
+  
+    containerAnim.current = gsap.to(containerRef.current, {
+      x: direction * randomStartPosition, // ランダムな初期位置から開始
+      duration: initialSpeed*5,
+      ease: 'linear',
+      onComplete: () => {
+        directionRef.current *= -1; // 方向を反転
+          gsap.to(containerRef.current, {
+            scaleX: directionRef.current,
+            duration: initialSpeed*7, // 反転時のdurationを固定
+            onComplete: UnhappyOrHungryWalkingAnimation // 次のアニメーションを呼び出す
           });
       },
     });
@@ -547,17 +575,15 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
 
   useEffect(() => {
     if (petDetails) {
-      if (petDetails.states === 1 || petDetails.states === 2) {
-        setCurrentAnimation('unhappyOrHungry');
+      const newAnimationState = (petDetails.states & 1 || petDetails.states & 2) ? 'unhappyOrHungry' : 'normal';
+
+      if (currentAnimation !== newAnimationState) {
+        setCurrentAnimation(newAnimationState);
         gsap.killTweensOf(containerRef.current); // 既存のアニメーションを停止
         startUnhappyOrHungryWalkingAnimation();
-      } else {
-        setCurrentAnimation('normal');
-        gsap.killTweensOf(containerRef.current); // 既存のアニメーションを停止
-        startWalkingAnimation();
       }
     }
-  }, [petDetails]);
+  }, [petDetails?.states]);
 
   useEffect(() => {
     if (currentAnimation === 'unhappyOrHungry') {
@@ -705,19 +731,19 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
           ref={donyoriRef}
           src={donyoriImage}
           alt="donyori"
-          className="dog-part absolute top-[-20px] left-[0px] w-12"
+          className="dog-part absolute top-[0px] left-[50px] w-12"
           />
           <Image
           ref={donyori2Ref}
           src={donyori2Image}
           alt="donyori2"
-          className="dog-part absolute top-[80px] left-[250px] w-9"
+          className="dog-part absolute top-[80px] left-[200px] w-9"
           />
           <Image
           ref={guruguruRef}
           src={guruguruImage}
           alt="guruguru"
-          className="dog-part absolute top-[-20px] left-[270px] w-9"
+          className="dog-part absolute top-[-20px] left-[200px] w-9"
           />
         </>
       )}
