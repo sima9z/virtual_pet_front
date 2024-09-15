@@ -159,35 +159,35 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
     // 通常の歩行アニメーションよりゆっくりとした動きを追加
     const legAnims = [
       gsap.to(legBackLeftRef.current, {
-        rotation: 15, // 通常より小さな角度で動く
+        rotation: 30, 
         transformOrigin: 'top',
-        duration: 2.0, // 通常より遅い
+        duration: 5.0, // 通常より遅い
         repeat,
         yoyo,
         ease: 'power1.inOut',
       }),
       gsap.to(legBackRightRef.current, {
-        rotation: -15,
+        rotation: -30,
         transformOrigin: 'top',
-        duration: 2.0,
+        duration: 5.0,
         repeat,
         yoyo,
         ease: 'power1.inOut',
         delay: 0.6,
       }),
       gsap.to(legFrontLeftRef.current, {
-        rotation: 10,
+        rotation: 20,
         transformOrigin: 'top',
-        duration: 2.0,
+        duration: 5.0,
         repeat,
         yoyo,
         ease: 'power1.inOut',
         delay: 1.2,
       }),
       gsap.to(legFrontRightRef.current, {
-        rotation: -10,
+        rotation: -20,
         transformOrigin: 'right',
-        duration: 2.0,
+        duration: 5.0,
         repeat,
         yoyo,
         ease: 'power1.inOut',
@@ -197,17 +197,17 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
   
     // 通常よりゆっくりとしたしっぽの動き
     const tailAnim = gsap.to(tailRef.current, {
-      rotation: 2,
+      rotation: 1,
       transformOrigin: 'bottom',
-      duration: 1.0,
+      duration: 3.0,
       repeat: -1,
       yoyo: true,
     });
   
     // 他の体の動き
     const headAnim = gsap.to([headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
-      y: 2,
-      duration: 2,
+      y: 0.5,
+      duration: 5,
       repeat: -1,
       yoyo: true,
     });
@@ -805,21 +805,49 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
   }, [showHearts]);
 
   useEffect(() => {
-    if (petDetails && (petDetails.states === 1 || petDetails.states === 2)) {
-      setCurrentAnimation('unhappyOrHungry');
-      startUnhappyOrHungryWalkingAnimation();
-    } else if (petDetails) {
-      setCurrentAnimation('normal');
-      startWalkingAnimation();
+    console.log("petDetails:", petDetails);
+    console.log("petDetails.states:", petDetails.states);
+
+    if (petDetails) {
+      const newAnimationState = (petDetails.states & 1 || petDetails.states & 2) ? 'unhappyOrHungry' : 'normal';
+      if (currentAnimation !== newAnimationState) {
+        setCurrentAnimation(newAnimationState);
+      }
     }
-  }, [petDetails]);
+  }, [petDetails?.states]); // `petDetails.states` の変化のみを監視
 
   useEffect(() => {
+    // 現在のアニメーションを停止
+    gsap.killTweensOf(containerRef.current);
+    gsap.killTweensOf([
+      legBackLeftRef.current, 
+      legBackRightRef.current, 
+      legFrontLeftRef.current, 
+      legFrontRightRef.current, 
+      tailRef.current, 
+      headFaceRef.current, 
+      headEyeRef.current, 
+      bodyRef.current, 
+      earRef.current, 
+      earRightRef.current, 
+      jawRef.current
+    ]);
+
+    console.log('currentAnimation:', currentAnimation);
+  
+    // アニメーションの状態に応じて新しいアニメーションを開始
     if (currentAnimation === 'unhappyOrHungry') {
+      console.log('unhappyOrHungry state is true');
       startUnhappyOrHungryWalkingAnimation();
     } else {
+      console.log('normal state is true');
       startWalkingAnimation();
     }
+  
+    // クリーンアップ
+    return () => {
+      gsap.killTweensOf(containerRef.current);
+    };
   }, [currentAnimation]);
 
   return (

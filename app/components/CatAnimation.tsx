@@ -546,21 +546,31 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
   }, [showBall]);
 
   useEffect(() => {
-    if (petDetails && (petDetails.states === 1 || petDetails.states === 2)) {
-      setCurrentAnimation('unhappyOrHungry');
-      startUnhappyOrHungryWalkingAnimation();
-    } else if (petDetails) {
-      setCurrentAnimation('normal');
-      startWalkingAnimation();
+    if (petDetails) {
+      if (petDetails.states === 1 || petDetails.states === 2) {
+        setCurrentAnimation('unhappyOrHungry');
+        gsap.killTweensOf(containerRef.current); // 既存のアニメーションを停止
+        startUnhappyOrHungryWalkingAnimation();
+      } else {
+        setCurrentAnimation('normal');
+        gsap.killTweensOf(containerRef.current); // 既存のアニメーションを停止
+        startWalkingAnimation();
+      }
     }
   }, [petDetails]);
 
   useEffect(() => {
     if (currentAnimation === 'unhappyOrHungry') {
+      // アニメーションを開始
       startUnhappyOrHungryWalkingAnimation();
     } else {
+      // 通常のアニメーションを開始
       startWalkingAnimation();
     }
+    // コンポーネントがアンマウントされる際にアニメーションを停止
+    return () => {
+      gsap.killTweensOf(containerRef.current);
+    };
   }, [currentAnimation]);
 
   return (
