@@ -303,10 +303,14 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
 
   useEffect(() => {
     if (!isSitting) {
-      // isSittingがfalseになり、画像が切り替わった後にstartWalkingAnimationを呼び出す
-      startWalkingAnimation();
+      // currentAnimation の状態に応じてアニメーションを開始
+      if (currentAnimation === 'unhappyOrHungry') {
+        startUnhappyOrHungryWalkingAnimation();
+      } else {
+        startWalkingAnimation();
+      }
     }
-  }, [isSitting]);
+  }, [isSitting, currentAnimation]);
 
   const handleContainerClick = (ref: React.RefObject<HTMLDivElement>) => {
     if (!isClickable) return; // クリック不可状態なら何もしない
@@ -332,8 +336,14 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
       ],
       transformOrigin: 'center',
       onComplete: () => {
-        // 元のアニメーションを再開
-        startWalkingAnimation();
+        // アニメーションの状態に応じて新しいアニメーションを開始
+        if (currentAnimation === 'unhappyOrHungry') {
+          console.log('unhappyOrHungry state is true');
+          startUnhappyOrHungryWalkingAnimation();
+        } else {
+          console.log('normal state is true');
+          startWalkingAnimation();
+        }
 
         setTimeout(() => setIsClickable(true), 2000); // 2秒後に再びクリック可能に
       }
@@ -506,7 +516,14 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
         setShowBall(false); // ボールの表示をリセット
         setShowHearts(false); // ハートの表示をリセット
   
-        startWalkingAnimation(); // 歩行アニメーションを再開
+        // アニメーションの状態に応じて新しいアニメーションを開始
+        if (currentAnimation === 'unhappyOrHungry') {
+          console.log('unhappyOrHungry state is true');
+          startUnhappyOrHungryWalkingAnimation();
+        } else {
+          console.log('normal state is true');
+          startWalkingAnimation();
+        }
       },
     });
 
