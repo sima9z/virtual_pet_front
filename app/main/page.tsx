@@ -181,7 +181,7 @@ export default function Main() {
       setPhysicalRecoveryIntervalId(physicalInterval);
   
       const statDecreaseInterval = setInterval(() => {
-        petStatDecrease(); // 満腹度と幸福度の減少 (10分ごと)
+        petStatDecrease(setPetDetails); // 満腹度と幸福度の減少 (10分ごと)
       }, 600000);
       setStatDecreaseIntervalId(statDecreaseInterval);
   
