@@ -94,73 +94,81 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
     const repeat = -1;
     const yoyo = true;
 
-    legAnims.current = [
-      gsap.to(legBackLeftRef.current, {
-        rotation: 30,
-        transformOrigin: 'top',
-        duration: 1.0,
-        repeat,
-        yoyo,
-        ease: 'power1.inOut',
-        delay: 0,
-      }),
-      gsap.to(legBackRightRef.current, {
-        rotation: -30,
-        transformOrigin: 'top',
-        duration: 1.0,
-        repeat,
-        yoyo,
-        ease: 'power1.inOut',
-        delay: 0.4,
-      }),
-      gsap.to(legFrontLeftRef.current, {
-        rotation: 30,
-        transformOrigin: 'top',
-        duration: 1.0,
-        repeat,
-        yoyo,
-        ease: 'power1.inOut',
-        delay: 0.8,
-      }),
-      gsap.to(legFrontRightRef.current, {
-        rotation: -30,
-        transformOrigin: 'top',
-        duration: 1.0,
-        repeat,
-        yoyo,
-        ease: 'power1.inOut',
-        delay: 1.2,
-      }),
-    ];
+    // すべての参照が存在するかをチェック
+    if (
+      legBackLeftRef.current && legBackRightRef.current &&
+      legFrontLeftRef.current && legFrontRightRef.current &&
+      beardRightRef.current && beardLeftRef.current &&
+      faceRef.current && bodyRef.current && earRef.current && tailRef.current
+    ) {
+      legAnims.current = [
+        gsap.to(legBackLeftRef.current, {
+          rotation: 30,
+          transformOrigin: 'top',
+          duration: 1.0,
+          repeat,
+          yoyo,
+          ease: 'power1.inOut',
+          delay: 0,
+        }),
+        gsap.to(legBackRightRef.current, {
+          rotation: -30,
+          transformOrigin: 'top',
+          duration: 1.0,
+          repeat,
+          yoyo,
+          ease: 'power1.inOut',
+          delay: 0.4,
+        }),
+        gsap.to(legFrontLeftRef.current, {
+          rotation: 30,
+          transformOrigin: 'top',
+          duration: 1.0,
+          repeat,
+          yoyo,
+          ease: 'power1.inOut',
+          delay: 0.8,
+        }),
+        gsap.to(legFrontRightRef.current, {
+          rotation: -30,
+          transformOrigin: 'top',
+          duration: 1.0,
+          repeat,
+          yoyo,
+          ease: 'power1.inOut',
+          delay: 1.2,
+        }),
+      ];
 
-    beardRightAnim.current = gsap.to(beardRightRef.current, {
-      rotation: 10, // 軽く回転させる
-      transformOrigin: 'right', 
-      duration: 0.5,
-      repeat: -1,
-      yoyo: true,
-      ease: "power1.inOut", // 動きを滑らかにする
-    });
+      beardRightAnim.current = gsap.to(beardRightRef.current, {
+        rotation: 10, // 軽く回転させる
+        transformOrigin: 'right', 
+        duration: 0.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut", // 動きを滑らかにする
+      });
 
-    beardLeftAnim.current = gsap.to(beardLeftRef.current, {
-      rotation: -10, // 軽く回転させる
-      transformOrigin: 'left', 
-      duration: 0.5,
-      repeat: -1,
-      yoyo: true,
-      ease: "power1.inOut", // 動きを滑らかにする
-    });
+      beardLeftAnim.current = gsap.to(beardLeftRef.current, {
+        rotation: -10, // 軽く回転させる
+        transformOrigin: 'left', 
+        duration: 0.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut", // 動きを滑らかにする
+      });
 
-    headAnim.current = gsap.to([faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current], {
-      y: 5,
-      duration: 1,
-      repeat: -1,
-      yoyo: true,
-    });
-    
-    // 初回のアニメーションを開始
-    animate();
-    
+      headAnim.current = gsap.to([faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current, beardLeftRef.current], {
+        y: 5,
+        duration: 1,
+        repeat: -1,
+        yoyo: true,
+      });
+      
+      // 初回のアニメーションを開始
+      animate();
+    }
+
     return () => {
       legAnims.current.forEach(anim => anim.kill());
       if (beardRightAnim.current) beardRightAnim.current.kill();
@@ -173,79 +181,87 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
   const startUnhappyOrHungryWalkingAnimation = () => {
     const repeat = -1;
     const yoyo = true;
-  
-    // 通常の歩行アニメーションよりゆっくりとした動きを追加
-    const legAnims = [
-      gsap.to(legBackLeftRef.current, {
-        rotation: 15, // 通常より小さな角度で動く
-        transformOrigin: 'top',
-        duration: 2.0, // 通常より遅い
-        repeat,
-        yoyo,
-        ease: 'power1.inOut',
-      }),
-      gsap.to(legBackRightRef.current, {
-        rotation: -15,
-        transformOrigin: 'top',
-        duration: 2.0,
-        repeat,
-        yoyo,
-        ease: 'power1.inOut',
-        delay: 0.6,
-      }),
-      gsap.to(legFrontLeftRef.current, {
-        rotation: 10,
-        transformOrigin: 'top',
-        duration: 2.0,
-        repeat,
-        yoyo,
-        ease: 'power1.inOut',
-        delay: 1.2,
-      }),
-      gsap.to(legFrontRightRef.current, {
-        rotation: -10,
-        transformOrigin: 'right',
-        duration: 2.0,
-        repeat,
-        yoyo,
-        ease: 'power1.inOut',
-        delay: 1.8,
-      }),
-    ];
-  
-    const beardAnim = [
-      gsap.to(beardRightRef.current, {
-      rotation: 10, // 軽く回転させる
-      transformOrigin: 'right', 
-      duration: 2.0,
-      repeat: -1,
-      yoyo: true,
-      ease: "power1.inOut", // 動きを滑らかにする
-    }),
-    gsap.to(beardLeftRef.current, {
-      rotation: -10, // 軽く回転させる
-      transformOrigin: 'left', 
-      duration: 2.0,
-      repeat: -1,
-      yoyo: true,
-      ease: "power1.inOut", // 動きを滑らかにする
-    })
-  ]
-  
-    // 他の体の動き
-    const headAnim = gsap.to([faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current], {
-      y: 2,
-      duration: 2,
-      repeat: -1,
-      yoyo: true,
-    });
-  
-    return () => {
-      legAnims.forEach(anim => anim.kill());
-      beardAnim.forEach(anim => anim.kill());
-      headAnim.kill();
+    
+    // すべての参照が存在するかをチェック
+    if (
+      legBackLeftRef.current && legBackRightRef.current &&
+      legFrontLeftRef.current && legFrontRightRef.current &&
+      beardRightRef.current && beardLeftRef.current &&
+      faceRef.current && bodyRef.current && earRef.current && tailRef.current
+    ) {
+      const legAnims = [
+        gsap.to(legBackLeftRef.current, {
+          rotation: 20, // 通常より小さな角度で動く
+          transformOrigin: 'top',
+          duration: 5.0, // 通常より遅い
+          repeat,
+          yoyo,
+          ease: 'power1.inOut',
+        }),
+        gsap.to(legBackRightRef.current, {
+          rotation: -20,
+          transformOrigin: 'top',
+          duration: 5.0,
+          repeat,
+          yoyo,
+          ease: 'power1.inOut',
+          delay: 0.6,
+        }),
+        gsap.to(legFrontLeftRef.current, {
+          rotation: 15,
+          transformOrigin: 'top',
+          duration: 4.0,
+          repeat,
+          yoyo,
+          ease: 'power1.inOut',
+          delay: 1.2,
+        }),
+        gsap.to(legFrontRightRef.current, {
+          rotation: -15,
+          transformOrigin: 'top',
+          duration: 4.0,
+          repeat,
+          yoyo,
+          ease: 'power1.inOut',
+          delay: 1.8,
+        }),
+      ];
+
+      const beardAnim = [
+        gsap.to(beardRightRef.current, {
+          rotation: 10, // 軽く回転させる
+          transformOrigin: 'right', 
+          duration: 5.0,
+          repeat: -1,
+          yoyo: true,
+          ease: "power1.inOut", // 動きを滑らかにする
+        }),
+        gsap.to(beardLeftRef.current, {
+          rotation: -10, // 軽く回転させる
+          transformOrigin: 'left', 
+          duration: 5.0,
+          repeat: -1,
+          yoyo: true,
+          ease: "power1.inOut", // 動きを滑らかにする
+        })
+      ];
+
+      headAnim.current = gsap.to([faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current, beardLeftRef.current], {
+        y: 2,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+      });
+
+      UnhappyOrHungryWalkingAnimation();
+
+      return () => {
+        legAnims.forEach(anim => anim.kill());
+        beardAnim.forEach(anim => anim.kill());
+        if (headAnim.current) headAnim.current.kill();
+      };
+    }
     };
-  };
 
   const animate = () => {
     if (!containerRef.current || isSitting) return;
@@ -273,12 +289,42 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
     });
   };
 
+  const UnhappyOrHungryWalkingAnimation = () => {
+    if (!containerRef.current || isSitting) return;
+  
+    const containerWidth = containerRef.current.offsetWidth;
+    const viewportWidth = window.innerWidth;
+    const direction = directionRef.current;
+
+    const randomStartPosition = getRandomPosition(); // ランダムな初期位置を取得
+
+    gsap.killTweensOf(containerRef.current);
+  
+    containerAnim.current = gsap.to(containerRef.current, {
+      x: direction * randomStartPosition, // ランダムな初期位置から開始
+      duration: initialSpeed*5,
+      ease: 'linear',
+      onComplete: () => {
+        directionRef.current *= -1; // 方向を反転
+          gsap.to(containerRef.current, {
+            scaleX: directionRef.current,
+            duration: initialSpeed*7, // 反転時のdurationを固定
+            onComplete: UnhappyOrHungryWalkingAnimation // 次のアニメーションを呼び出す
+          });
+      },
+    });
+  };
+
   useEffect(() => {
     if (!isSitting) {
-      // isSittingがfalseになり、画像が切り替わった後にstartWalkingAnimationを呼び出す
-      startWalkingAnimation();
+      // currentAnimation の状態に応じてアニメーションを開始
+      if (currentAnimation === 'unhappyOrHungry') {
+        startUnhappyOrHungryWalkingAnimation();
+      } else {
+        startWalkingAnimation();
+      }
     }
-  }, [isSitting]);
+  }, [isSitting, currentAnimation]);
 
   const handleContainerClick = (ref: React.RefObject<HTMLDivElement>) => {
     if (!isClickable) return; // クリック不可状態なら何もしない
@@ -304,8 +350,14 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
       ],
       transformOrigin: 'center',
       onComplete: () => {
-        // 元のアニメーションを再開
-        startWalkingAnimation();
+        // アニメーションの状態に応じて新しいアニメーションを開始
+        if (currentAnimation === 'unhappyOrHungry') {
+          console.log('unhappyOrHungry state is true');
+          startUnhappyOrHungryWalkingAnimation();
+        } else {
+          console.log('normal state is true');
+          startWalkingAnimation();
+        }
 
         setTimeout(() => setIsClickable(true), 2000); // 2秒後に再びクリック可能に
       }
@@ -478,7 +530,14 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
         setShowBall(false); // ボールの表示をリセット
         setShowHearts(false); // ハートの表示をリセット
   
-        startWalkingAnimation(); // 歩行アニメーションを再開
+        // アニメーションの状態に応じて新しいアニメーションを開始
+        if (currentAnimation === 'unhappyOrHungry') {
+          console.log('unhappyOrHungry state is true');
+          startUnhappyOrHungryWalkingAnimation();
+        } else {
+          console.log('normal state is true');
+          startWalkingAnimation();
+        }
       },
     });
 
@@ -546,21 +605,28 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
   }, [showBall]);
 
   useEffect(() => {
-    if (petDetails && (petDetails.states === 1 || petDetails.states === 2)) {
-      setCurrentAnimation('unhappyOrHungry');
-      startUnhappyOrHungryWalkingAnimation();
-    } else if (petDetails) {
-      setCurrentAnimation('normal');
-      startWalkingAnimation();
+    if (petDetails) {
+      const newAnimationState = (petDetails.states & 1 || petDetails.states & 2) ? 'unhappyOrHungry' : 'normal';
+
+      if (currentAnimation !== newAnimationState) {
+        setCurrentAnimation(newAnimationState);
+        gsap.killTweensOf(containerRef.current); // 既存のアニメーションを停止
+      }
     }
-  }, [petDetails]);
+  }, [petDetails?.states]);
 
   useEffect(() => {
     if (currentAnimation === 'unhappyOrHungry') {
+      // アニメーションを開始
       startUnhappyOrHungryWalkingAnimation();
     } else {
+      // 通常のアニメーションを開始
       startWalkingAnimation();
     }
+    // コンポーネントがアンマウントされる際にアニメーションを停止
+    return () => {
+      gsap.killTweensOf(containerRef.current);
+    };
   }, [currentAnimation]);
 
   return (
@@ -695,19 +761,19 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
           ref={donyoriRef}
           src={donyoriImage}
           alt="donyori"
-          className="dog-part absolute top-[-20px] left-[0px] w-12"
+          className="dog-part absolute top-[0px] left-[50px] w-12"
           />
           <Image
           ref={donyori2Ref}
           src={donyori2Image}
           alt="donyori2"
-          className="dog-part absolute top-[80px] left-[250px] w-9"
+          className="dog-part absolute top-[80px] left-[200px] w-9"
           />
           <Image
           ref={guruguruRef}
           src={guruguruImage}
           alt="guruguru"
-          className="dog-part absolute top-[-20px] left-[270px] w-9"
+          className="dog-part absolute top-[-20px] left-[200px] w-9"
           />
         </>
       )}

@@ -159,35 +159,35 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
     // 通常の歩行アニメーションよりゆっくりとした動きを追加
     const legAnims = [
       gsap.to(legBackLeftRef.current, {
-        rotation: 15, // 通常より小さな角度で動く
+        rotation: 30, 
         transformOrigin: 'top',
-        duration: 2.0, // 通常より遅い
+        duration: 5.0, // 通常より遅い
         repeat,
         yoyo,
         ease: 'power1.inOut',
       }),
       gsap.to(legBackRightRef.current, {
-        rotation: -15,
+        rotation: -30,
         transformOrigin: 'top',
-        duration: 2.0,
+        duration: 5.0,
         repeat,
         yoyo,
         ease: 'power1.inOut',
         delay: 0.6,
       }),
       gsap.to(legFrontLeftRef.current, {
-        rotation: 10,
+        rotation: 20,
         transformOrigin: 'top',
-        duration: 2.0,
+        duration: 5.0,
         repeat,
         yoyo,
         ease: 'power1.inOut',
         delay: 1.2,
       }),
       gsap.to(legFrontRightRef.current, {
-        rotation: -10,
+        rotation: -20,
         transformOrigin: 'right',
-        duration: 2.0,
+        duration: 5.0,
         repeat,
         yoyo,
         ease: 'power1.inOut',
@@ -197,20 +197,22 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
   
     // 通常よりゆっくりとしたしっぽの動き
     const tailAnim = gsap.to(tailRef.current, {
-      rotation: 2,
+      rotation: 1,
       transformOrigin: 'bottom',
-      duration: 1.0,
+      duration: 3.0,
       repeat: -1,
       yoyo: true,
     });
   
     // 他の体の動き
     const headAnim = gsap.to([headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
-      y: 2,
-      duration: 2,
+      y: 0.5,
+      duration: 5,
       repeat: -1,
       yoyo: true,
     });
+
+    UnhappyOrHungryWalkinganimate();
   
     return () => {
       legAnims.forEach(anim => anim.kill());
@@ -247,12 +249,44 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
     });
   };
 
+  const UnhappyOrHungryWalkinganimate = () => {
+    if (!containerRef.current || isSitting) return;
+
+    const containerWidth = containerRef.current.offsetWidth; //containerRefの幅
+    const viewportWidth = window.innerWidth;
+    const direction = directionRef.current;
+
+    const randomStartPosition = getRandomPosition(); // ランダムな初期位置を取得
+
+    gsap.killTweensOf(containerRef.current); // 既存のアニメーションを停止
+
+    gsap.to(containerRef.current, {
+      x: direction * randomStartPosition, // ランダムな初期位置から開始
+      duration: initialSpeed * 5, // 速度を遅くするためにdurationを増やす
+      ease: 'linear', //等速
+      onComplete: () => {
+        directionRef.current *= -1; // 方向を反転
+        requestAnimationFrame(() => { //パフォーマンス
+          gsap.to(containerRef.current, {
+            scaleX: directionRef.current, // 反転
+            duration: initialSpeed * 7,
+            onComplete:  UnhappyOrHungryWalkinganimate // 次のアニメーションを呼び出す
+          });
+        });
+      },
+    });
+  };
+
   useEffect(() => {
     if (!isSitting) {
-      const stopWalkingAnimation = startWalkingAnimation();
-      return stopWalkingAnimation;
+      // currentAnimation の状態に応じてアニメーションを開始
+      if (currentAnimation === 'unhappyOrHungry') {
+        startUnhappyOrHungryWalkingAnimation();
+      } else {
+        startWalkingAnimation();
+      }
     }
-  }, [isSitting]);
+  }, [isSitting, currentAnimation]);
 
   useEffect(() => {
     if (!isSitting) return;
@@ -276,7 +310,6 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
         setShowHearts(false);
         setShowNotes(false);
         setIsSitting(false);
-        startWalkingAnimation(); // 立ち上がった後に移動アニメーションを再開
       }
     });
 
@@ -483,7 +516,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
     return () => {
       tl.kill(); //クリーンアップ
     };
-  }, [isSitting]);
+  }, [isSitting, currentAnimation]);
 
   const handleClick = () => {
     if (!isSitting) {
@@ -589,7 +622,11 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
       // 3秒後に音符を消して歩行アニメーションを再開
       gsap.delayedCall(3, () => {
         setShowNotes(false); // 音符を非表示
-        startWalkingAnimation(); // 歩行アニメーションを再開
+        if (currentAnimation === 'unhappyOrHungry') {
+          startUnhappyOrHungryWalkingAnimation();
+        } else {
+          startWalkingAnimation();
+        } // 歩行アニメーションを再開
       });
     }
   };
@@ -671,7 +708,11 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
         heartTl.kill(); // ハートのアニメーションを停止
         setShowBall(false); // ボールの表示をリセット
         setShowHearts(false); // ハートの表示をリセット
-        startWalkingAnimation(); // 歩行アニメーションを再開
+        if (currentAnimation === 'unhappyOrHungry') {
+          startUnhappyOrHungryWalkingAnimation();
+        } else {
+          startWalkingAnimation();
+        }; // 歩行アニメーションを再開
       },
     });
 
@@ -805,21 +846,49 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
   }, [showHearts]);
 
   useEffect(() => {
-    if (petDetails && (petDetails.states === 1 || petDetails.states === 2)) {
-      setCurrentAnimation('unhappyOrHungry');
-      startUnhappyOrHungryWalkingAnimation();
-    } else if (petDetails) {
-      setCurrentAnimation('normal');
-      startWalkingAnimation();
+    console.log("petDetails:", petDetails);
+    console.log("petDetails.states:", petDetails.states);
+
+    if (petDetails) {
+      const newAnimationState = (petDetails.states & 1 || petDetails.states & 2) ? 'unhappyOrHungry' : 'normal';
+      if (currentAnimation !== newAnimationState) {
+        setCurrentAnimation(newAnimationState);
+      }
     }
-  }, [petDetails]);
+  }, [petDetails?.states]); // `petDetails.states` の変化のみを監視
 
   useEffect(() => {
+    // 現在のアニメーションを停止
+    gsap.killTweensOf(containerRef.current);
+    gsap.killTweensOf([
+      legBackLeftRef.current, 
+      legBackRightRef.current, 
+      legFrontLeftRef.current, 
+      legFrontRightRef.current, 
+      tailRef.current, 
+      headFaceRef.current, 
+      headEyeRef.current, 
+      bodyRef.current, 
+      earRef.current, 
+      earRightRef.current, 
+      jawRef.current
+    ]);
+
+    console.log('currentAnimation:', currentAnimation);
+  
+    // アニメーションの状態に応じて新しいアニメーションを開始
     if (currentAnimation === 'unhappyOrHungry') {
+      console.log('unhappyOrHungry state is true');
       startUnhappyOrHungryWalkingAnimation();
     } else {
+      console.log('normal state is true');
       startWalkingAnimation();
     }
+  
+    // クリーンアップ
+    return () => {
+      gsap.killTweensOf(containerRef.current);
+    };
   }, [currentAnimation]);
 
   return (
