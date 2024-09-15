@@ -279,10 +279,14 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
 
   useEffect(() => {
     if (!isSitting) {
-      const stopWalkingAnimation = startWalkingAnimation();
-      return stopWalkingAnimation;
+      // currentAnimation の状態に応じてアニメーションを開始
+      if (currentAnimation === 'unhappyOrHungry') {
+        startUnhappyOrHungryWalkingAnimation();
+      } else {
+        startWalkingAnimation();
+      }
     }
-  }, [isSitting]);
+  }, [isSitting, currentAnimation]);
 
   useEffect(() => {
     if (!isSitting) return;
@@ -306,7 +310,6 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
         setShowHearts(false);
         setShowNotes(false);
         setIsSitting(false);
-        startWalkingAnimation(); // 立ち上がった後に移動アニメーションを再開
       }
     });
 
@@ -513,7 +516,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
     return () => {
       tl.kill(); //クリーンアップ
     };
-  }, [isSitting]);
+  }, [isSitting, currentAnimation]);
 
   const handleClick = () => {
     if (!isSitting) {
@@ -619,7 +622,11 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
       // 3秒後に音符を消して歩行アニメーションを再開
       gsap.delayedCall(3, () => {
         setShowNotes(false); // 音符を非表示
-        startWalkingAnimation(); // 歩行アニメーションを再開
+        if (currentAnimation === 'unhappyOrHungry') {
+          startUnhappyOrHungryWalkingAnimation();
+        } else {
+          startWalkingAnimation();
+        } // 歩行アニメーションを再開
       });
     }
   };
@@ -701,7 +708,11 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
         heartTl.kill(); // ハートのアニメーションを停止
         setShowBall(false); // ボールの表示をリセット
         setShowHearts(false); // ハートの表示をリセット
-        startWalkingAnimation(); // 歩行アニメーションを再開
+        if (currentAnimation === 'unhappyOrHungry') {
+          startUnhappyOrHungryWalkingAnimation();
+        } else {
+          startWalkingAnimation();
+        }; // 歩行アニメーションを再開
       },
     });
 
