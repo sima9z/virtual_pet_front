@@ -33,10 +33,6 @@ export default function Login() {
 
   const router = useRouter();
 
-  const goToPreparation = () => {
-    router.push('/customize');
-  };
-
   return (
     <ThemeWrapper theme={mainTheme}>
       <Container style={{ padding: '0 2%' }}>

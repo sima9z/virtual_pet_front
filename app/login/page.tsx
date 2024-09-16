@@ -2,7 +2,9 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { TextField, Container, Box, Button, Typography, Link } from '@mui/material';
+import { TextField, Container, Box, Button, Typography } from '@mui/material';
+
+import NavigationLink from '../../components/atoms/NavigationLink';
 
 import { login } from '../../features/api/auth';
 import { checkPets } from '../../features/api/checkPets';
@@ -40,18 +42,6 @@ export default function Login() {
     }
   };
   
-  const goToPreparation = () => {
-    router.push('/customize');
-  };
-
-  const goToPreparation2 = () => {
-    router.push('/users/new');
-  };
-
-  const unimplementedAlert = () =>{
-    alert(`未実装です`);
-  }
-
   return (
     <ThemeWrapper theme={mainTheme}>
       <Container style={{ padding: '0 2%' }}>
@@ -83,16 +73,10 @@ export default function Login() {
           </form>
           {error && <Typography color="error">{error}</Typography>}
           <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem">
-            <Link href="#" color="secondary" underline="hover" onClick={unimplementedAlert}>
-              パスワードを忘れた場合
-            </Link>
+            <NavigationLink href="#" label="パスワードを忘れた場合" alertMessage="未実装です" />
             <Box display="flex" flexDirection="column" alignItems="flex-end" gap="10px">
-              <Link href="#" color="secondary" underline="hover" onClick={goToPreparation2}>
-                新規ユーザー登録
-              </Link>
-              <Link href="#" color="secondary" underline="hover" onClick={unimplementedAlert}>
-                ゲストでログインする
-              </Link>
+              <NavigationLink href="/users/new" label="新規ユーザー登録" />
+              <NavigationLink href="#" label="ゲストでログインする" alertMessage="未実装です" />
             </Box>
           </Box>
         </Box>

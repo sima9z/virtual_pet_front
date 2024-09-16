@@ -1,3 +1,5 @@
+import { ButtonProps } from '@mui/material/Button';
+
 export interface User {
   id: number;
   email: string;
@@ -19,6 +21,17 @@ export interface ErrorResponse {
 
 export interface BackgroundImageProps {
   src: string;
+}
+
+export interface NavigationLinkProps {
+  href: string;
+  label: string;
+  alertMessage?: string;
+  componentType?: 'link' | 'button';
+  variant?: 'text' | 'outlined' | 'contained';
+  color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'; // 'default'は削除
+  size?: 'small' | 'medium' | 'large';
+  sx?: ButtonProps['sx']; 
 }
 
 export interface LogoutButtonProps {
