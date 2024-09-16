@@ -1,4 +1,4 @@
-import { User, LoginResponse, LogoutResponse, ErrorResponse } from './types';
+import { User, LoginResponse, LogoutResponse, ErrorResponse } from '../../types/index';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
