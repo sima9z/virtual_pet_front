@@ -1,11 +1,13 @@
 import { logout } from '../../features/api/auth';
 import React, { useState } from 'react';
-import { Button, createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import { Button, CssBaseline, ThemeProvider } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { useRouter } from 'next/navigation';
 
 import { LogoutButtonProps } from '../../types/index'
+
+import { logoutButtonTheme } from '../../styles/theme'
 
 const cache = createCache({ key: 'css', prepend: true });
 
@@ -35,17 +37,9 @@ const LogoutButton = ({ physicalRecoveryIntervalId, statDecreaseIntervalId }:Log
     }
   };
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#f44336',
-      }
-    },
-  });
-
   return (  
     <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={logoutButtonTheme}>
         <CssBaseline />
         <Button onClick={handleLogout} variant="contained" color="primary" sx={{ color: 'white', fontSize: "24px" }}>
           ログアウト

@@ -2,11 +2,13 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CssBaseline, ThemeProvider, createTheme, Container, Box, TextField, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Button } from '@mui/material';
+import { CssBaseline, ThemeProvider, Container, Box, TextField, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Button } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { Typography } from '@mui/material';
 import Image from 'next/image';
+
+import { mainTheme } from '../../styles/theme'
 
 const cache = createCache({ key: 'css', prepend: true });
 
@@ -70,20 +72,9 @@ const Customize: React.FC = () => {
     }
   };
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#E8AFAF',
-      },
-      secondary: {
-        main: '#f8bbd0',
-      },
-    },
-  });
-
   return (
     <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={mainTheme}>
         <CssBaseline />
         <Container style={{ padding: '0 2%' }}>
           <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">

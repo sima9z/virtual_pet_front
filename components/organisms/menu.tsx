@@ -1,7 +1,7 @@
 "use client";
 import React, { useState,useEffect } from 'react';
 
-import { Button, CssBaseline, ThemeProvider, createTheme, Drawer, Box, List, ListItem } from '@mui/material';
+import { Button, CssBaseline, ThemeProvider, Drawer, Box, List, ListItem } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import LogoutButton from '../atoms/LogoutButton';
@@ -12,18 +12,9 @@ import { getPetInfo } from '../../features/api/getPetInfo';
 
 import { AnchorTemporaryDrawerProps, Anchor, PetDetails } from '../../types/index'
 
-const cache = createCache({ key: 'css', prepend: true });
+import { mainTheme } from '../../styles/theme'
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#E8AFAF',
-    },
-    secondary: {
-      main: '#f8bbd0',
-    },
-  },
-});
+const cache = createCache({ key: 'css', prepend: true });
 
 export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFeed, onStroke, onPlay, setOffspringCount, physicalRecoveryIntervalId, statDecreaseIntervalId }: AnchorTemporaryDrawerProps & { 
   petDetails: PetDetails | null; 
@@ -176,7 +167,7 @@ export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFee
 
   return(
     <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={mainTheme}>
         <CssBaseline />
             <React.Fragment>
               <Button

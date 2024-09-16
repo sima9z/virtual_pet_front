@@ -10,23 +10,14 @@ import React, {useState,useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { CssBaseline, createTheme, ThemeProvider,Box } from '@mui/material';
+import { CssBaseline, ThemeProvider,Box } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import Image from 'next/image';
 
-const cache = createCache({ key: 'css', prepend: true });
+import { subTheme } from '../../styles/theme'
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#AD8B8B',
-    },
-    secondary: {
-      main: '#FFE1E1',
-    },
-  },
-});
+const cache = createCache({ key: 'css', prepend: true });
 
 const isPWA = () => {
   return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
@@ -49,7 +40,7 @@ const NotPwaHeader = () => {
 
   return (
     <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={subTheme}>
         <CssBaseline />
         {!isStandalone && (
         <AppBar position="fixed" color="secondary" sx={{ top: 0, height: '7vh' }}>

@@ -2,27 +2,18 @@
 
 import React from 'react';
 
-import { CssBaseline, createTheme, ThemeProvider, Box, Typography } from '@mui/material';
+import { CssBaseline, ThemeProvider, Box, Typography } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 
-const cache = createCache({ key: 'css', prepend: true });
+import { subTheme } from '../../styles/theme'
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#AD8B8B',
-    },
-    secondary: {
-      main: '#FFE1E1',
-    },
-  },
-});
+const cache = createCache({ key: 'css', prepend: true });
 
 const Kiyaku = () => {
   return (
     <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={subTheme}>
         <CssBaseline />
         <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh" margin="0 20vh 0 20vh">
           <Typography variant="h3" margin="11vh" marginBottom="3vh">利用規約</Typography>

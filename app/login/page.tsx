@@ -9,6 +9,8 @@ import createCache from '@emotion/cache';
 import { login } from '../../features/api/auth';
 import { checkPets } from '../../features/api/checkPets';
 
+import { mainTheme } from '../../styles/theme'
+
 const cache = createCache({ key: 'css', prepend: true });
 
 export default function Login() {
@@ -53,20 +55,9 @@ export default function Login() {
     alert(`未実装です`);
   }
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#E8AFAF',
-      },
-      secondary: {
-        main: '#f8bbd0',
-      },
-    },
-  });
-
   return (
     <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={mainTheme}>
         <CssBaseline />
         <Container style={{ padding: '0 2%' }}>
           <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">

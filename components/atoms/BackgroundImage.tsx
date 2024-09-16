@@ -1,7 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
 
-const BackgroundImage = ( src: string ) => {
+import { BackgroundImageProps } from '../../types/index'
+
+const BackgroundImage: React.FC<BackgroundImageProps> = ({ src }) => {
   return (
     <div className="absolute top-0 left-0 w-full h-full z-[-1]">
       <Image

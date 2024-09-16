@@ -2,11 +2,13 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { TextField, CssBaseline, ThemeProvider, createTheme, Container, Box, Button, Typography } from '@mui/material';
+import { TextField, CssBaseline, ThemeProvider, Container, Box, Button, Typography } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 
 import { signup } from '../../../features/api/auth';
+
+import { mainTheme } from '../../../styles/theme'
 
 const cache = createCache({ key: 'css', prepend: true });
 
@@ -38,20 +40,9 @@ export default function Login() {
     router.push('/customize');
   };
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#E8AFAF',
-      },
-      secondary: {
-        main: '#f8bbd0',
-      },
-    },
-  });
-
   return (
     <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={mainTheme}>
         <CssBaseline />
         <Container style={{ padding: '0 2%' }}>
           <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">

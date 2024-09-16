@@ -2,12 +2,13 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { CssBaseline, ThemeProvider, createTheme, Container, Box } from '@mui/material';
+import { CssBaseline, ThemeProvider, Container, Box } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import Image from 'next/image';
 import { Button } from '@mui/material';
-import { blue } from '@mui/material/colors';
+
+import { mainTheme } from '../styles/theme'
 
 const cache = createCache({ key: 'css', prepend: true });
 
@@ -18,18 +19,9 @@ export default function Home() {
     router.push('/login');
   };
 
-const theme = createTheme({
-    palette: {
-      primary: blue,
-      secondary: {
-        main: '#f8bbd0',
-      },
-  },
-});
-
   return (
     <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={mainTheme}>
         <CssBaseline />
         <Container>
           <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">

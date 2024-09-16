@@ -1,10 +1,12 @@
 "use client";
 
-import React, {useState,useEffect,useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // import DogRandomAnimation from '../components/dogRandomAnimation';
 import DogAnimation from '../../components/animations/DogAnimation';
 import CatAnimation from '../../components/animations/CatAnimation';
+import PuppyDogAnimation from '../../components/animations/PuppyDogAnimation';
+import PuppyCatAnimation from '../../components/animations/PuppyCatAnimation';
 
 import { getPetInfo } from '../../features/api/getPetInfo'
 import { petPhysicalRecover } from '../../features/api/petPhysicalRecover'
@@ -13,27 +15,15 @@ import { petStatDecrease } from '../../features/api/petStatDecrease'
 import BackgroundImage from "../../components/atoms/BackgroundImage"
 import AnchorTemporaryDrawer from "../../components/organisms/menu"
 
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 
-import PuppyDogAnimation from '../../components/animations/PuppyDogAnimation';
-import PuppyCatAnimation from '../../components/animations/PuppyCatAnimation';
+import { AnimationHandle, PetDetails } from '../../types/index';
 
-import { DogAnimationHandle, CatAnimationHandle, PetDetails } from '../../types/index';
+import { mainTheme } from '../../styles/theme'
 
 const cache = createCache({ key: 'css', prepend: true });
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#E8AFAF',
-    },
-    secondary: {
-      main: '#f8bbd0',
-    },
-  },
-});
 
 export default function Main() {
   const [petType, setPetType] = useState<string | null>(null);
@@ -49,8 +39,8 @@ export default function Main() {
   const [physicalRecoveryIntervalId, setPhysicalRecoveryIntervalId] = useState<number | NodeJS.Timeout | null>(null);
   const [statDecreaseIntervalId, setStatDecreaseIntervalId] = useState<number | NodeJS.Timeout | null>(null);
 
-  const dogActionRef = useRef<DogAnimationHandle>(null); //値が変更されてもコンポーネントが再レンダリングされない
-  const catActionRef = useRef<CatAnimationHandle>(null); 
+  const dogActionRef = useRef<AnimationHandle>(null); //値が変更されてもコンポーネントが再レンダリングされない
+  const catActionRef = useRef<AnimationHandle>(null); 
 
   useEffect(() => {
     async function fetchPetInfo() {
@@ -171,7 +161,7 @@ export default function Main() {
 
   return (
     <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={mainTheme}>
         <CssBaseline />
         <div className="relative h-[93vh] overflow-hidden">
           <div className="absolute top-0 right-0 m-4">

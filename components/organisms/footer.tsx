@@ -5,22 +5,13 @@ import { useRouter } from 'next/navigation';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { CssBaseline, createTheme, ThemeProvider, Link, Box } from '@mui/material';
+import { CssBaseline, ThemeProvider, Link, Box } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 
-const cache = createCache({ key: 'css', prepend: true });
+import { subTheme } from '../../styles/theme'
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#AD8B8B',
-    },
-    secondary: {
-      main: '#FFE1E1',
-    },
-  },
-});
+const cache = createCache({ key: 'css', prepend: true });
 
 const Footer = () => {
   const router = useRouter();
@@ -37,7 +28,7 @@ const Footer = () => {
 
   return (
     <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={subTheme}>
         <CssBaseline />
         <AppBar position="fixed" color="secondary" sx={{ top: 'auto', bottom: 0, height: '7vh' }}>
           <Toolbar>

@@ -17,6 +17,10 @@ export interface ErrorResponse {
   errors?: string[]; // errorsプロパティも保持
 }
 
+export interface BackgroundImageProps {
+  src: string;
+}
+
 export interface LogoutButtonProps {
   physicalRecoveryIntervalId: number | NodeJS.Timeout | null; 
   statDecreaseIntervalId: number | NodeJS.Timeout | null; 
