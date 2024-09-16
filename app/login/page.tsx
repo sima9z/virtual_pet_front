@@ -1,46 +1,24 @@
 "use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React from 'react';
 import { TextField, Container, Box, Button, Typography } from '@mui/material';
 
 import NavigationLink from '../../components/atoms/NavigationLink';
 
-import { login } from '../../features/api/auth';
-import { checkPets } from '../../features/api/checkPets';
+import useLogin from '../../hooks/useLogin';
 
 import { mainTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
 
 export default function Login() {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string>('');
-
-  const router = useRouter();
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      const user = await login(email, password);
-      console.log('Logged in user:', user);
-
-      // ペットの存在をチェックするAPIを呼び出し
-      const data = await checkPets();
-      console.log('Pets exist:', data.pets_exist);
-      if (data.pets_exist) {
-        router.push('/main');
-      } else {
-        router.push('/customize');
-      }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('An unexpected error occurred');
-      }
-    }
-  };
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    error,
+    handleSubmit,
+  } = useLogin(); 
   
   return (
     <ThemeWrapper theme={mainTheme}>

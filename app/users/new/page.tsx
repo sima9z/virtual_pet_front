@@ -1,37 +1,25 @@
 "use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React from 'react';
 import { TextField, Container, Box, Button, Typography } from '@mui/material';
 
-import { signup } from '../../../features/api/auth';
+import useSignup from '../../../hooks/useSignup';
 
 import { mainTheme } from '../../../styles/theme'
 import ThemeWrapper from '../../../styles/ThemeWrapper';
 
-export default function Login() {
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
-  const [error, setError] = useState<string>('');
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      const user = await signup(name, email, password, passwordConfirmation);
-      console.log('Signed up user:', user);
-      router.push('/login');
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('An unexpected error occurred');
-      }
-    }
-  };
-
-  const router = useRouter();
+export default function Signup() {
+  const {
+    setName,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    passwordConfirmation,
+    setPasswordConfirmation,
+    error,
+    handleSubmit
+  } = useSignup(); 
 
   return (
     <ThemeWrapper theme={mainTheme}>
