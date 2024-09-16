@@ -2,17 +2,17 @@ import React, { forwardRef,useEffect, useRef, useState, useImperativeHandle } fr
 import gsap from 'gsap';
 import Image from 'next/image';
 
-import legImageBackRight from '../../public/ダックス奥後ろ足.png';
-import legImageFrontRight from '../../public/ダックス奥前足2.png';
-import legImageFrontLeft from '../../public/ダックス前足.png';
-import legImageBackLeft from '../../public/ダックス後ろ足.png';
-import tailImage from '../../public/ダックス尻尾.png';
-import headImageFace from '../../public/ダックス顔.png';
-import headImageEye from '../../public/ダックス目.png';
-import bodyImage from '../../public/ダックス胴体.png';
-import earImage from '../../public/ダックス耳.png';
-import earImageRight from '../../public/ダックス奥耳.png';
-import jawImage from '../../public/ダックス顎.png';
+import legImageBackRight from '../public/ダックス奥後ろ足.png';
+import legImageFrontRight from '../public/ダックス奥前足2.png';
+import legImageFrontLeft from '../public/ダックス前足.png';
+import legImageBackLeft from '../public/ダックス後ろ足.png';
+import tailImage from '../public/ダックス尻尾.png';
+import headImageFace from '../public/ダックス顔.png';
+import headImageEye from '../public/ダックス目.png';
+import bodyImage from '../public/ダックス胴体.png';
+import earImage from '../public/ダックス耳.png';
+import earImageRight from '../public/ダックス奥耳.png';
+import jawImage from '../public/ダックス顎.png';
 
 const PuppyDogAnimation = ()=>{
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);

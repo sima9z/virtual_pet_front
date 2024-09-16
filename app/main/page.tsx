@@ -3,22 +3,22 @@
 import React, {useState,useEffect,useRef} from 'react';
 
 // import DogRandomAnimation from '../components/dogRandomAnimation';
-import DogAnimation from '../components/DogAnimation';
-import CatAnimation from '../components/CatAnimation';
+import DogAnimation from '../../components/DogAnimation';
+import CatAnimation from '../../components/CatAnimation';
 
 import {getPetInfo} from '../api/getPetInfo'
 import {petPhysicalRecover} from '../api/petPhysicalRecover'
 import {petStatDecrease} from '../api/petStatDecrease'
 
-import BackgroundImage from "../components/atoms/BackgroundImage"
-import AnchorTemporaryDrawer from "../components/organisms/menu"
+import BackgroundImage from "../../components/atoms/BackgroundImage"
+import AnchorTemporaryDrawer from "../../components/organisms/menu"
 
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 
-import PuppyDogAnimation from '../components/PuppyDogAnimation';
-import PuppyCatAnimation from '../components/PuppyCatAnimation';
+import PuppyDogAnimation from '../../components/PuppyDogAnimation';
+import PuppyCatAnimation from '../../components/PuppyCatAnimation';
 
 const cache = createCache({ key: 'css', prepend: true });
 

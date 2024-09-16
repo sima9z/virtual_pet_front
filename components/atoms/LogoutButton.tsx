@@ -1,4 +1,4 @@
-import { logout } from '../../api/auth';
+import { logout } from '../../app/api/auth';
 import React, { useState } from 'react';
 import { Button, createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { CacheProvider } from '@emotion/react';

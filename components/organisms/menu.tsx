@@ -6,9 +6,9 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import LogoutButton from '../atoms/LogoutButton';
 import PetStatusModal from './petStatusModal';
-import { getPetDetails } from '../../api/getPetDetails';
-import { petAction } from '../../api/petActions';
-import { getPetInfo } from '../../api/getPetInfo';
+import { getPetDetails } from '../../app/api/getPetDetails';
+import { petAction } from '../../app/api/petActions';
+import { getPetInfo } from '../../app/api/getPetInfo';
 
 const cache = createCache({ key: 'css', prepend: true });
 
