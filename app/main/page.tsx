@@ -15,15 +15,10 @@ import { petStatDecrease } from '../../features/api/petStatDecrease'
 import BackgroundImage from "../../components/atoms/BackgroundImage"
 import AnchorTemporaryDrawer from "../../components/organisms/menu"
 
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
-
 import { AnimationHandle, PetDetails } from '../../types/index';
 
 import { mainTheme } from '../../styles/theme'
-
-const cache = createCache({ key: 'css', prepend: true });
+import ThemeWrapper from '../../styles/ThemeWrapper';
 
 export default function Main() {
   const [petType, setPetType] = useState<string | null>(null);
@@ -160,63 +155,60 @@ export default function Main() {
   }, [petType, petDetails]); 
 
   return (
-    <CacheProvider value={cache}>
-      <ThemeProvider theme={mainTheme}>
-        <CssBaseline />
-        <div className="relative h-[93vh] overflow-hidden">
-          <div className="absolute top-0 right-0 m-4">
-            <AnchorTemporaryDrawer 
-              onFeed={handleFeedAction}
-              onStroke={handleStrokeAction} 
-              onPlay={handlePlayAction}
-              petDetails={petDetails} 
-              setPetDetails={setPetDetails}
-              setOffspringCount={setOffspringCount}
-              physicalRecoveryIntervalId={physicalRecoveryIntervalId}
-              statDecreaseIntervalId={statDecreaseIntervalId}
-            >
-            </AnchorTemporaryDrawer>
-          </div>
-          {petType === 'dog' && (
+    <ThemeWrapper theme={mainTheme}>
+      <div className="relative h-[93vh] overflow-hidden">
+        <div className="absolute top-0 right-0 m-4">
+          <AnchorTemporaryDrawer 
+            onFeed={handleFeedAction}
+            onStroke={handleStrokeAction} 
+            onPlay={handlePlayAction}
+            petDetails={petDetails} 
+            setPetDetails={setPetDetails}
+            setOffspringCount={setOffspringCount}
+            physicalRecoveryIntervalId={physicalRecoveryIntervalId}
+            statDecreaseIntervalId={statDecreaseIntervalId}
+          >
+          </AnchorTemporaryDrawer>
+        </div>
+        {petType === 'dog' && (
+          <>
+            <div className="relative w-full h-full">
+              <div className="absolute inset-0 flex justify-center items-end">
+              {petDetails ? (
+                <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} petDetails={petDetails || { states: 0 }} />
+              ) : (
+                <div>Loading...</div> // データがロードされるまで表示される
+              )}
+              </div>
+              {Array.from({ length: offspringCount }).map((_, index) => (
+                <div key={index} className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 80px)' }}>
+                  <PuppyDogAnimation />
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+        <div className="flex justify-center items-end h-full w-full">
+          {petType === 'cat' && (
             <>
               <div className="relative w-full h-full">
-                <div className="absolute inset-0 flex justify-center items-end">
-                {petDetails ? (
-                  <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} petDetails={petDetails || { states: 0 }} />
-                ) : (
-                  <div>Loading...</div> // データがロードされるまで表示される
-                )}
+                <div className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 40px)' }}>
+                  <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} petDetails={petDetails || { states: 0 }}/>
                 </div>
                 {Array.from({ length: offspringCount }).map((_, index) => (
                   <div key={index} className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 80px)' }}>
-                    <PuppyDogAnimation />
+                    <PuppyCatAnimation key={index} />
                   </div>
                 ))}
               </div>
             </>
           )}
-          <div className="flex justify-center items-end h-full w-full">
-            {petType === 'cat' && (
-              <>
-                <div className="relative w-full h-full">
-                  <div className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 40px)' }}>
-                    <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} petDetails={petDetails || { states: 0 }}/>
-                  </div>
-                  {Array.from({ length: offspringCount }).map((_, index) => (
-                    <div key={index} className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 80px)' }}>
-                      <PuppyCatAnimation key={index} />
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-            
-            {petType === 'none' && <p>No pet found</p>}
+          
+          {petType === 'none' && <p>No pet found</p>}
 
-            <BackgroundImage src='/ばーちゃるぺっと背景.jpg' />
-          </div>
+          <BackgroundImage src='/ばーちゃるぺっと背景.jpg' />
         </div>
-      </ThemeProvider>
-    </CacheProvider>
+      </div>
+    </ThemeWrapper>
   );
 }

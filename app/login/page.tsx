@@ -2,16 +2,13 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { TextField, CssBaseline, ThemeProvider, createTheme, Container, Box, Button, Typography, Link } from '@mui/material';
-import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
+import { TextField, Container, Box, Button, Typography, Link } from '@mui/material';
 
 import { login } from '../../features/api/auth';
 import { checkPets } from '../../features/api/checkPets';
 
 import { mainTheme } from '../../styles/theme'
-
-const cache = createCache({ key: 'css', prepend: true });
+import ThemeWrapper from '../../styles/ThemeWrapper';
 
 export default function Login() {
   const [email, setEmail] = useState<string>('');
@@ -56,53 +53,50 @@ export default function Login() {
   }
 
   return (
-    <CacheProvider value={cache}>
-      <ThemeProvider theme={mainTheme}>
-        <CssBaseline />
-        <Container style={{ padding: '0 2%' }}>
-          <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">
-            <Typography variant="h3" marginBottom="50px">ログイン</Typography>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: "100%", maxWidth: "400px", gap: "30px" }}>
-              <TextField
-                label="Email"
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <TextField
-                label="Password"
-                type="password"
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <Button type="submit" variant="contained" color="secondary" sx={{ color: 'white', marginTop: '50px' }}>
-                ログイン
-              </Button>
-            </form>
-            {error && <Typography color="error">{error}</Typography>}
-            <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem">
-              <Link href="#" color="secondary" underline="hover" onClick={unimplementedAlert}>
-                パスワードを忘れた場合
+    <ThemeWrapper theme={mainTheme}>
+      <Container style={{ padding: '0 2%' }}>
+        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">
+          <Typography variant="h3" marginBottom="50px">ログイン</Typography>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: "100%", maxWidth: "400px", gap: "30px" }}>
+            <TextField
+              label="Email"
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <TextField
+              label="Password"
+              type="password"
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <Button type="submit" variant="contained" color="secondary" sx={{ color: 'white', marginTop: '50px' }}>
+              ログイン
+            </Button>
+          </form>
+          {error && <Typography color="error">{error}</Typography>}
+          <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem">
+            <Link href="#" color="secondary" underline="hover" onClick={unimplementedAlert}>
+              パスワードを忘れた場合
+            </Link>
+            <Box display="flex" flexDirection="column" alignItems="flex-end" gap="10px">
+              <Link href="#" color="secondary" underline="hover" onClick={goToPreparation2}>
+                新規ユーザー登録
               </Link>
-              <Box display="flex" flexDirection="column" alignItems="flex-end" gap="10px">
-                <Link href="#" color="secondary" underline="hover" onClick={goToPreparation2}>
-                  新規ユーザー登録
-                </Link>
-                <Link href="#" color="secondary" underline="hover" onClick={unimplementedAlert}>
-                  ゲストでログインする
-                </Link>
-              </Box>
+              <Link href="#" color="secondary" underline="hover" onClick={unimplementedAlert}>
+                ゲストでログインする
+              </Link>
             </Box>
           </Box>
-        </Container>
-      </ThemeProvider>
-    </CacheProvider>
+        </Box>
+      </Container>
+    </ThemeWrapper>
   );
 }

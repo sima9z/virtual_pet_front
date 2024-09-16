@@ -10,14 +10,11 @@ import React, {useState,useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { CssBaseline, ThemeProvider,Box } from '@mui/material';
-import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
+import { Box } from '@mui/material';
 import Image from 'next/image';
 
 import { subTheme } from '../../styles/theme'
-
-const cache = createCache({ key: 'css', prepend: true });
+import ThemeWrapper from '../../styles/ThemeWrapper';
 
 const isPWA = () => {
   return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
@@ -39,10 +36,8 @@ const NotPwaHeader = () => {
   }, []);
 
   return (
-    <CacheProvider value={cache}>
-      <ThemeProvider theme={subTheme}>
-        <CssBaseline />
-        {!isStandalone && (
+    <ThemeWrapper theme={subTheme}>
+      {!isStandalone && (
         <AppBar position="fixed" color="secondary" sx={{ top: 0, height: '7vh' }}>
           <Toolbar>
             <Box display="flex" justifyContent="flex-end" alignItems="center" width="100%">
@@ -60,9 +55,8 @@ const NotPwaHeader = () => {
             </Box>
           </Toolbar>
         </AppBar>
-        )}
-      </ThemeProvider>
-    </CacheProvider>
+      )}
+    </ThemeWrapper>
   );
 };
 
