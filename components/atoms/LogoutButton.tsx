@@ -5,12 +5,9 @@ import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { useRouter } from 'next/navigation';
 
-const cache = createCache({ key: 'css', prepend: true });
+import { LogoutButtonProps } from '../../types/index'
 
-interface LogoutButtonProps {
-  physicalRecoveryIntervalId: number | NodeJS.Timeout | null; 
-  statDecreaseIntervalId: number | NodeJS.Timeout | null; 
-}
+const cache = createCache({ key: 'css', prepend: true });
 
 const LogoutButton = ({ physicalRecoveryIntervalId, statDecreaseIntervalId }:LogoutButtonProps) => {
   const [error, setError] = useState<string>('');

@@ -1,17 +1,8 @@
+import { PetDetails } from '../../types/index';
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const getPetDetails = async (): Promise<{
-  id: number,
-  name: string;
-  breed: string;
-  level: number;
-  experience: number;
-  physical: number;
-  satiety: number;
-  happiness: number;
-  states: number;
-  offspring_count: number;
-}> => {
+export const getPetDetails = async (): Promise<PetDetails> => {
   const response = await fetch(`${API_BASE_URL}/pet_details`, {
     method: 'GET',
     headers: {

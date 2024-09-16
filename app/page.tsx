@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import { CssBaseline, ThemeProvider, createTheme, Container, Box } from '@mui/material';
 import { CacheProvider } from '@emotion/react';

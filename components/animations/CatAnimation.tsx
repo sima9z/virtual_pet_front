@@ -26,13 +26,9 @@ import guruguruImage from '../../public/ぐるぐる.png';
 
 import SitCatImage from '../../public/猫.png';
 
-interface CatAnimationHandle {
-  feedButtonClick: () => void;
-  strokeButtonClick: () => void;
-  playButtonClick: () => void;
-}
+import { AnimationHandle } from '../../types/index';
 
-const CatAnimation= forwardRef<CatAnimationHandle, { 
+const CatAnimation= forwardRef<AnimationHandle, { 
   showVesse: boolean; 
   setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; 
   showNotes: boolean; 

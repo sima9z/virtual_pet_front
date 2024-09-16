@@ -1,21 +1,7 @@
 import React from 'react';
 import { Box, Typography, Button, Modal } from '@mui/material';
 
-interface PetStatusModalProps {
-  open: boolean;
-  onClose: () => void;
-  petDetails: {
-    name:String;
-    breed: String;
-    level: number;
-    experience: number;
-    physical: number;
-    satiety: number;
-    happiness: number;
-    states:number;
-    offspring_count: number;
-  } | null;
-}
+import { PetStatusModalProps } from '../../types/index'
 
 const PetStatusModal: React.FC<PetStatusModalProps> = ({ open, onClose, petDetails }) => {
   return (

@@ -10,6 +10,8 @@ import { getPetDetails } from '../../features/api/getPetDetails';
 import { petAction } from '../../features/api/petActions';
 import { getPetInfo } from '../../features/api/getPetInfo';
 
+import { AnchorTemporaryDrawerProps, Anchor, PetDetails } from '../../types/index'
+
 const cache = createCache({ key: 'css', prepend: true });
 
 const theme = createTheme({
@@ -22,30 +24,6 @@ const theme = createTheme({
     },
   },
 });
-
-interface AnchorTemporaryDrawerProps {
-  onFeed: () => void;
-  onStroke: () => void;
-  onPlay: () => void;
-  setOffspringCount: React.Dispatch<React.SetStateAction<number>>;
-  physicalRecoveryIntervalId: number | NodeJS.Timeout | null; 
-  statDecreaseIntervalId: number | NodeJS.Timeout | null; 
-}
-
-type Anchor = 'top' | 'left' | 'bottom' | 'right';
-
-interface PetDetails {
-  id: number;
-  name: string;
-  breed: string;
-  level: number;
-  experience: number;
-  physical: number;
-  satiety: number;
-  happiness: number;
-  states: number;
-  offspring_count: number;
-}
 
 export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFeed, onStroke, onPlay, setOffspringCount, physicalRecoveryIntervalId, statDecreaseIntervalId }: AnchorTemporaryDrawerProps & { 
   petDetails: PetDetails | null; 

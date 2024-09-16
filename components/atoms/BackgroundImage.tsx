@@ -1,9 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-interface BackgroundImageProps {
-  src: string;
-}
+import { BackgroundImageProps } from '../../types/index'
 
 const BackgroundImage: React.FC<BackgroundImageProps> = ({ src }) => {
   return (

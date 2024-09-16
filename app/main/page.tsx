@@ -6,9 +6,9 @@ import React, {useState,useEffect,useRef} from 'react';
 import DogAnimation from '../../components/animations/DogAnimation';
 import CatAnimation from '../../components/animations/CatAnimation';
 
-import {getPetInfo} from '../../features/api/getPetInfo'
-import {petPhysicalRecover} from '../../features/api/petPhysicalRecover'
-import {petStatDecrease} from '../../features/api/petStatDecrease'
+import { getPetInfo } from '../../features/api/getPetInfo'
+import { petPhysicalRecover } from '../../features/api/petPhysicalRecover'
+import { petStatDecrease } from '../../features/api/petStatDecrease'
 
 import BackgroundImage from "../../components/atoms/BackgroundImage"
 import AnchorTemporaryDrawer from "../../components/organisms/menu"
@@ -19,6 +19,8 @@ import createCache from '@emotion/cache';
 
 import PuppyDogAnimation from '../../components/animations/PuppyDogAnimation';
 import PuppyCatAnimation from '../../components/animations/PuppyCatAnimation';
+
+import { DogAnimationHandle, CatAnimationHandle, PetDetails } from '../../types/index';
 
 const cache = createCache({ key: 'css', prepend: true });
 
@@ -32,31 +34,6 @@ const theme = createTheme({
     },
   },
 });
-
-interface DogAnimationHandle {
-  playButtonClick: () => void; //何も返さない→実行するだけで結果を期待しない
-  strokeButtonClick: () => void;
-  feedButtonClick: () => void;
-}
-
-interface CatAnimationHandle {
-  playButtonClick: () => void; //何も返さない→実行するだけで結果を期待しない
-  strokeButtonClick: () => void;
-  feedButtonClick: () => void;
-}
-
-interface PetDetails {
-  id: number;
-  name: string;
-  breed: string;
-  level: number;
-  experience: number;
-  physical: number;
-  satiety: number;
-  happiness: number;
-  states: number;
-  offspring_count: number;
-}
 
 export default function Main() {
   const [petType, setPetType] = useState<string | null>(null);

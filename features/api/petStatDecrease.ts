@@ -1,19 +1,7 @@
 import { getPetDetails } from './getPetDetails';
+import { PetDetails } from '../../types/index';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-interface PetDetails {
-  id: number;
-  name: string;
-  breed: string;
-  level: number;
-  experience: number;
-  physical: number;
-  satiety: number;
-  happiness: number;
-  states: number;
-  offspring_count: number;
-}
 
 export const petStatDecrease = async (setPetDetails: React.Dispatch<React.SetStateAction<PetDetails | null>>): Promise<void> => {
   try {
