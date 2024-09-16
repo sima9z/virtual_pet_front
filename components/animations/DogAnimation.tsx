@@ -25,15 +25,11 @@ import donyoriImage from '../../public/どんより1.png';
 import donyori2Image from '../../public/どんより2.png';
 import guruguruImage from '../../public/ぐるぐる.png';
 
-interface DogAnimationHandle {
-  feedButtonClick: () => void;
-  strokeButtonClick: () => void;
-  playButtonClick: () => void;
-}
+import { AnimationHandle } from '../../types/index';
 
-const DogAnimation = forwardRef<DogAnimationHandle, { 
+const DogAnimation = forwardRef<AnimationHandle, { 
   showVesse: boolean; 
-  setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; 
+  setShowVesse: React.Dispatch<React.SetStateAction<boolean>>; 
   showNotes: boolean; 
   setShowNotes:React.Dispatch<React.SetStateAction<boolean>>; 
   showBall: boolean; 
@@ -42,7 +38,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
   setShowHearts:React.Dispatch<React.SetStateAction<boolean>> 
   petDetails: { states: number };
 }>(
-  ({ showVesse, setshowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref) => {
+  ({ showVesse, setShowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref) => {
 
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
@@ -306,7 +302,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
 
     const tl = gsap.timeline({
       onComplete: () => {
-        setshowVesse(false);
+        setShowVesse(false);
         setShowHearts(false);
         setShowNotes(false);
         setIsSitting(false);
@@ -539,7 +535,7 @@ const DogAnimation = forwardRef<DogAnimationHandle, {
       scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
     });
     
-    setshowVesse(true);
+    setShowVesse(true);
     setShowHearts(true);
     setIsSitting(true);
       

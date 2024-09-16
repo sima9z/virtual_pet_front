@@ -26,15 +26,11 @@ import guruguruImage from '../../public/ぐるぐる.png';
 
 import SitCatImage from '../../public/猫.png';
 
-interface CatAnimationHandle {
-  feedButtonClick: () => void;
-  strokeButtonClick: () => void;
-  playButtonClick: () => void;
-}
+import { AnimationHandle } from '../../types/index';
 
-const CatAnimation= forwardRef<CatAnimationHandle, { 
+const CatAnimation= forwardRef<AnimationHandle, { 
   showVesse: boolean; 
-  setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; 
+  setShowVesse: React.Dispatch<React.SetStateAction<boolean>>; 
   showNotes: boolean; 
   setShowNotes:React.Dispatch<React.SetStateAction<boolean>>; 
   showBall: boolean; 
@@ -43,7 +39,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
   setShowHearts:React.Dispatch<React.SetStateAction<boolean>>;
   petDetails: { states: number };
 }>(
-  ({ showVesse, setshowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref) => {
+  ({ showVesse, setShowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref) => {
 
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
@@ -369,7 +365,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
     gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
   
     setIsSitting(true);
-    setshowVesse(true);
+    setShowVesse(true);
     setShowHearts(true);
     
     if (heartRef.current && heartRef2.current) {
@@ -403,7 +399,7 @@ const CatAnimation= forwardRef<CatAnimationHandle, {
       // 3秒後に状態をリセットし、アニメーションを再開
       gsap.delayedCall(3, () => {
         heartTl.kill();
-        setshowVesse(false);
+        setShowVesse(false);
         setShowHearts(false);
         setIsSitting(false); // isSitting を false に設定して立ち上がる
       }

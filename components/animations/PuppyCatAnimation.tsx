@@ -13,7 +13,7 @@ import earImage from '../../public/三毛猫耳.png';
 import beardImageRight from '../../public/三毛猫右ひげ.png';
 import beardImageLeft from '../../public/三毛猫左ひげ.png';
 
-const PuppyCatAnimation= ()=>{
+const PuppyCatAnimation= () => {
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
   const legFrontLeftRef = useRef<HTMLImageElement | null>(null);

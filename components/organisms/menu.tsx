@@ -1,51 +1,17 @@
 "use client";
 import React, { useState,useEffect } from 'react';
 
-import { Button, CssBaseline, ThemeProvider, createTheme, Drawer, Box, List, ListItem } from '@mui/material';
-import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
+import { Button, Drawer, Box, List, ListItem } from '@mui/material';
 import LogoutButton from '../atoms/LogoutButton';
 import PetStatusModal from './petStatusModal';
 import { getPetDetails } from '../../features/api/getPetDetails';
 import { petAction } from '../../features/api/petActions';
 import { getPetInfo } from '../../features/api/getPetInfo';
 
-const cache = createCache({ key: 'css', prepend: true });
+import { AnchorTemporaryDrawerProps, Anchor, PetDetails } from '../../types/index'
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#E8AFAF',
-    },
-    secondary: {
-      main: '#f8bbd0',
-    },
-  },
-});
-
-interface AnchorTemporaryDrawerProps {
-  onFeed: () => void;
-  onStroke: () => void;
-  onPlay: () => void;
-  setOffspringCount: React.Dispatch<React.SetStateAction<number>>;
-  physicalRecoveryIntervalId: number | NodeJS.Timeout | null; 
-  statDecreaseIntervalId: number | NodeJS.Timeout | null; 
-}
-
-type Anchor = 'top' | 'left' | 'bottom' | 'right';
-
-interface PetDetails {
-  id: number;
-  name: string;
-  breed: string;
-  level: number;
-  experience: number;
-  physical: number;
-  satiety: number;
-  happiness: number;
-  states: number;
-  offspring_count: number;
-}
+import { mainTheme } from '../../styles/theme'
+import ThemeWrapper from '../../styles/ThemeWrapper';
 
 export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFeed, onStroke, onPlay, setOffspringCount, physicalRecoveryIntervalId, statDecreaseIntervalId }: AnchorTemporaryDrawerProps & { 
   petDetails: PetDetails | null; 
@@ -197,33 +163,30 @@ export default function AnchorTemporaryDrawer({ petDetails, setPetDetails, onFee
     );
 
   return(
-    <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-            <React.Fragment>
-              <Button
-                onClick={toggleDrawer("top", true)}
-                variant="contained"
-                color="secondary"
-                sx={{ color: 'white', marginTop:"7vh", fontWeight:"bold", fontSize:"24px", zIndex: 1000  }}>
-                  menu
-              </Button>
-              <Drawer
-                anchor="top"
-                open={state["top"]}
-                onClose={toggleDrawer("top", false)}
-                sx={{ zIndex: 1000 }}
-              >
-                {list("top")}
-              </Drawer>
-              <PetStatusModal
-                open={openModal}
-                onClose={handleCloseModal}
-                petDetails={petDetails}
-              />
-            </React.Fragment>
-      </ThemeProvider>
-    </CacheProvider>
+    <ThemeWrapper theme={mainTheme}>
+      <React.Fragment>
+        <Button
+          onClick={toggleDrawer("top", true)}
+          variant="contained"
+          color="secondary"
+          sx={{ color: 'white', marginTop:"7vh", fontWeight:"bold", fontSize:"24px", zIndex: 1000  }}>
+            menu
+        </Button>
+        <Drawer
+          anchor="top"
+          open={state["top"]}
+          onClose={toggleDrawer("top", false)}
+          sx={{ zIndex: 1000 }}
+        >
+          {list("top")}
+        </Drawer>
+        <PetStatusModal
+          open={openModal}
+          onClose={handleCloseModal}
+          petDetails={petDetails}
+        />
+      </React.Fragment>
+    </ThemeWrapper>
   )
 
 }
