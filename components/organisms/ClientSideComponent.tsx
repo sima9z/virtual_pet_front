@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import usePwaStatus from './hooks/usePwaStatus';
-import NotPwaHeader from './organisms/notPwaHeader';
+import usePwaStatus from '../../hooks/usePwaStatus';
+import NotPwaHeader from './notPwaHeader';
 
 const ClientSideComponent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const isPwa = usePwaStatus();

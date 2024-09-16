@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import gsap from 'gsap';
+import Image from 'next/image';
+
 import legImageBackRight from '../../public/ダックス奥後ろ足.png';
 import legImageFrontRight from '../../public/ダックス奥前足2.png';
 import legImageFrontLeft from '../../public/ダックス前足.png';
@@ -13,12 +14,7 @@ import earImage from '../../public/ダックス耳.png';
 import earImageRight from '../../public/ダックス奥耳.png';
 import jawImage from '../../public/ダックス顎.png';
 
-interface DogSitAnimationProps {
-  onComplete: () => void;
-  position: { x: number; y: number };
-}
-
-const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position }) => {
+const PuppyDogAnimation = ()=>{
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
   const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
@@ -32,12 +28,144 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
   const jawRef = useRef<HTMLImageElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+  const initialSpeed = 3; // 初期速度を設定
+  const directionRef = useRef(1); // 移動方向を保持する
+
+  const [isSitting, setIsSitting] = useState(false);
+
+  // ランダムな位置を計算する関数
+  const getRandomPosition = () => {
+    const viewportWidth = window.innerWidth;
+    return Math.random() * -(viewportWidth - viewportWidth / 2);
+  };
+
+  const startWalkingAnimation = () => {
+    const repeat = -1;
+    const yoyo = true;
+
+    const legAnims = [
+      gsap.to(legBackLeftRef.current, {
+        rotation: 30,
+        transformOrigin: 'top',
+        duration: 1.0,
+        repeat,
+        yoyo,
+        ease: 'power1.inOut',
+        delay: 0, //待機時間
+      }),
+      gsap.to(legBackRightRef.current, {
+        rotation: -30,
+        transformOrigin: 'top',
+        duration: 1.0,
+        repeat,
+        yoyo,
+        ease: 'power1.inOut',
+        delay: 0.6,
+      }),
+      gsap.to(legFrontLeftRef.current, {
+        rotation: 20,
+        transformOrigin: 'top',
+        duration: 1.0,
+        repeat,
+        yoyo,
+        ease: 'power1.inOut',
+        delay: 1.2,
+      }),
+      gsap.to(legFrontRightRef.current, {
+        rotation: -20,
+        transformOrigin: 'right',
+        duration: 1.0,
+        repeat,
+        yoyo,
+        ease: 'power1.inOut',
+        delay: 1.8,
+      }),
+    ];
+
+    const tailAnim = gsap.to(tailRef.current, {
+      rotation: 5,
+      transformOrigin: 'bottom',
+      duration: 0.5,
+      repeat: -1,
+      yoyo: true,
+    });
+
+    const headAnim = gsap.to([headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
+      y: 5,
+      duration: 1,
+      repeat: -1,
+      yoyo: true,
+    });
+
+    // 初回のアニメーションを開始
+    animate();
+
+    return () => {
+      legAnims.forEach(anim => anim.kill());
+      tailAnim.kill();
+      headAnim.kill();
+    };
+  };
+
+  const animate = () => {
+    if (!containerRef.current || isSitting) return;
+
+    const direction = directionRef.current;
+
+    const randomStartPosition = getRandomPosition(); // ランダムな初期位置を取得
+
+    gsap.killTweensOf(containerRef.current); // 既存のアニメーションを停止
+
+    gsap.to(containerRef.current, {
+      x: direction * randomStartPosition, // ランダムな初期位置から開始
+      duration: initialSpeed,
+      ease: 'linear', //等速
+      onComplete: () => {
+        directionRef.current *= -1; // 方向を反転
+        const currentScale = parseFloat(gsap.getProperty(containerRef.current, "scaleX").toString()); // 現在のスケールを数値に変換
+        requestAnimationFrame(() => { //パフォーマンス
+          gsap.to(containerRef.current, {
+            scaleX: directionRef.current * Math.abs(currentScale), // 現在のスケールに方向を掛けて反転
+            duration: 0.5, // 反転時のdurationを固定
+            onComplete: animate // 次のアニメーションを呼び出す
+          });
+        });
+      },
+    });
+  };
+
   useEffect(() => {
     if (containerRef.current) {
-      gsap.set(containerRef.current, { x: position.x, y: position.y });
+      const randomStartPosition = getRandomPosition(); // ランダムな初期位置を取得
+      gsap.set(containerRef.current, { x: randomStartPosition }); // 初期位置を設定
     }
 
-    const tl = gsap.timeline({ onComplete });
+    startWalkingAnimation(); // 歩行アニメーションを開始
+  }, []);
+
+  useEffect(() => {
+    startWalkingAnimation(); // 歩行アニメーションを開始
+  }, [isSitting]);
+
+  useEffect(() => {
+    if (!isSitting) return;
+
+    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current]);
+  
+    // 足と体の状態をリセット
+    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
+      rotation: 0,
+      x: 0,
+      y: 0,
+    });
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setIsSitting(false);
+        startWalkingAnimation(); // 立ち上がった後に移動アニメーションを再開
+      }
+    });
 
     // 座るアニメーション
     tl.to(headFaceRef.current, {
@@ -76,7 +204,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         rotation: 10,
         transformOrigin: 'top',
         duration: 1.0,
-        ease: 'power1.out',
+        ease: 'power3.out',
       },
       '<'
     );
@@ -88,7 +216,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         rotation: 70,
         transformOrigin: 'top',
         duration: 1.0,
-        ease: 'power1.out',
+        ease: 'power3.out',
       },
       '<'
     );
@@ -100,7 +228,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         rotation: 30,
         transformOrigin: 'top',
         duration: 1.0,
-        ease: 'power1.out',
+        ease: 'power3.out',
       },
       '<'
     );
@@ -112,7 +240,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         rotation: -40,
         transformOrigin: 'top',
         duration: 1.0,
-        ease: 'power1.out',
+        ease: 'power3.out',
       },
       '<'
     );
@@ -124,7 +252,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         rotation: -40,
         transformOrigin: 'top',
         duration: 1.0,
-        ease: 'power1.out',
+        ease: 'power3.out',
       },
       '<'
     );
@@ -134,7 +262,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         rotation: 30,
         transformOrigin: 'top',
         duration: 1.0,
-        ease: 'power1.out',
+        ease: 'power3.out',
       },
       '<'
     );
@@ -144,7 +272,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
       rotation: 0,
       transformOrigin: 'top',
       duration: 1.5,
-      ease: 'power1.in',
+      ease: 'power3.in',
     });
     tl.to(
       legFrontRightRef.current,
@@ -154,7 +282,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         rotation: 0,
         transformOrigin: 'top',
         duration: 1.5,
-        ease: 'power1.in',
+        ease: 'power3.in',
       },
       '<'
     );
@@ -166,7 +294,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         rotation: 0,
         transformOrigin: 'top',
         duration: 1.5,
-        ease: 'power1.in',
+        ease: 'power3.in',
       },
       '<'
     );
@@ -178,7 +306,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         rotation: 0,
         transformOrigin: 'top',
         duration: 1.5,
-        ease: 'power1.in',
+        ease: 'power3.in',
       },
       '<'
     );
@@ -190,7 +318,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         rotation: 0,
         transformOrigin: 'top',
         duration: 1.5,
-        ease: 'power1.in',
+        ease: 'power3.in',
       },
       '<'
     );
@@ -202,7 +330,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         rotation: 0,
         transformOrigin: 'top',
         duration: 1.5,
-        ease: 'power1.in',
+        ease: 'power3.in',
       },
       '<'
     );
@@ -213,7 +341,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         y: 0,
         rotation: 0,
         transformOrigin: 'bottom',
-        duration: 2.0,
+        duration: 3.1,
       },
       '<'
     );
@@ -224,7 +352,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         y: 0,
         rotation: 0,
         transformOrigin: 'top',
-        duration: 2.0,
+        duration: 3.1,
       },
       '<'
     );
@@ -234,18 +362,24 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         y: 0,
         rotation: 0,
         transformOrigin: 'bottom',
-        duration: 2.0,
+        duration: 3.1,
       },
       '<'
     );
 
     return () => {
-      tl.kill();
+      tl.kill(); //クリーンアップ
     };
-  }, [onComplete, position]);
+  }, [isSitting]);
+
+  const handleClick = () => {
+    if (!isSitting) {
+      setIsSitting(true);
+    }
+  };
 
   return (
-    <div className="dog-container relative w-[450px] h-[350px] mx-auto" ref={containerRef}>
+    <div className="dog-container relative w-[450px] h-[350px] mx-auto cursor-pointer" ref={containerRef} onClick={handleClick} style={{ transform: 'scale(0.5)' }}>
       <Image
         ref={legBackLeftRef}
         src={legImageBackLeft}
@@ -268,7 +402,7 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
         ref={legFrontRightRef}
         src={legImageFrontRight}
         alt="Front Right Leg"
-        className="dog-part absolute top-[130px] left-[0px]"
+        className="dog-part absolute top-[120px] left-[10px]"
       />
       <Image
         ref={tailRef}
@@ -314,6 +448,8 @@ const DogSitAnimation: React.FC<DogSitAnimationProps> = ({ onComplete, position 
       />
     </div>
   );
-};
+}
 
-export default DogSitAnimation;
+PuppyDogAnimation.displayName = 'PuppyDogAnimation';
+
+export default PuppyDogAnimation;
