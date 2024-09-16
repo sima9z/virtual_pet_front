@@ -1,4 +1,4 @@
-import React, { forwardRef,useEffect, useRef, useState, useImperativeHandle } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import Image from 'next/image';
 

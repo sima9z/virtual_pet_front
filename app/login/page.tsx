@@ -6,8 +6,8 @@ import { TextField, CssBaseline, ThemeProvider, createTheme, Container, Box, But
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 
-import { login } from '../api/auth';
-import { checkPets } from '../api/checkPets';
+import { login } from '../../features/api/auth';
+import { checkPets } from '../../features/api/checkPets';
 
 const cache = createCache({ key: 'css', prepend: true });
 

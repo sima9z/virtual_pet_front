@@ -6,9 +6,9 @@ import React, {useState,useEffect,useRef} from 'react';
 import DogAnimation from '../../components/DogAnimation';
 import CatAnimation from '../../components/CatAnimation';
 
-import {getPetInfo} from '../api/getPetInfo'
-import {petPhysicalRecover} from '../api/petPhysicalRecover'
-import {petStatDecrease} from '../api/petStatDecrease'
+import {getPetInfo} from '../../features/api/getPetInfo'
+import {petPhysicalRecover} from '../../features/api/petPhysicalRecover'
+import {petStatDecrease} from '../../features/api/petStatDecrease'
 
 import BackgroundImage from "../../components/atoms/BackgroundImage"
 import AnchorTemporaryDrawer from "../../components/organisms/menu"
