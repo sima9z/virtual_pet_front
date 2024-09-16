@@ -29,7 +29,7 @@ import { AnimationHandle } from '../../types/index';
 
 const DogAnimation = forwardRef<AnimationHandle, { 
   showVesse: boolean; 
-  setshowVesse: React.Dispatch<React.SetStateAction<boolean>>; 
+  setShowVesse: React.Dispatch<React.SetStateAction<boolean>>; 
   showNotes: boolean; 
   setShowNotes:React.Dispatch<React.SetStateAction<boolean>>; 
   showBall: boolean; 
@@ -38,7 +38,7 @@ const DogAnimation = forwardRef<AnimationHandle, {
   setShowHearts:React.Dispatch<React.SetStateAction<boolean>> 
   petDetails: { states: number };
 }>(
-  ({ showVesse, setshowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref) => {
+  ({ showVesse, setShowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref) => {
 
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
   const legBackRightRef = useRef<HTMLImageElement | null>(null);
@@ -302,7 +302,7 @@ const DogAnimation = forwardRef<AnimationHandle, {
 
     const tl = gsap.timeline({
       onComplete: () => {
-        setshowVesse(false);
+        setShowVesse(false);
         setShowHearts(false);
         setShowNotes(false);
         setIsSitting(false);
@@ -535,7 +535,7 @@ const DogAnimation = forwardRef<AnimationHandle, {
       scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
     });
     
-    setshowVesse(true);
+    setShowVesse(true);
     setShowHearts(true);
     setIsSitting(true);
       

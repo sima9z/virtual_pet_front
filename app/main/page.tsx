@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 
 // import DogRandomAnimation from '../components/dogRandomAnimation';
 import DogAnimation from '../../components/animations/DogAnimation';
@@ -8,151 +8,35 @@ import CatAnimation from '../../components/animations/CatAnimation';
 import PuppyDogAnimation from '../../components/animations/PuppyDogAnimation';
 import PuppyCatAnimation from '../../components/animations/PuppyCatAnimation';
 
-import { getPetInfo } from '../../features/api/getPetInfo'
-import { petPhysicalRecover } from '../../features/api/petPhysicalRecover'
-import { petStatDecrease } from '../../features/api/petStatDecrease'
-
 import BackgroundImage from "../../components/atoms/BackgroundImage"
 import AnchorTemporaryDrawer from "../../components/organisms/menu"
 
-import { AnimationHandle, PetDetails } from '../../types/index';
+import usePetInfo from '../../hooks/usePetInfo';
+import usePetAnimation from '../../hooks/usePetAnimation';
+import usePetIntervals from '../../hooks/usePetIntervals';
 
 import { mainTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
 
 export default function Main() {
-  const [petType, setPetType] = useState<string | null>(null);
-  const [petDetails, setPetDetails] = useState<PetDetails | null>(null);
-  const [offspringCount, setOffspringCount] = useState<number>(0); // 繁殖回数のステート
+  const { petType, petDetails, setPetDetails, offspringCount, setOffspringCount } = usePetInfo();
+  const {
+    showBall,
+    setShowBall,
+    showVesse,
+    setShowVesse,
+    showHearts,
+    setShowHearts,
+    showNotes,
+    setShowNotes,
+    dogActionRef,
+    catActionRef,
+    handleFeedAction,
+    handleStrokeAction,
+    handlePlayAction,
+  } = usePetAnimation();
 
-  const [showBall, setShowBall] = useState(false);
-  const [showVesse, setshowVesse] = useState(false);
-  const [showHearts, setShowHearts] = useState(false);
-  const [showNotes, setShowNotes] = useState(false);
-
-  // ページでインターバルを管理するためのステート
-  const [physicalRecoveryIntervalId, setPhysicalRecoveryIntervalId] = useState<number | NodeJS.Timeout | null>(null);
-  const [statDecreaseIntervalId, setStatDecreaseIntervalId] = useState<number | NodeJS.Timeout | null>(null);
-
-  const dogActionRef = useRef<AnimationHandle>(null); //値が変更されてもコンポーネントが再レンダリングされない
-  const catActionRef = useRef<AnimationHandle>(null); 
-
-  useEffect(() => {
-    async function fetchPetInfo() {
-      try {
-        const petInfo = await getPetInfo();
-        console.log('Pet type:', petInfo.petType); 
-        setPetType(petInfo.petType);
-        setPetDetails(petDetails);
-        setOffspringCount(petInfo.offspringCount); // 繁殖回数をセット
-      } catch (error) {
-        console.error('Error fetching pet information:', error);
-      }
-    }
-
-    fetchPetInfo();
-  }, []);
-
-  // 新しいオフスプリングが追加されたら再レンダリングをトリガー
-  useEffect(() => {
-    // オフスプリング数の変更を監視してコンポーネントを再レンダリング
-    console.log(`offspringCount changed: ${offspringCount}`);
-  }, [offspringCount]);
-
-  useEffect(() => {
-    if (dogActionRef.current || catActionRef.current) { 
-      if (dogActionRef.current) {
-        console.log("DogActionAnimation is mounted and ref is set", dogActionRef.current);
-      }
-      if (catActionRef.current) {
-        console.log("CatActionAnimation is mounted and ref is set", catActionRef.current);
-      }
-    } else {
-      console.log("ActionAnimation ref is still null");
-    }
-  }, [dogActionRef.current, catActionRef.current]);
-  
-  const handleFeedAction = () => {
-    console.log("handleFeedAction called");
-    if (dogActionRef.current) {
-      console.log("Triggering feedButtonClick for Dog");
-      dogActionRef.current.feedButtonClick();
-    }
-    if (catActionRef.current) {
-      console.log("Triggering feedButtonClick for Cat");
-      catActionRef.current.feedButtonClick();
-    }
-  };
-
-  const handleStrokeAction = () => {
-    console.log("handleStrokeAction called");
-    if (dogActionRef.current) {
-      console.log("Triggering StrokeButtonClick for Dog");
-      dogActionRef.current.strokeButtonClick();
-    }
-    if (catActionRef.current) {
-      console.log("Triggering StrokeButtonClick for Cat");
-      catActionRef.current.strokeButtonClick();
-    }
-  };
-  
-  const handlePlayAction = () => {
-    console.log("handlePlayAction called");
-    if (dogActionRef.current) {
-      console.log("DogActionRef is set, triggering playButtonClick");
-      dogActionRef.current.playButtonClick();
-    }
-    if (catActionRef.current) {
-      console.log("CatActionRef is set, triggering playButtonClick");
-      catActionRef.current.playButtonClick();
-    }
-  };
-
-  useEffect(() => {
-    console.log("showVesse changed:", showVesse);
-    if (showVesse) {
-      console.log("Calling feedButtonClick");
-      if (dogActionRef.current) dogActionRef.current.feedButtonClick();
-      if (catActionRef.current) catActionRef.current.feedButtonClick();
-    }
-  }, [showVesse]);
-
-  useEffect(() => {
-    console.log("showVesse changed:", showNotes);
-    if (showNotes) {
-      console.log("Calling feedButtonClick");
-      if (dogActionRef.current) dogActionRef.current.strokeButtonClick();
-      if (catActionRef.current) catActionRef.current.strokeButtonClick();
-    }
-  }, [showNotes]);
-
-  useEffect(() => {
-    console.log("showBall changed:", showBall);
-    if (showBall) {
-      console.log("Calling playButtonClick");
-      if (dogActionRef.current) dogActionRef.current.playButtonClick();
-      if (catActionRef.current) catActionRef.current.playButtonClick();
-    }
-  }, [showBall]);
-
-  useEffect(() => {
-    if (petType && petDetails) {
-      const physicalInterval = setInterval(() => {
-        petPhysicalRecover(); // 体力回復 (1分ごと)
-      }, 60000);
-      setPhysicalRecoveryIntervalId(physicalInterval);
-  
-      const statDecreaseInterval = setInterval(() => {
-        petStatDecrease(setPetDetails); // 満腹度と幸福度の減少 (10分ごと)
-      }, 600000);
-      setStatDecreaseIntervalId(statDecreaseInterval);
-  
-      return () => {
-        clearInterval(physicalInterval);
-        clearInterval(statDecreaseInterval);
-      };
-    }
-  }, [petType, petDetails]); 
+  const { physicalRecoveryIntervalId, statDecreaseIntervalId } = usePetIntervals(petType, petDetails, setPetDetails);
 
   return (
     <ThemeWrapper theme={mainTheme}>
@@ -175,7 +59,7 @@ export default function Main() {
             <div className="relative w-full h-full">
               <div className="absolute inset-0 flex justify-center items-end">
               {petDetails ? (
-                <DogAnimation showVesse={showVesse} setshowVesse={setshowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} petDetails={petDetails || { states: 0 }} />
+                <DogAnimation showVesse={showVesse} setShowVesse={setShowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} petDetails={petDetails || { states: 0 }} />
               ) : (
                 <div>Loading...</div> // データがロードされるまで表示される
               )}
@@ -193,7 +77,7 @@ export default function Main() {
             <>
               <div className="relative w-full h-full">
                 <div className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 40px)' }}>
-                  <CatAnimation showVesse={showVesse} setshowVesse={setshowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} petDetails={petDetails || { states: 0 }}/>
+                  <CatAnimation showVesse={showVesse} setShowVesse={setShowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} petDetails={petDetails || { states: 0 }}/>
                 </div>
                 {Array.from({ length: offspringCount }).map((_, index) => (
                   <div key={index} className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 80px)' }}>
