@@ -28,7 +28,7 @@ import SitCatImage from '../../public/猫.png';
 
 import { AnimationHandle } from '../../types/index';
 
-import { CatActionAnimation } from '../../hooks/components/animations/cat/CatActionAnimation'
+import { useCatActionAnimation } from '../../hooks/components/animations/cat/useCatActionAnimation'
 
 const CatAnimation= forwardRef<AnimationHandle, { 
   showVesse: boolean; 
@@ -313,7 +313,7 @@ const CatAnimation= forwardRef<AnimationHandle, {
     });
   };
 
-  const { feedButtonClick, strokeButtonClick, playButtonClick } = CatActionAnimation({
+  const { feedButtonClick, strokeButtonClick, playButtonClick } = useCatActionAnimation({
     containerRef,
     legBackLeftRef,
     legBackRightRef,

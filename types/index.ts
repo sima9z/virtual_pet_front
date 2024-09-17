@@ -154,3 +154,19 @@ export interface CatActionAnimationProps {
   startUnhappyOrHungryWalkingAnimation: () => void;
   ballRef: RefObject<HTMLImageElement>;
 }
+
+export interface useDogWalkingAnimationProps {
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  headFaceRef: RefObject<HTMLImageElement>;
+  headEyeRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  earRightRef: RefObject<HTMLImageElement>;
+  jawRef: RefObject<HTMLImageElement>;
+  animate: () => void;
+  UnhappyOrHungryWalkinganimate: () => void;
+}

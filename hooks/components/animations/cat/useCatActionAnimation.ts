@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 import { CatActionAnimationProps } from '../../../../types/index';
 
-export const CatActionAnimation = ({
+export const useCatActionAnimation = ({
   containerRef,
   legBackLeftRef,
   legBackRightRef,

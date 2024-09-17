@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 import { DogActionAnimationProps } from '../../../../types/index';
 
-export const DogActionAnimation = ({    
+export const useDogActionAnimation = ({    
   isSitting, 
   containerRef, 
   legBackLeftRef, 
