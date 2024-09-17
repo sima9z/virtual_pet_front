@@ -15,7 +15,8 @@ const NavigationLink: React.FC<NavigationLinkProps> = ({
   variant = 'contained', 
   color = 'primary', 
   size = 'medium',
-  sx
+  sx,
+  underline = 'hover'
 }) => {
   const router = useRouter();
 
@@ -37,7 +38,7 @@ const NavigationLink: React.FC<NavigationLinkProps> = ({
   }
 
   return (
-    <Link href="#" color="secondary" underline="hover" onClick={handleClick}>
+    <Link href="#" color={color}  underline={underline} onClick={handleClick}>
       {label}
     </Link>
   );

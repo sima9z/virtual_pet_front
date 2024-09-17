@@ -1,4 +1,4 @@
-import { ButtonProps } from '@mui/material/Button';
+import { ButtonProps, LinkProps } from '@mui/material';
 
 export interface User {
   id: number;
@@ -32,6 +32,7 @@ export interface NavigationLinkProps {
   color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'; // 'default'は削除
   size?: 'small' | 'medium' | 'large';
   sx?: ButtonProps['sx']; 
+  underline?: LinkProps['underline'];
 }
 
 export interface LogoutButtonProps {
@@ -43,6 +44,23 @@ export interface AnimationHandle {
   playButtonClick: () => void; //何も返さない→実行するだけで結果を期待しない
   strokeButtonClick: () => void;
   feedButtonClick: () => void;
+}
+
+export interface ActionListProps {
+  anchor: Anchor;
+  onAction: (action: 'feed' | 'stroke' | 'play') => void;
+  handleOpenModal: () => void;
+  physicalRecoveryIntervalId: number | NodeJS.Timeout | null;
+  statDecreaseIntervalId: number | NodeJS.Timeout | null;
+}
+
+export interface useMenuProps {
+  petDetails: PetDetails | null; 
+  setPetDetails: React.Dispatch<React.SetStateAction<PetDetails | null>>;
+  setOffspringCount: React.Dispatch<React.SetStateAction<number>>; 
+  onFeed: () => void;
+  onStroke: () => void;
+  onPlay: () => void;
 }
 
 export interface AnchorTemporaryDrawerProps {

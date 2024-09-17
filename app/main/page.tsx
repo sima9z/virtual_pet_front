@@ -9,7 +9,7 @@ import PuppyDogAnimation from '../../components/animations/PuppyDogAnimation';
 import PuppyCatAnimation from '../../components/animations/PuppyCatAnimation';
 
 import BackgroundImage from "../../components/atoms/BackgroundImage"
-import AnchorTemporaryDrawer from "../../components/organisms/menu"
+import Menu from "../../components/organisms/Menu"
 
 import usePetInfo from '../../hooks/app/main/usePetInfo';
 import usePetAnimation from '../../hooks/app/main/usePetAnimation';
@@ -42,7 +42,7 @@ export default function Main() {
     <ThemeWrapper theme={mainTheme}>
       <div className="relative h-[93vh] overflow-hidden">
         <div className="absolute top-0 right-0 m-4">
-          <AnchorTemporaryDrawer 
+          <Menu
             onFeed={handleFeedAction}
             onStroke={handleStrokeAction} 
             onPlay={handlePlayAction}
@@ -52,7 +52,7 @@ export default function Main() {
             physicalRecoveryIntervalId={physicalRecoveryIntervalId}
             statDecreaseIntervalId={statDecreaseIntervalId}
           >
-          </AnchorTemporaryDrawer>
+          </Menu>
         </div>
         {petType === 'dog' && (
           <>
