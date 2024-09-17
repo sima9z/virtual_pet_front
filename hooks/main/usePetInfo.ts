@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getPetInfo } from '../features/api/getPetInfo';
-import { PetDetails } from '../types';
+import { getPetInfo } from '../../features/api/getPetInfo';
+import { PetDetails } from '../../types';
 
 const usePetInfo = () => {
   const [petType, setPetType] = useState<string | null>(null);

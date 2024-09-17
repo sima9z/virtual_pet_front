@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { petPhysicalRecover } from '../features/api/petPhysicalRecover';
-import { petStatDecrease } from '../features/api/petStatDecrease';
-import { PetDetails } from '../types';
+import { petPhysicalRecover } from '../../features/api/petPhysicalRecover';
+import { petStatDecrease } from '../../features/api/petStatDecrease';
+import { PetDetails } from '../../types';
 
 const usePetIntervals = (
   petType: string | null, 
