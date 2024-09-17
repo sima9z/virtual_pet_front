@@ -15,6 +15,7 @@ import earImageRight from '../../public/ダックス奥耳.png';
 import jawImage from '../../public/ダックス顎.png';
 
 import { usePuppyDogWalkingAnimation } from '../../hooks/components/animations/puppyDog/usePuppyDogWalkingAnimation'
+import { usePuppyDogSitAnimation } from '../../hooks/components/animations/puppyDog/usePuppyDogSitAnimation'
 
 const PuppyDogAnimation = () => {
   const legBackLeftRef = useRef<HTMLImageElement | null>(null);
@@ -81,6 +82,24 @@ const PuppyDogAnimation = () => {
     earRightRef, 
     jawRef,
     animate
+  });
+
+  usePuppyDogSitAnimation({
+    isSitting,
+    containerRef,
+    legBackLeftRef,
+    legBackRightRef,
+    legFrontLeftRef,
+    legFrontRightRef,
+    tailRef,
+    headFaceRef, 
+    headEyeRef, 
+    bodyRef, 
+    earRef, 
+    earRightRef, 
+    jawRef,
+    setIsSitting,
+    startWalkingAnimation
   });
 
   useEffect(() => {

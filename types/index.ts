@@ -229,3 +229,21 @@ export interface usePuppyDogWalkingAnimationProps {
   jawRef: RefObject<HTMLImageElement>;
   animate: () => void;
 }
+
+export interface usePuppyDogSitAnimationProps {
+  isSitting: boolean;
+  containerRef: RefObject<HTMLDivElement | null>
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  headFaceRef: RefObject<HTMLImageElement>;
+  headEyeRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  earRightRef: RefObject<HTMLImageElement>;
+  jawRef: RefObject<HTMLImageElement>;
+  setIsSitting: React.Dispatch<React.SetStateAction<boolean>>;
+  startWalkingAnimation: () => void;
+}
