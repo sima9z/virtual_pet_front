@@ -1,4 +1,4 @@
-import { RefObject, Dispatch, SetStateAction } from 'react';
+import { RefObject, Dispatch, SetStateAction, MutableRefObject } from 'react';
 import { ButtonProps, LinkProps } from '@mui/material';
 
 export interface User {
@@ -169,4 +169,24 @@ export interface useDogWalkingAnimationProps {
   jawRef: RefObject<HTMLImageElement>;
   animate: () => void;
   UnhappyOrHungryWalkinganimate: () => void;
+}
+
+export interface useCatWalkingAnimationProps {
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  beardRightRef: RefObject<HTMLImageElement>;
+  beardLeftRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  faceRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  legAnims: MutableRefObject<gsap.core.Tween[]>;
+  beardRightAnim: MutableRefObject<gsap.core.Tween | null>;
+  beardLeftAnim: MutableRefObject<gsap.core.Tween | null>;
+  headAnim: MutableRefObject<gsap.core.Tween | null>;
+  containerAnim: MutableRefObject<gsap.core.Tween | null>;
+  animate: () => void;
+  UnhappyOrHungryWalkingAnimation: () => void;
 }
