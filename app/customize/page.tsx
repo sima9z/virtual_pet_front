@@ -5,7 +5,7 @@ import { Container, Box, TextField, FormControl, InputLabel, Select, MenuItem, B
 import { Typography } from '@mui/material';
 import Image from 'next/image';
 
-import useCustomize from '../../hooks/useCustomize';
+import useCustomize from '../../hooks/app/useCustomize';
 
 import { mainTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';

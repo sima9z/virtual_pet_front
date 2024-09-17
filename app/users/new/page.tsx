@@ -3,7 +3,7 @@
 import React from 'react';
 import { TextField, Container, Box, Button, Typography } from '@mui/material';
 
-import useSignup from '../../../hooks/useSignup';
+import useSignup from '../../../hooks/app/useSignup';
 
 import { mainTheme } from '../../../styles/theme'
 import ThemeWrapper from '../../../styles/ThemeWrapper';

@@ -1,9 +1,8 @@
-import { ButtonProps } from '@mui/material/Button';
+import { ButtonProps, LinkProps } from '@mui/material';
 
 export interface User {
   id: number;
   email: string;
-  // 他のユーザーに関連するプロパティをここに追加できます
 }
 
 export interface LoginResponse {
@@ -15,8 +14,8 @@ export interface LogoutResponse {
 }
 
 export interface ErrorResponse {
-  error?: string;  // errorプロパティを追加
-  errors?: string[]; // errorsプロパティも保持
+  error?: string;
+  errors?: string[];
 }
 
 export interface BackgroundImageProps {
@@ -29,15 +28,13 @@ export interface NavigationLinkProps {
   alertMessage?: string;
   componentType?: 'link' | 'button';
   variant?: 'text' | 'outlined' | 'contained';
-  color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'; // 'default'は削除
+  color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
   size?: 'small' | 'medium' | 'large';
   sx?: ButtonProps['sx']; 
+  underline?: LinkProps['underline'];
 }
 
-export interface LogoutButtonProps {
-  physicalRecoveryIntervalId: number | NodeJS.Timeout | null; 
-  statDecreaseIntervalId: number | NodeJS.Timeout | null; 
-}
+export interface LogoutButtonProps extends PetIntervals {}
 
 export interface AnimationHandle {
   playButtonClick: () => void; //何も返さない→実行するだけで結果を期待しない
@@ -45,31 +42,39 @@ export interface AnimationHandle {
   feedButtonClick: () => void;
 }
 
-export interface AnchorTemporaryDrawerProps {
+interface PetActionHandlers {
   onFeed: () => void;
   onStroke: () => void;
   onPlay: () => void;
-  setOffspringCount: React.Dispatch<React.SetStateAction<number>>;
-  physicalRecoveryIntervalId: number | NodeJS.Timeout | null; 
-  statDecreaseIntervalId: number | NodeJS.Timeout | null; 
 }
+
+interface PetIntervals {
+  physicalRecoveryIntervalId: number | NodeJS.Timeout | null;
+  statDecreaseIntervalId: number | NodeJS.Timeout | null;
+}
+
+export interface ActionListProps extends PetIntervals {
+  anchor: Anchor;
+  onAction: (action: 'feed' | 'stroke' | 'play') => void;
+  handleOpenModal: () => void;
+}
+
+interface PetStateHandlers {
+  petDetails: PetDetails | null; 
+  setPetDetails: React.Dispatch<React.SetStateAction<PetDetails | null>>;
+  setOffspringCount: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export interface useMenuProps extends PetActionHandlers, PetStateHandlers {}
+
+export interface MenuProps extends PetActionHandlers, PetIntervals, PetStateHandlers {}
 
 export type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 export interface PetStatusModalProps {
   open: boolean;
   onClose: () => void;
-  petDetails: {
-    name:String;
-    breed: String;
-    level: number;
-    experience: number;
-    physical: number;
-    satiety: number;
-    happiness: number;
-    states:number;
-    offspring_count: number;
-  } | null;
+  petDetails: PetDetails | null;
 }
 
 export interface PetDetails {
@@ -83,4 +88,10 @@ export interface PetDetails {
   happiness: number;
   states: number;
   offspring_count: number;
+}
+
+export interface usePetIntervalsProps {
+  petType: string | null, 
+  petDetails: PetDetails | null,
+  setPetDetails: React.Dispatch<React.SetStateAction<PetDetails | null>>
 }

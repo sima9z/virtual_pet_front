@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { petPhysicalRecover } from '../features/api/petPhysicalRecover';
-import { petStatDecrease } from '../features/api/petStatDecrease';
-import { PetDetails } from '../types';
+import { petPhysicalRecover } from '../../../features/api/petPhysicalRecover';
+import { petStatDecrease } from '../../../features/api/petStatDecrease';
+import { usePetIntervalsProps } from '../../../types';
 
-const usePetIntervals = (
-  petType: string | null, 
-  petDetails: PetDetails | null,
-  setPetDetails: React.Dispatch<React.SetStateAction<PetDetails | null>> // setPetDetailsを追加
-) => {
+const usePetIntervals = ({
+  petType,
+  petDetails,
+  setPetDetails 
+}: usePetIntervalsProps ) => {
   const [physicalRecoveryIntervalId, setPhysicalRecoveryIntervalId] = useState<number | NodeJS.Timeout | null>(null);
   const [statDecreaseIntervalId, setStatDecreaseIntervalId] = useState<number | NodeJS.Timeout | null>(null);
 

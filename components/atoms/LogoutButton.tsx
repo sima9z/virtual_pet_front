@@ -1,38 +1,15 @@
-import { logout } from '../../features/api/auth';
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@mui/material';
-import { useRouter } from 'next/navigation';
 
 import { LogoutButtonProps } from '../../types/index'
 
 import { logoutButtonTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
 
-const LogoutButton = ({ physicalRecoveryIntervalId, statDecreaseIntervalId }:LogoutButtonProps) => {
-  const [error, setError] = useState<string>('');
-  const router = useRouter();
+import useLogoutButton from '../../hooks/components/atoms/useLogoutButton'
 
-  const handleLogout = async () => {
-    try {
-      // インターバルをクリアする
-      if (physicalRecoveryIntervalId) {
-        clearInterval(physicalRecoveryIntervalId);
-      }
-      if (statDecreaseIntervalId) {
-        clearInterval(statDecreaseIntervalId);
-      }
-
-      await logout();
-      console.log('Logged out');
-      router.push('/');
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('An unexpected error occurred');
-      }
-    }
-  };
+const LogoutButton = ({ physicalRecoveryIntervalId, statDecreaseIntervalId } : LogoutButtonProps ) => {
+  const { handleLogout, error } = useLogoutButton({ physicalRecoveryIntervalId, statDecreaseIntervalId });
 
   return (  
     <ThemeWrapper theme={logoutButtonTheme}>

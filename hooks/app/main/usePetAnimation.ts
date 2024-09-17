@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { AnimationHandle } from '../types';
+import { AnimationHandle } from '../../../types';
 
 const usePetAnimation = () => {
   const [showBall, setShowBall] = useState(false);

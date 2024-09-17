@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { signup } from '../features/api/auth';
+import { signup } from '../../features/api/auth';
 
 const useSignup = () => {
   const [name, setName] = useState<string>('');
