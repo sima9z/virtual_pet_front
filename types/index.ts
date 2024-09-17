@@ -126,3 +126,31 @@ export interface DogActionAnimationProps {
   startWalkingAnimation: () => void;
   startUnhappyOrHungryWalkingAnimation: () => void;
 }
+
+export interface CatActionAnimationProps {
+  containerRef: RefObject<HTMLDivElement>;
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  faceRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  beardRightRef: RefObject<HTMLImageElement>;
+  beardLeftRef: RefObject<HTMLImageElement>;
+  setIsSitting: Dispatch<SetStateAction<boolean>>;
+  setShowVesse: Dispatch<SetStateAction<boolean>>;
+  setShowHearts: Dispatch<SetStateAction<boolean>>;
+  setShowNotes: Dispatch<SetStateAction<boolean>>;
+  setShowBall: Dispatch<SetStateAction<boolean>>;
+  heartRef: RefObject<HTMLImageElement>;
+  heartRef2: RefObject<HTMLImageElement>;
+  yellowNoteRef: RefObject<HTMLImageElement>;
+  blueNoteRef: RefObject<HTMLImageElement>;
+  directionRef: RefObject<number>;
+  currentAnimation: 'normal' | 'unhappyOrHungry';
+  startWalkingAnimation: () => void;
+  startUnhappyOrHungryWalkingAnimation: () => void;
+  ballRef: RefObject<HTMLImageElement>;
+}
