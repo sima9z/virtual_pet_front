@@ -28,6 +28,9 @@ import SitCatImage from '../../public/猫.png';
 
 import { AnimationHandle } from '../../types/index';
 
+import { useCatWalkingAnimation } from '../../hooks/components/animations/cat/useCatWalkingAnimation'
+import { useCatActionAnimation } from '../../hooks/components/animations/cat/useCatActionAnimation'
+
 const CatAnimation= forwardRef<AnimationHandle, { 
   showVesse: boolean; 
   setShowVesse: React.Dispatch<React.SetStateAction<boolean>>; 
@@ -86,179 +89,6 @@ const CatAnimation= forwardRef<AnimationHandle, {
     return Math.random() * -(viewportWidth - viewportWidth / 2);
   };
 
-  const startWalkingAnimation = () => {
-    const repeat = -1;
-    const yoyo = true;
-
-    // すべての参照が存在するかをチェック
-    if (
-      legBackLeftRef.current && legBackRightRef.current &&
-      legFrontLeftRef.current && legFrontRightRef.current &&
-      beardRightRef.current && beardLeftRef.current &&
-      faceRef.current && bodyRef.current && earRef.current && tailRef.current
-    ) {
-      legAnims.current = [
-        gsap.to(legBackLeftRef.current, {
-          rotation: 30,
-          transformOrigin: 'top',
-          duration: 1.0,
-          repeat,
-          yoyo,
-          ease: 'power1.inOut',
-          delay: 0,
-        }),
-        gsap.to(legBackRightRef.current, {
-          rotation: -30,
-          transformOrigin: 'top',
-          duration: 1.0,
-          repeat,
-          yoyo,
-          ease: 'power1.inOut',
-          delay: 0.4,
-        }),
-        gsap.to(legFrontLeftRef.current, {
-          rotation: 30,
-          transformOrigin: 'top',
-          duration: 1.0,
-          repeat,
-          yoyo,
-          ease: 'power1.inOut',
-          delay: 0.8,
-        }),
-        gsap.to(legFrontRightRef.current, {
-          rotation: -30,
-          transformOrigin: 'top',
-          duration: 1.0,
-          repeat,
-          yoyo,
-          ease: 'power1.inOut',
-          delay: 1.2,
-        }),
-      ];
-
-      beardRightAnim.current = gsap.to(beardRightRef.current, {
-        rotation: 10, // 軽く回転させる
-        transformOrigin: 'right', 
-        duration: 0.5,
-        repeat: -1,
-        yoyo: true,
-        ease: "power1.inOut", // 動きを滑らかにする
-      });
-
-      beardLeftAnim.current = gsap.to(beardLeftRef.current, {
-        rotation: -10, // 軽く回転させる
-        transformOrigin: 'left', 
-        duration: 0.5,
-        repeat: -1,
-        yoyo: true,
-        ease: "power1.inOut", // 動きを滑らかにする
-      });
-
-      headAnim.current = gsap.to([faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current, beardLeftRef.current], {
-        y: 5,
-        duration: 1,
-        repeat: -1,
-        yoyo: true,
-      });
-      
-      // 初回のアニメーションを開始
-      animate();
-    }
-
-    return () => {
-      legAnims.current.forEach(anim => anim.kill());
-      if (beardRightAnim.current) beardRightAnim.current.kill();
-      if (beardLeftAnim.current) beardLeftAnim.current.kill();
-      if (headAnim.current) headAnim.current.kill();
-      if (containerAnim.current) containerAnim.current.kill();
-    };
-  };
-
-  const startUnhappyOrHungryWalkingAnimation = () => {
-    const repeat = -1;
-    const yoyo = true;
-    
-    // すべての参照が存在するかをチェック
-    if (
-      legBackLeftRef.current && legBackRightRef.current &&
-      legFrontLeftRef.current && legFrontRightRef.current &&
-      beardRightRef.current && beardLeftRef.current &&
-      faceRef.current && bodyRef.current && earRef.current && tailRef.current
-    ) {
-      const legAnims = [
-        gsap.to(legBackLeftRef.current, {
-          rotation: 20, // 通常より小さな角度で動く
-          transformOrigin: 'top',
-          duration: 5.0, // 通常より遅い
-          repeat,
-          yoyo,
-          ease: 'power1.inOut',
-        }),
-        gsap.to(legBackRightRef.current, {
-          rotation: -20,
-          transformOrigin: 'top',
-          duration: 5.0,
-          repeat,
-          yoyo,
-          ease: 'power1.inOut',
-          delay: 0.6,
-        }),
-        gsap.to(legFrontLeftRef.current, {
-          rotation: 15,
-          transformOrigin: 'top',
-          duration: 4.0,
-          repeat,
-          yoyo,
-          ease: 'power1.inOut',
-          delay: 1.2,
-        }),
-        gsap.to(legFrontRightRef.current, {
-          rotation: -15,
-          transformOrigin: 'top',
-          duration: 4.0,
-          repeat,
-          yoyo,
-          ease: 'power1.inOut',
-          delay: 1.8,
-        }),
-      ];
-
-      const beardAnim = [
-        gsap.to(beardRightRef.current, {
-          rotation: 10, // 軽く回転させる
-          transformOrigin: 'right', 
-          duration: 5.0,
-          repeat: -1,
-          yoyo: true,
-          ease: "power1.inOut", // 動きを滑らかにする
-        }),
-        gsap.to(beardLeftRef.current, {
-          rotation: -10, // 軽く回転させる
-          transformOrigin: 'left', 
-          duration: 5.0,
-          repeat: -1,
-          yoyo: true,
-          ease: "power1.inOut", // 動きを滑らかにする
-        })
-      ];
-
-      headAnim.current = gsap.to([faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current, beardLeftRef.current], {
-        y: 2,
-        duration: 4,
-        repeat: -1,
-        yoyo: true,
-      });
-
-      UnhappyOrHungryWalkingAnimation();
-
-      return () => {
-        legAnims.forEach(anim => anim.kill());
-        beardAnim.forEach(anim => anim.kill());
-        if (headAnim.current) headAnim.current.kill();
-      };
-    }
-    };
-
   const animate = () => {
     if (!containerRef.current || isSitting) return;
   
@@ -311,6 +141,53 @@ const CatAnimation= forwardRef<AnimationHandle, {
     });
   };
 
+  const { startWalkingAnimation, startUnhappyOrHungryWalkingAnimation } = useCatWalkingAnimation({ 
+    legBackLeftRef,
+    legBackRightRef,
+    legFrontLeftRef,
+    legFrontRightRef,
+    beardRightRef,
+    beardLeftRef,
+    faceRef,
+    bodyRef,
+    earRef,
+    tailRef,
+    legAnims,
+    beardRightAnim,
+    beardLeftAnim,
+    headAnim,
+    containerAnim,
+    animate,
+    UnhappyOrHungryWalkingAnimation
+  });
+
+  const { feedButtonClick, strokeButtonClick, playButtonClick } = useCatActionAnimation({
+    containerRef,
+    legBackLeftRef,
+    legBackRightRef,
+    legFrontLeftRef,
+    legFrontRightRef,
+    faceRef,
+    bodyRef, 
+    earRef, 
+    tailRef, 
+    beardRightRef,
+    beardLeftRef,
+    setIsSitting,
+    setShowVesse,
+    setShowHearts,
+    setShowNotes,
+    setShowBall,
+    heartRef,
+    heartRef2, 
+    yellowNoteRef,
+    blueNoteRef,
+    directionRef,
+    currentAnimation,
+    startUnhappyOrHungryWalkingAnimation,
+    startWalkingAnimation,
+    ballRef })
+
   useEffect(() => {
     if (!isSitting) {
       // currentAnimation の状態に応じてアニメーションを開始
@@ -358,228 +235,6 @@ const CatAnimation= forwardRef<AnimationHandle, {
         setTimeout(() => setIsClickable(true), 2000); // 2秒後に再びクリック可能に
       }
     });
-  };
-
-  const feedButtonClick = () => {
-    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
-    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
-  
-    setIsSitting(true);
-    setShowVesse(true);
-    setShowHearts(true);
-    
-    if (heartRef.current && heartRef2.current) {
-      const heartTl = gsap.timeline();
-
-      heartTl.to(
-        heartRef.current,
-        {
-          rotation: 30,
-          transformOrigin: 'center',
-          duration: 1.0,
-          ease: 'power1.out',
-          repeat: -1,
-          yoyo: true,
-        }
-      );
-    
-      heartTl.to(
-        heartRef2.current,
-        {
-          rotation: -30,
-          transformOrigin: 'center',
-          duration: 1.0,
-          ease: 'power1.out',
-          repeat: -1,
-          yoyo: true,
-        },
-        "<" // 同時に実行する
-      );
-
-      // 3秒後に状態をリセットし、アニメーションを再開
-      gsap.delayedCall(3, () => {
-        heartTl.kill();
-        setShowVesse(false);
-        setShowHearts(false);
-        setIsSitting(false); // isSitting を false に設定して立ち上がる
-      }
-    )}
-  };
-
-  const strokeButtonClick = () => {
-    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
-    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
-  
-    setIsSitting(true);
-    setShowNotes(true);
-    
-    const noteTl = gsap.timeline();
-
-    noteTl.to(
-      yellowNoteRef.current,
-      {
-        rotation: 30,
-        transformOrigin: 'center',
-        duration: 1.0,
-        ease: 'power1.out',
-        repeat: -1,
-        yoyo: true,
-      }
-    );
-  
-    noteTl.to(
-      blueNoteRef.current,
-      {
-        rotation: -30,
-        transformOrigin: 'center',
-        duration: 1.0,
-        ease: 'power1.out',
-        repeat: -1,
-        yoyo: true,
-      },
-      "<" // 同時に実行する
-    );
-
-      // 3秒後に状態をリセットし、アニメーションを再開
-      gsap.delayedCall(3, () => {
-        noteTl.kill();
-        setShowNotes(false);
-        setIsSitting(false); // isSitting を false に設定して立ち上がる
-      }
-    )
-  };
-
-  const playButtonClick = () => {
-    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
-    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
-
-    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current], {
-      rotation: 0,
-      x: 0,
-      y: 0,
-    });
-    gsap.set(containerRef.current, {
-      scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
-    });
-
-    console.log("Setting showBall and showHearts to true");
-    setShowBall(true);
-    setShowHearts(true);
-
-    const heartTl = gsap.timeline();
-
-    heartTl.to(
-      heartRef.current,
-      {
-        rotation: 30,
-        transformOrigin: 'center',
-        duration: 1.0,
-        ease: 'power1.out',
-        repeat: -1,
-        yoyo: true,
-      }
-    );
-  
-    heartTl.to(
-      heartRef2.current,
-      {
-        rotation: -30,
-        transformOrigin: 'center',
-        duration: 1.0,
-        ease: 'power1.out',
-        repeat: -1,
-        yoyo: true,
-      },
-      "<" // 同時に実行する
-    );
-
-    const jumpTl = gsap.timeline();
-
-    jumpTl.to(containerRef.current, {
-      y: -50,  // ジャンプの高さ
-      duration: 0.5,
-      ease: "power1.out"
-    },
-    );
-    jumpTl.to(containerRef.current, {
-        y: 0,  // 元の位置に戻る
-        duration: 0.5,
-        ease: "power1.in"
-      },
-    );
-    jumpTl.to(containerRef.current, {
-      y: -50,  // ジャンプの高さ
-      duration: 0.5,
-      ease: "power1.out"
-    },
-    );
-    jumpTl.to(containerRef.current, {
-        y: 0,  // 元の位置に戻る
-        duration: 0.5,
-        ease: "power1.in"
-      },
-    );
-  
-    const ballTl = gsap.timeline({
-      onComplete: () => {
-        heartTl.kill(); // ハートのアニメーションを停止
-        setShowBall(false); // ボールの表示をリセット
-        setShowHearts(false); // ハートの表示をリセット
-  
-        // アニメーションの状態に応じて新しいアニメーションを開始
-        if (currentAnimation === 'unhappyOrHungry') {
-          console.log('unhappyOrHungry state is true');
-          startUnhappyOrHungryWalkingAnimation();
-        } else {
-          console.log('normal state is true');
-          startWalkingAnimation();
-        }
-      },
-    });
-
-    ballTl.to(
-      ballRef.current,
-      {
-        duration: 0.5,
-        x: 100, // x軸方向の移動
-        ease: "power1.inOut", // 加速と減速の設定
-        y: -70, // y軸方向に跳ねる
-        rotation: 360, // ボールが回転する
-      }
-    );
-  
-    ballTl.to(
-      ballRef.current,
-      {
-        duration: 0.5,
-        x: 200, // さらにx軸方向に移動
-        ease: "power1.inOut", // 跳ねるように
-        y: 0, // y軸方向に元の位置に戻る
-        rotation: 720, // さらに回転
-      }
-    );
-  
-    ballTl.to(
-      ballRef.current,
-      {
-        duration: 0.6,
-        x: 250, // x軸方向の移動
-        ease: "power1.inOut", // 加速と減速の設定
-        y: -40, // y軸方向に跳ねる
-        rotation: 1080, // ボールが回転する
-      }
-    );
-  
-    ballTl.to(
-      ballRef.current,
-      {
-        duration: 0.6,
-        x: 300, // さらにx軸方向に移動
-        ease: "power1.inOut", // 跳ねるように
-        y: 0, // y軸方向に元の位置に戻る
-        rotation: 1440, // さらに回転
-      }
-    );
   };
 
   useEffect(() => {
