@@ -247,3 +247,22 @@ export interface usePuppyDogSitAnimationProps {
   setIsSitting: React.Dispatch<React.SetStateAction<boolean>>;
   startWalkingAnimation: () => void;
 }
+
+export interface usePuppyCatWalkingAnimationProps {
+  legAnims: MutableRefObject<gsap.core.Tween[]>;
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  beardRightRef: RefObject<HTMLImageElement>;
+  beardLeftRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  faceRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  beardRightAnim: MutableRefObject<gsap.core.Tween | null>;
+  beardLeftAnim: MutableRefObject<gsap.core.Tween | null>;
+  headAnim: MutableRefObject<gsap.core.Tween | null>;
+  animate: () => void;
+  containerAnim: MutableRefObject<gsap.core.Tween | null>;
+}
