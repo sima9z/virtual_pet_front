@@ -8,7 +8,7 @@ import ThemeWrapper from '../../styles/ThemeWrapper';
 
 import useLogoutButton from '../../hooks/components/atoms/useLogoutButton'
 
-const LogoutButton = ({ physicalRecoveryIntervalId, statDecreaseIntervalId }:LogoutButtonProps) => {
+const LogoutButton = ({ physicalRecoveryIntervalId, statDecreaseIntervalId } : LogoutButtonProps ) => {
   const { handleLogout, error } = useLogoutButton({ physicalRecoveryIntervalId, statDecreaseIntervalId });
 
   return (  

@@ -5,18 +5,23 @@ import { Button, Drawer } from '@mui/material';
 import PetStatusModal from './petStatusModal';
 import { ActionList } from '../molecules/ActionList';
 
-import { AnchorTemporaryDrawerProps, PetDetails } from '../../types/index'
+import { MenuProps, PetDetails } from '../../types/index'
 
 import { mainTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
 
 import { useMenu } from '../../hooks/components/organisms/useMenu'
 
-export default function Menu({ petDetails, setPetDetails, onFeed, onStroke, onPlay, setOffspringCount, physicalRecoveryIntervalId, statDecreaseIntervalId }: AnchorTemporaryDrawerProps & { 
-  petDetails: PetDetails | null; 
-  setPetDetails: React.Dispatch<React.SetStateAction<PetDetails | null>>;
-  setOffspringCount: React.Dispatch<React.SetStateAction<number>>; 
-}) {
+export default function Menu({ 
+  petDetails, 
+  setPetDetails, 
+  onFeed, 
+  onStroke, 
+  onPlay, 
+  setOffspringCount, 
+  physicalRecoveryIntervalId, 
+  statDecreaseIntervalId
+} : MenuProps) {
 
   const {
     state,

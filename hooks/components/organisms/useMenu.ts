@@ -6,7 +6,7 @@ import { getPetInfo } from '../../../features/api/getPetInfo';
 
 import { Anchor, useMenuProps } from '../../../types/index'
 
-export const useMenu = ( { petDetails, setPetDetails, setOffspringCount, onFeed, onPlay, onStroke }:useMenuProps ) => {
+export const useMenu = ({ petDetails, setPetDetails, setOffspringCount, onFeed, onPlay, onStroke }:useMenuProps ) => {
   const [state, setState] = useState({
     top: false,
     left: false,

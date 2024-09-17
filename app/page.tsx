@@ -10,7 +10,6 @@ import ThemeWrapper from '../styles/ThemeWrapper';
 import NavigationLink from '../components/atoms/NavigationLink';
 
 export default function Home() {
-
   return (
     <ThemeWrapper theme={mainTheme}>
       <Container>

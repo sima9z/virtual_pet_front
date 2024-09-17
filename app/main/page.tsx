@@ -36,7 +36,7 @@ export default function Main() {
     handlePlayAction,
   } = usePetAnimation();
 
-  const { physicalRecoveryIntervalId, statDecreaseIntervalId } = usePetIntervals(petType, petDetails, setPetDetails);
+  const { physicalRecoveryIntervalId, statDecreaseIntervalId } = usePetIntervals({ petType, petDetails, setPetDetails });
 
   return (
     <ThemeWrapper theme={mainTheme}>

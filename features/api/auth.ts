@@ -14,7 +14,7 @@ export const login = async (email: string, password: string): Promise<LoginRespo
     });
 
     const responseText = await response.text(); // レスポンスをテキスト形式で取得
-    console.log('Response Text:', responseText); // ログに出力
+    console.log('Response Text:', responseText);
 
     if (!response.ok) {
       console.error('Error Status:', response.status);
@@ -40,7 +40,7 @@ export const logout = async (): Promise<LogoutResponse> => {
     });
 
     const responseText = await response.text(); // レスポンスをテキスト形式で取得
-    console.log('Response Text:', responseText); // ログに出力
+    console.log('Response Text:', responseText);
 
     if (!response.ok) {
       throw new Error(responseText || 'Failed to logout');
@@ -66,7 +66,7 @@ export const signup = async (name: string, email: string, password: string, pass
     });
 
     const responseText = await response.text(); // レスポンスをテキスト形式で取得
-    console.log('Response Text:', responseText); // ログに出力
+    console.log('Response Text:', responseText);
 
     if (!response.ok) {
       throw new Error(responseText || 'Failed to sign up');
