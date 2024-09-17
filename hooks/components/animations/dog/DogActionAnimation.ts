@@ -1,6 +1,7 @@
 import gsap from 'gsap';
+import { DogActionAnimationProps } from '../../../../types/index';
 
-export const DogActionAnimation = (    
+export const DogActionAnimation = ({    
   isSitting, 
   containerRef, 
   legBackLeftRef, 
@@ -27,8 +28,8 @@ export const DogActionAnimation = (
   ballRef,
   currentAnimation,
   startWalkingAnimation,
-  startUnhappyOrHungryWalkingAnimation,
-) => {
+  startUnhappyOrHungryWalkingAnimation 
+} : DogActionAnimationProps ) => {
     
   const feedButtonClick = () => {
     if (!isSitting) {
@@ -42,7 +43,7 @@ export const DogActionAnimation = (
       y: 0,
     });
     gsap.set(containerRef.current, {
-      scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
+      scaleX: directionRef.current ?? 1, // 現在の移動方向に合わせたスケールに設定
     });
     
     setShowVesse(true);
@@ -92,7 +93,7 @@ export const DogActionAnimation = (
         y: 0,
       });
       gsap.set(containerRef.current, {
-        scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
+        scaleX: directionRef.current ?? 1, // 現在の移動方向に合わせたスケールに設定
       });
 
       // リセットはせずに音符のアニメーションを開始
@@ -148,7 +149,7 @@ export const DogActionAnimation = (
       y: 0,
     });
     gsap.set(containerRef.current, {
-      scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
+      scaleX: directionRef.current ?? 1, // 現在の移動方向に合わせたスケールに設定
     });
 
     console.log("Setting showBall and showHearts to true");

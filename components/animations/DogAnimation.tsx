@@ -516,7 +516,7 @@ const DogAnimation = forwardRef<AnimationHandle, {
     };
   }, [isSitting, currentAnimation]);
 
-  const { feedButtonClick, strokeButtonClick, playButtonClick } = DogActionAnimation (  
+  const { feedButtonClick, strokeButtonClick, playButtonClick } = DogActionAnimation ({  
     isSitting, 
     containerRef, 
     legBackLeftRef, 
@@ -543,7 +543,7 @@ const DogAnimation = forwardRef<AnimationHandle, {
     ballRef,
     currentAnimation,
     startWalkingAnimation,
-    startUnhappyOrHungryWalkingAnimation);
+    startUnhappyOrHungryWalkingAnimation});
 
   const handleClick = () => {
     if (!isSitting) {

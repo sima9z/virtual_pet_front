@@ -1,3 +1,4 @@
+import { RefObject, Dispatch, SetStateAction } from 'react';
 import { ButtonProps, LinkProps } from '@mui/material';
 
 export interface User {
@@ -94,4 +95,34 @@ export interface usePetIntervalsProps {
   petType: string | null, 
   petDetails: PetDetails | null,
   setPetDetails: React.Dispatch<React.SetStateAction<PetDetails | null>>
+}
+
+export interface DogActionAnimationProps {
+  isSitting: boolean;
+  containerRef: RefObject<HTMLDivElement>;
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  headFaceRef: RefObject<HTMLImageElement>;
+  headEyeRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  earRightRef: RefObject<HTMLImageElement>;
+  jawRef: RefObject<HTMLImageElement>;
+  directionRef: RefObject<number>;
+  setShowVesse: Dispatch<SetStateAction<boolean>>;
+  setShowHearts: Dispatch<SetStateAction<boolean>>;
+  setIsSitting: Dispatch<SetStateAction<boolean>>;
+  setShowNotes: Dispatch<SetStateAction<boolean>>;
+  setShowBall: Dispatch<SetStateAction<boolean>>;
+  heartRef: RefObject<HTMLImageElement>;
+  heartRef2: RefObject<HTMLImageElement>;
+  yellowNoteRef: RefObject<HTMLImageElement>;
+  blueNoteRef: RefObject<HTMLImageElement>;
+  ballRef: RefObject<HTMLImageElement>;
+  currentAnimation: 'normal' | 'unhappyOrHungry';
+  startWalkingAnimation: () => void;
+  startUnhappyOrHungryWalkingAnimation: () => void;
 }
