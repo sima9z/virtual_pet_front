@@ -11,9 +11,9 @@ import PuppyCatAnimation from '../../components/animations/PuppyCatAnimation';
 import BackgroundImage from "../../components/atoms/BackgroundImage"
 import AnchorTemporaryDrawer from "../../components/organisms/menu"
 
-import usePetInfo from '../../hooks/main/usePetInfo';
-import usePetAnimation from '../../hooks/main/usePetAnimation';
-import usePetIntervals from '../../hooks/main/usePetIntervals';
+import usePetInfo from '../../hooks/app/main/usePetInfo';
+import usePetAnimation from '../../hooks/app/main/usePetAnimation';
+import usePetIntervals from '../../hooks/app/main/usePetIntervals';
 
 import { mainTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';

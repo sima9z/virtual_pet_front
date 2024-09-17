@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { login } from '../features/api/auth';
-import { checkPets } from '../features/api/checkPets';
+import { login } from '../../features/api/auth';
+import { checkPets } from '../../features/api/checkPets';
 
 const useLogin = () => {
   const [email, setEmail] = useState<string>('');
