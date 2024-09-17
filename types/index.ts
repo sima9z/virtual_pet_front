@@ -190,3 +190,27 @@ export interface useCatWalkingAnimationProps {
   animate: () => void;
   UnhappyOrHungryWalkingAnimation: () => void;
 }
+
+type AnimationState = 'normal' | 'unhappyOrHungry';
+
+export interface UseSitAnimationProps {
+  isSitting: boolean;
+  containerRef: MutableRefObject<HTMLDivElement | null>;
+  legBackLeftRef: MutableRefObject<HTMLImageElement | null>;
+  legBackRightRef: MutableRefObject<HTMLImageElement | null>;
+  legFrontLeftRef: MutableRefObject<HTMLImageElement | null>;
+  legFrontRightRef: MutableRefObject<HTMLImageElement | null>;
+  tailRef: MutableRefObject<HTMLImageElement | null>;
+  headFaceRef: MutableRefObject<HTMLImageElement | null>;
+  headEyeRef: MutableRefObject<HTMLImageElement | null>;
+  bodyRef: MutableRefObject<HTMLImageElement | null>;
+  earRef: MutableRefObject<HTMLImageElement | null>;
+  earRightRef: MutableRefObject<HTMLImageElement | null>;
+  jawRef: MutableRefObject<HTMLImageElement | null>;
+  directionRef: MutableRefObject<number>;
+  setShowVesse: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowHearts: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowNotes: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSitting: React.Dispatch<React.SetStateAction<boolean>>;
+  currentAnimation: AnimationState;
+}
