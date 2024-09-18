@@ -79,16 +79,16 @@ export interface PetStatusModalProps {
 }
 
 export interface PetDetails {
-  id: number;
-  name: string;
-  breed: string;
-  level: number;
-  experience: number;
-  physical: number;
-  satiety: number;
-  happiness: number;
+  id?: number;
+  name?: string;
+  breed?: string;
+  level?: number;
+  experience?: number;
+  physical?: number;
+  satiety?: number;
+  happiness?: number;
   states: number;
-  offspring_count: number;
+  offspring_count?: number;
 }
 
 export interface usePetIntervalsProps {
@@ -272,4 +272,35 @@ export interface useDogMovementAnimationProps {
   isSitting: boolean;
   directionRef: MutableRefObject<number>;
   initialSpeed: number;
+}
+
+export interface useDogAnimationStateProps {
+  isSitting: boolean;
+  currentAnimation: AnimationState;
+  startUnhappyOrHungryWalkingAnimation: () => void;
+  startWalkingAnimation: () => void;
+  showVesse: boolean;
+  feedButtonClick: () => void;
+  showNotes: boolean;
+  yellowNoteRef: RefObject<HTMLImageElement>;
+  blueNoteRef: RefObject<HTMLImageElement>;
+  showBall: boolean;
+  playButtonClick: () => void;
+  showHearts: boolean;
+  heartRef: RefObject<HTMLImageElement>;
+  heartRef2: RefObject<HTMLImageElement>;
+  petDetails: PetDetails | null,
+  setCurrentAnimation: Dispatch<SetStateAction<AnimationState>>;
+  containerRef: MutableRefObject<HTMLDivElement | null>;
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  headFaceRef: RefObject<HTMLImageElement>;
+  headEyeRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  earRightRef: RefObject<HTMLImageElement>;
+  jawRef: RefObject<HTMLImageElement>;
 }
