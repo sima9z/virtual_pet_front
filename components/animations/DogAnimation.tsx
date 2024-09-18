@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 import { AnimationHandle } from '../../types/index';
 
+import { useDogMovementAnimation } from '../../hooks/components/animations/dog/useDogMovementAnimation'
 import { useDogWalkingAnimation } from '../../hooks/components/animations/dog/useDogWalkingAnimation'
 import { useDogSitAnimation } from '../../hooks/components/animations/dog/useDogSitAnimation'
 import { useDogActionAnimation } from '../../hooks/components/animations/dog/useDogActionAnimation'
@@ -80,69 +81,14 @@ const DogAnimation = forwardRef<AnimationHandle, {
     feedButtonClick
   }));
 
-  // ランダムな位置を計算する関数
-  const getRandomPosition = () => {
-    const viewportWidth = window.innerWidth;
-    return Math.random() * -(viewportWidth - viewportWidth / 2);
-  };
+  const { animate, UnhappyOrHungryWalkinganimate } = useDogMovementAnimation({
+    containerRef,
+    isSitting,
+    directionRef,
+    initialSpeed
+  });
 
-  const animate = () => {
-    if (!containerRef.current || isSitting) return;
-
-    const containerWidth = containerRef.current.offsetWidth; //containerRefの幅
-    const viewportWidth = window.innerWidth;
-    const direction = directionRef.current;
-
-    const randomStartPosition = getRandomPosition(); // ランダムな初期位置を取得
-
-    gsap.killTweensOf(containerRef.current); // 既存のアニメーションを停止
-
-    gsap.to(containerRef.current, {
-      x: direction * randomStartPosition, // ランダムな初期位置から開始
-      duration: initialSpeed,
-      ease: 'linear', //等速
-      onComplete: () => {
-        directionRef.current *= -1; // 方向を反転
-        requestAnimationFrame(() => { //パフォーマンス
-          gsap.to(containerRef.current, {
-            scaleX: directionRef.current, // 反転
-            duration: 0.5, // 反転時のdurationを固定
-            onComplete: animate // 次のアニメーションを呼び出す
-          });
-        });
-      },
-    });
-  };
-
-  const UnhappyOrHungryWalkinganimate = () => {
-    if (!containerRef.current || isSitting) return;
-
-    const containerWidth = containerRef.current.offsetWidth; //containerRefの幅
-    const viewportWidth = window.innerWidth;
-    const direction = directionRef.current;
-
-    const randomStartPosition = getRandomPosition(); // ランダムな初期位置を取得
-
-    gsap.killTweensOf(containerRef.current); // 既存のアニメーションを停止
-
-    gsap.to(containerRef.current, {
-      x: direction * randomStartPosition, // ランダムな初期位置から開始
-      duration: initialSpeed * 5, // 速度を遅くするためにdurationを増やす
-      ease: 'linear', //等速
-      onComplete: () => {
-        directionRef.current *= -1; // 方向を反転
-        requestAnimationFrame(() => { //パフォーマンス
-          gsap.to(containerRef.current, {
-            scaleX: directionRef.current, // 反転
-            duration: initialSpeed * 7,
-            onComplete:  UnhappyOrHungryWalkinganimate // 次のアニメーションを呼び出す
-          });
-        });
-      },
-    });
-  };
-
-  const { startWalkingAnimation, startUnhappyOrHungryWalkingAnimation} = useDogWalkingAnimation ({
+  const { startWalkingAnimation, startUnhappyOrHungryWalkingAnimation } = useDogWalkingAnimation ({
     legBackLeftRef,
     legBackRightRef,
     legFrontLeftRef,

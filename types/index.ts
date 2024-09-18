@@ -266,3 +266,10 @@ export interface usePuppyCatWalkingAnimationProps {
   animate: () => void;
   containerAnim: MutableRefObject<gsap.core.Tween | null>;
 }
+
+export interface useDogMovementAnimationProps {
+  containerRef: MutableRefObject<HTMLDivElement | null>;
+  isSitting: boolean;
+  directionRef: MutableRefObject<number>;
+  initialSpeed: number;
+}
