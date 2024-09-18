@@ -304,3 +304,35 @@ export interface useDogAnimationStateProps {
   earRightRef: RefObject<HTMLImageElement>;
   jawRef: RefObject<HTMLImageElement>;
 }
+
+interface DogRefs {
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  headFaceRef: RefObject<HTMLImageElement>;
+  headEyeRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  earRightRef: RefObject<HTMLImageElement>;
+  jawRef: RefObject<HTMLImageElement>;
+  containerRef: RefObject<HTMLDivElement>;
+  heartRef: RefObject<HTMLImageElement>;
+  heartRef2: RefObject<HTMLImageElement>;
+  ballRef: RefObject<HTMLImageElement>;
+  yellowNoteRef: RefObject<HTMLImageElement>;
+  blueNoteRef: RefObject<HTMLImageElement>;
+  donyoriRef: RefObject<HTMLImageElement>;
+  donyori2Ref: RefObject<HTMLImageElement>;
+  guruguruRef: RefObject<HTMLImageElement>;
+}
+
+export interface DogPartsProps {
+  refs: DogRefs;
+  showHearts: boolean;
+  showBall: boolean;
+  showVesse: boolean;
+  showNotes: boolean;
+  currentAnimation: AnimationState;
+}

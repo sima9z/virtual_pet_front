@@ -3,10 +3,10 @@
 import React from 'react';
 
 // import DogRandomAnimation from '../components/dogRandomAnimation';
-import DogAnimation from '../../components/animations/DogAnimation';
-import CatAnimation from '../../components/animations/CatAnimation';
-import PuppyDogAnimation from '../../components/animations/PuppyDogAnimation';
-import PuppyCatAnimation from '../../components/animations/PuppyCatAnimation';
+import DogAnimation from '../../components/animations/dog/DogAnimation';
+import CatAnimation from '../../components/animations/cat/CatAnimation';
+import PuppyDogAnimation from '../../components/animations/puppyDog/PuppyDogAnimation';
+import PuppyCatAnimation from '../../components/animations/puppyCat/PuppyCatAnimation';
 
 import BackgroundImage from "../../components/atoms/BackgroundImage"
 import Menu from "../../components/organisms/Menu"
