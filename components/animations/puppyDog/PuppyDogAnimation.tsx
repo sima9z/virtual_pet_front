@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import gsap from 'gsap';
 import Image from 'next/image';
 
@@ -7,6 +7,7 @@ import { usePuppyDogRefs } from '../../../hooks/components/animations/puppyDog/u
 
 import { usePuppyDogWalkingAnimation } from '../../../hooks/components/animations/puppyDog/usePuppyDogWalkingAnimation'
 import { usePuppyDogSitAnimation } from '../../../hooks/components/animations/puppyDog/usePuppyDogSitAnimation'
+import { usePuppyDogAnimationState } from '../../../hooks/components/animations/puppyDog/usePuppyDogAnimationState'
 
 const PuppyDogAnimation = () => {
   const {  
@@ -107,18 +108,12 @@ const PuppyDogAnimation = () => {
     startWalkingAnimation
   });
 
-  useEffect(() => {
-    if (containerRef.current) {
-      const randomStartPosition = getRandomPosition(); // ランダムな初期位置を取得
-      gsap.set(containerRef.current, { x: randomStartPosition }); // 初期位置を設定
-    }
-
-    startWalkingAnimation(); // 歩行アニメーションを開始
-  }, []);
-
-  useEffect(() => {
-    startWalkingAnimation(); // 歩行アニメーションを開始
-  }, [isSitting]);
+  usePuppyDogAnimationState({  
+    containerRef,
+    getRandomPosition,
+    startWalkingAnimation,
+    isSitting
+  });
 
   const handleClick = () => {
     if (!isSitting) {

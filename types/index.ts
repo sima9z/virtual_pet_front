@@ -411,3 +411,10 @@ export interface CatPertProps {
   showNotes: boolean;
   currentAnimation: AnimationState;
 }
+
+export interface usePuppyDogAnimationStateProps {
+  containerRef: RefObject<HTMLDivElement>;
+  getRandomPosition: () => number;
+  startWalkingAnimation: () => void;
+  isSitting: boolean;
+}
