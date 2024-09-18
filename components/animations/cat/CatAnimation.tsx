@@ -2,29 +2,8 @@ import React, { useEffect, useRef, useState, useImperativeHandle, forwardRef } f
 import gsap from 'gsap';
 import Image from 'next/image';
 
-import legImageBackRight from '../../../public/三毛猫奥後足.png';
-import legImageFrontRight from '../../../public/三毛猫奥前足.png';
-import legImageFrontLeft from '../../../public/三毛猫手前前足.png';
-import legImageBackLeft from '../../../public/三毛猫手間後ろ足.png';
-import tailImage from '../../../public/三毛猫尻尾.png';
-import faceImage from '../../../public/三毛猫顔.png';
-import bodyImage from '../../../public/三毛猫胴体.png';
-import earImage from '../../../public/三毛猫耳.png';
-import beardImageRight from '../../../public/三毛猫右ひげ.png';
-import beardImageLeft from '../../../public/三毛猫左ひげ.png';
-
-import heartImage from '../../../public/ハートマーク.png';
-import vesselImage from '../../../public/容器.png';
-import ballImage from '../../../public/ボール.png';
-
-import yellowNoteImage from '../../../public/音符（黄色）.png';
-import blueNoteImage from '../../../public/音符（青）.png';
-
-import donyoriImage from '../../../public/どんより1.png';
-import donyori2Image from '../../../public/どんより2.png';
-import guruguruImage from '../../../public/ぐるぐる.png';
-
-import SitCatImage from '../../../public/猫.png';
+import  { catImageAssets } from '../../../hooks/components/animations/cat/catImageAssets'
+import { useCatRefs } from '../../../hooks/components/animations/cat/useCatRefs'
 
 import { AnimationHandle } from '../../../types/index';
 
@@ -42,36 +21,59 @@ const CatAnimation= forwardRef<AnimationHandle, {
   setShowHearts:React.Dispatch<React.SetStateAction<boolean>>;
   petDetails: { states: number };
 }>(
-  ({ showVesse, setShowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref) => {
+  ({ showVesse, setShowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref ) => {
+  
+    const {  
+      legImageBackRight,
+      legImageFrontRight,
+      legImageFrontLeft,
+      legImageBackLeft,
+      tailImage,
+      faceImage,
+      bodyImage,
+      earImage,
+      beardImageRight,
+      beardImageLeft,
+      heartImage,
+      vesselImage,
+      ballImage,
+      yellowNoteImage,
+      blueNoteImage,
+      donyoriImage,
+      donyori2Image,
+      guruguruImage,
+      SitCatImage 
+    } = catImageAssets;
 
-  const legBackLeftRef = useRef<HTMLImageElement | null>(null);
-  const legBackRightRef = useRef<HTMLImageElement | null>(null);
-  const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
-  const legFrontRightRef = useRef<HTMLImageElement | null>(null);
-  const tailRef = useRef<HTMLImageElement | null>(null);
-  const faceRef = useRef<HTMLImageElement | null>(null);
-  const bodyRef = useRef<HTMLImageElement | null>(null);
-  const earRef = useRef<HTMLImageElement | null>(null);
-  const beardRightRef = useRef<HTMLImageElement | null>(null);
-  const beardLeftRef = useRef<HTMLImageElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+    const {    
+      legBackLeftRef,
+      legBackRightRef,
+      legFrontLeftRef,
+      legFrontRightRef,
+      tailRef,
+      faceRef,
+      bodyRef,
+      earRef,
+      beardRightRef,
+      beardLeftRef,
+      containerRef,
+      heartRef,
+      heartRef2,
+      ballRef,
+      yellowNoteRef,
+      blueNoteRef,
+      donyoriRef,
+      donyori2Ref,
+      guruguruRef,
+      legAnims,
+      beardRightAnim,
+      beardLeftAnim,
+      headAnim,
+      containerAnim
+    } = useCatRefs();
+
   const initialSpeed = 3; // 初期速度を設定
   const directionRef = useRef(1); // 移動方向を保持する
-
-  const heartRef = useRef<HTMLImageElement | null>(null);
-  const heartRef2 = useRef<HTMLImageElement | null>(null);
-  const ballRef = useRef<HTMLImageElement | null>(null);
-  const yellowNoteRef = useRef<HTMLImageElement | null>(null);
-  const blueNoteRef = useRef<HTMLImageElement | null>(null);
-  const donyoriRef = useRef<HTMLImageElement | null>(null);
-  const donyori2Ref = useRef<HTMLImageElement | null>(null);
-  const guruguruRef = useRef<HTMLImageElement | null>(null);
-
-  const legAnims = useRef<gsap.core.Tween[]>([]);
-  const beardRightAnim = useRef<gsap.core.Tween | null>(null);
-  const beardLeftAnim = useRef<gsap.core.Tween | null>(null);
-  const headAnim = useRef<gsap.core.Tween | null>(null);
-  const containerAnim = useRef<gsap.core.Tween | null>(null);
 
   const [isClickable, setIsClickable] = useState(true); // クリック可能状態を管理
   const [isSitting, setIsSitting] = useState(false);
