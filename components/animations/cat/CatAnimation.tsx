@@ -10,6 +10,8 @@ import { useCatActionAnimation } from '../../../hooks/components/animations/cat/
 import { useCatAnimationState } from '../../../hooks/components/animations/cat/useCatAnimationState';
 import { useCatHandleContainerClick } from '../../../hooks/components/animations/cat/useCatHandleContainerClick'
 
+import { PetDetails } from '../../../types/index'
+
 import CatParts from './CatParts';
 
 const CatAnimation= forwardRef<AnimationHandle, { 
@@ -21,7 +23,7 @@ const CatAnimation= forwardRef<AnimationHandle, {
   setShowBall: React.Dispatch<React.SetStateAction<boolean>>; 
   showHearts:boolean; 
   setShowHearts:React.Dispatch<React.SetStateAction<boolean>>;
-  petDetails: { states: number };
+  petDetails: PetDetails;
 }>(
   ({ showVesse, setShowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref ) => {
 
