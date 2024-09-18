@@ -1,3 +1,5 @@
+"use client"
+
 import React, { forwardRef, useRef, useState, useImperativeHandle } from 'react';
 
 import { AnimationHandle } from '../../../types/index';

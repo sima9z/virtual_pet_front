@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useRef, useState, useImperativeHandle, forwardRef } from 'react';
 
 import { useCatRefs } from '../../../hooks/components/animations/cat/useCatRefs'
