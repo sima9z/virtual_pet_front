@@ -11,6 +11,7 @@ import { useCatMovementAnimation } from '../../../hooks/components/animations/ca
 import { useCatWalkingAnimation } from '../../../hooks/components/animations/cat/useCatWalkingAnimation'
 import { useCatActionAnimation } from '../../../hooks/components/animations/cat/useCatActionAnimation'
 import { useCatAnimationState } from '../../../hooks/components/animations/cat/useCatAnimationState';
+import { useCatHandleContainerClick } from '../../../hooks/components/animations/cat/useCatHandleContainerClick'
 
 const CatAnimation= forwardRef<AnimationHandle, { 
   showVesse: boolean; 
@@ -159,43 +160,25 @@ const CatAnimation= forwardRef<AnimationHandle, {
     containerRef
   });
 
-  const handleContainerClick = (ref: React.RefObject<HTMLDivElement>) => {
-    if (!isClickable) return; // クリック不可状態なら何もしない
-
-    setIsClickable(false); // クリック不可に設定
-
-    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
-    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
-
-    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current], {
-      rotation: 0,
-      x: 0,
-      y: 0,
-    });
-    gsap.set(containerRef.current, {
-      scaleX: directionRef.current, // 現在の移動方向に合わせたスケールに設定
-    });
-
-    gsap.to(ref.current, {
-      keyframes: [
-        { y: -200, rotation: "+=180", duration: 0.3, ease: 'power1.inOut' },
-        { y: 0, rotation: "+=180", duration: 0.3, ease: 'power1.inOut' }
-      ],
-      transformOrigin: 'center',
-      onComplete: () => {
-        // アニメーションの状態に応じて新しいアニメーションを開始
-        if (currentAnimation === 'unhappyOrHungry') {
-          console.log('unhappyOrHungry state is true');
-          startUnhappyOrHungryWalkingAnimation();
-        } else {
-          console.log('normal state is true');
-          startWalkingAnimation();
-        }
-
-        setTimeout(() => setIsClickable(true), 2000); // 2秒後に再びクリック可能に
-      }
-    });
-  };
+  const { handleContainerClick } = useCatHandleContainerClick ({
+    isClickable,
+    setIsClickable,
+    containerRef,
+    legBackLeftRef, 
+    legBackRightRef, 
+    legFrontLeftRef, 
+    legFrontRightRef, 
+    faceRef, 
+    bodyRef, 
+    earRef, 
+    tailRef, 
+    beardRightRef,
+    beardLeftRef,
+    directionRef,
+    currentAnimation,
+    startUnhappyOrHungryWalkingAnimation,
+    startWalkingAnimation
+  });
 
   return (
     <div className="cat-container relative w-[450px] h-[350px] mx-auto cursor-pointer z-50" ref={containerRef} onClick={() => handleContainerClick(containerRef)}>

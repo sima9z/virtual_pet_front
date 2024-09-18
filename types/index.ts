@@ -360,3 +360,23 @@ export interface useCatAnimationStateProps {
   setCurrentAnimation: Dispatch<SetStateAction<AnimationState>>;
   containerRef: RefObject<HTMLDivElement>;
 }
+
+export interface useCatHandleContainerClickProps {
+  isClickable: boolean;
+  setIsClickable: React.Dispatch<React.SetStateAction<boolean>>;
+  containerRef: RefObject<HTMLDivElement>;
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  faceRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  beardRightRef: RefObject<HTMLImageElement>;
+  beardLeftRef: RefObject<HTMLImageElement>;
+  directionRef: MutableRefObject<number>;
+  currentAnimation: AnimationState;
+  startUnhappyOrHungryWalkingAnimation: () => void;
+  startWalkingAnimation: () => void;
+}
