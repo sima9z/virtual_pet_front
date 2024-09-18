@@ -392,14 +392,14 @@ interface CatRef {
   earRef: RefObject<HTMLImageElement>;
   beardRightRef: RefObject<HTMLImageElement>;
   beardLeftRef: RefObject<HTMLImageElement>;
-  heartRef: RefObject<HTMLImageElement>;
-  heartRef2: RefObject<HTMLImageElement>;
-  ballRef: RefObject<HTMLImageElement>;
-  yellowNoteRef: RefObject<HTMLImageElement>;
-  blueNoteRef: RefObject<HTMLImageElement>;
-  donyoriRef: RefObject<HTMLImageElement>;
-  donyori2Ref: RefObject<HTMLImageElement>;
-  guruguruRef: RefObject<HTMLImageElement>;
+  heartRef?: RefObject<HTMLImageElement>;
+  heartRef2?: RefObject<HTMLImageElement>;
+  ballRef?: RefObject<HTMLImageElement>;
+  yellowNoteRef?: RefObject<HTMLImageElement>;
+  blueNoteRef?: RefObject<HTMLImageElement>;
+  donyoriRef?: RefObject<HTMLImageElement>;
+  donyori2Ref?: RefObject<HTMLImageElement>;
+  guruguruRef?: RefObject<HTMLImageElement>;
 }
 
 export interface CatPertProps {
@@ -452,4 +452,8 @@ export interface usePuppyCatHandleContainerClickProps {
   beardRightRef: RefObject<HTMLImageElement>;
   beardLeftRef: RefObject<HTMLImageElement>;
   startWalkingAnimation: () => void;
+}
+
+export interface PuppyCatPartsProps {
+  refs: CatRef;
 }
