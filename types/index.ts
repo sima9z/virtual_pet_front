@@ -418,3 +418,10 @@ export interface usePuppyDogAnimationStateProps {
   startWalkingAnimation: () => void;
   isSitting: boolean;
 }
+
+export interface usePuppyDogMovementAnimationProps {
+  containerRef: RefObject<HTMLDivElement>;
+  isSitting: boolean;
+  directionRef: MutableRefObject<number>;
+  initialSpeed: number
+}
