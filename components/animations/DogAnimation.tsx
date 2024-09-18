@@ -2,34 +2,14 @@ import React, { forwardRef,useEffect, useRef, useState, useImperativeHandle } fr
 import gsap from 'gsap';
 import Image from 'next/image';
 
-import legImageBackRight from '../../public/ダックス奥後ろ足.png';
-import legImageFrontRight from '../../public/ダックス奥前足2.png';
-import legImageFrontLeft from '../../public/ダックス前足.png';
-import legImageBackLeft from '../../public/ダックス後ろ足.png';
-import tailImage from '../../public/ダックス尻尾.png';
-import headImageFace from '../../public/ダックス顔.png';
-import headImageEye from '../../public/ダックス目.png';
-import bodyImage from '../../public/ダックス胴体.png';
-import earImage from '../../public/ダックス耳.png';
-import earImageRight from '../../public/ダックス奥耳.png';
-import jawImage from '../../public/ダックス顎.png';
-
-import heartImage from '../../public/ハートマーク.png';
-import vesselImage from '../../public/容器.png';
-import ballImage from '../../public/ボール.png';
-
-import yellowNoteImage from '../../public/音符（黄色）.png';
-import blueNoteImage from '../../public/音符（青）.png';
-
-import donyoriImage from '../../public/どんより1.png';
-import donyori2Image from '../../public/どんより2.png';
-import guruguruImage from '../../public/ぐるぐる.png';
-
 import { AnimationHandle } from '../../types/index';
 
 import { useDogWalkingAnimation } from '../../hooks/components/animations/dog/useDogWalkingAnimation'
 import { useDogSitAnimation } from '../../hooks/components/animations/dog/useDogSitAnimation'
 import { useDogActionAnimation } from '../../hooks/components/animations/dog/useDogActionAnimation'
+
+import { dogImageAssets } from '../../hooks/components/animations/dog/dogImageAssets';
+import { useDogRefs } from '../../hooks/components/animations/dog/useDogRefs';
 
 const DogAnimation = forwardRef<AnimationHandle, { 
   showVesse: boolean; 
@@ -43,28 +23,50 @@ const DogAnimation = forwardRef<AnimationHandle, {
   petDetails: { states: number };
 }>(
   ({ showVesse, setShowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref) => {
+    const {  
+      legImageBackRight,
+      legImageFrontRight,
+      legImageFrontLeft,
+      legImageBackLeft,
+      tailImage,
+      headImageFace,
+      headImageEye,
+      bodyImage,
+      earImage,
+      earImageRight,
+      jawImage,
+      heartImage,
+      vesselImage,
+      ballImage,
+      yellowNoteImage,
+      blueNoteImage,
+      donyoriImage,
+      donyori2Image,
+      guruguruImage,
+    } = dogImageAssets;
 
-  const legBackLeftRef = useRef<HTMLImageElement | null>(null);
-  const legBackRightRef = useRef<HTMLImageElement | null>(null);
-  const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
-  const legFrontRightRef = useRef<HTMLImageElement | null>(null);
-  const tailRef = useRef<HTMLImageElement | null>(null);
-  const headFaceRef = useRef<HTMLImageElement | null>(null);
-  const headEyeRef = useRef<HTMLImageElement | null>(null);
-  const bodyRef = useRef<HTMLImageElement | null>(null);
-  const earRef = useRef<HTMLImageElement | null>(null);
-  const earRightRef = useRef<HTMLImageElement | null>(null);
-  const jawRef = useRef<HTMLImageElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
-  const heartRef = useRef<HTMLImageElement | null>(null);
-  const heartRef2 = useRef<HTMLImageElement | null>(null);
-  const ballRef = useRef<HTMLImageElement | null>(null);
-  const yellowNoteRef = useRef<HTMLImageElement | null>(null);
-  const blueNoteRef = useRef<HTMLImageElement | null>(null);
-  const donyoriRef = useRef<HTMLImageElement | null>(null);
-  const donyori2Ref = useRef<HTMLImageElement | null>(null);
-  const guruguruRef = useRef<HTMLImageElement | null>(null);
+    const {
+      legBackLeftRef,
+      legBackRightRef,
+      legFrontLeftRef,
+      legFrontRightRef,
+      tailRef,
+      headFaceRef,
+      headEyeRef,
+      bodyRef,
+      earRef,
+      earRightRef,
+      jawRef,
+      containerRef,
+      heartRef,
+      heartRef2,
+      ballRef,
+      yellowNoteRef,
+      blueNoteRef,
+      donyoriRef,
+      donyori2Ref,
+      guruguruRef,
+    } = useDogRefs();
 
   const initialSpeed = 3; // 初期速度を設定
   const directionRef = useRef(1); // 移動方向を保持する
