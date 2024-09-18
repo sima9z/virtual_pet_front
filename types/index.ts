@@ -429,3 +429,10 @@ export interface usePuppyDogMovementAnimationProps {
 export interface PuppyDogPartsProps {
   refs: DogRefs;
 }
+
+export interface usePuppyCatMovementAnimationProps {
+  containerRef: RefObject<HTMLDivElement>;
+  directionRef: MutableRefObject<number>;
+  containerAnim: MutableRefObject<gsap.core.Tween | null>;
+  initialSpeed: number;
+}
