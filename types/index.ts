@@ -79,16 +79,16 @@ export interface PetStatusModalProps {
 }
 
 export interface PetDetails {
-  id?: number;
-  name?: string;
-  breed?: string;
-  level?: number;
-  experience?: number;
-  physical?: number;
-  satiety?: number;
-  happiness?: number;
+  id: number;
+  name: string;
+  breed: string;
+  level: number;
+  experience: number;
+  physical: number;
+  satiety: number;
+  happiness: number;
   states: number;
-  offspring_count?: number;
+  offspring_count: number;
 }
 
 export interface usePetIntervalsProps {
