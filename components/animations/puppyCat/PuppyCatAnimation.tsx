@@ -2,39 +2,45 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import Image from 'next/image';
 
-import legImageBackRight from '../../../public/三毛猫奥後足.png';
-import legImageFrontRight from '../../../public/三毛猫奥前足.png';
-import legImageFrontLeft from '../../../public/三毛猫手前前足.png';
-import legImageBackLeft from '../../../public/三毛猫手間後ろ足.png';
-import tailImage from '../../../public/三毛猫尻尾.png';
-import faceImage from '../../../public/三毛猫顔.png';
-import bodyImage from '../../../public/三毛猫胴体.png';
-import earImage from '../../../public/三毛猫耳.png';
-import beardImageRight from '../../../public/三毛猫右ひげ.png';
-import beardImageLeft from '../../../public/三毛猫左ひげ.png';
+import { puppyCatImageAssets } from '../../../hooks/components/animations/puppyCat/puppyCatImageAssets';
+import { usePuppyCatRefs } from '../../../hooks/components/animations/puppyCat/usePuppyCatRefs';
 
 import { usePuppyCatWalkingAnimation } from '../../../hooks/components/animations/puppyCat/usePuppyCatWalkingAnimation'
 
 const PuppyCatAnimation= () => {
-  const legBackLeftRef = useRef<HTMLImageElement | null>(null);
-  const legBackRightRef = useRef<HTMLImageElement | null>(null);
-  const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
-  const legFrontRightRef = useRef<HTMLImageElement | null>(null);
-  const tailRef = useRef<HTMLImageElement | null>(null);
-  const faceRef = useRef<HTMLImageElement | null>(null);
-  const bodyRef = useRef<HTMLImageElement | null>(null);
-  const earRef = useRef<HTMLImageElement | null>(null);
-  const beardRightRef = useRef<HTMLImageElement | null>(null);
-  const beardLeftRef = useRef<HTMLImageElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const {  
+    legImageBackRight,
+    legImageFrontRight,
+    legImageFrontLeft,
+    legImageBackLeft,
+    tailImage,
+    faceImage,
+    bodyImage,
+    earImage,
+    beardImageRight,
+    beardImageLeft } = puppyCatImageAssets;
+
+  const {
+    legBackLeftRef,
+    legBackRightRef,
+    legFrontLeftRef,
+    legFrontRightRef,
+    tailRef,
+    faceRef,
+    bodyRef,
+    earRef,
+    beardRightRef,
+    beardLeftRef,
+    containerRef,
+    legAnims,
+    beardRightAnim,
+    beardLeftAnim,
+    headAnim,
+    containerAnim,
+  } = usePuppyCatRefs;
+
   const initialSpeed = 3; // 初期速度を設定
   const directionRef = useRef(1); // 移動方向を保持する
-
-  const legAnims = useRef<gsap.core.Tween[]>([]);
-  const beardRightAnim = useRef<gsap.core.Tween | null>(null);
-  const beardLeftAnim = useRef<gsap.core.Tween | null>(null);
-  const headAnim = useRef<gsap.core.Tween | null>(null);
-  const containerAnim = useRef<gsap.core.Tween | null>(null);
 
   const [isClickable, setIsClickable] = useState(true); // クリック可能状態を管理
 
