@@ -317,15 +317,15 @@ interface DogRefs {
   earRef: RefObject<HTMLImageElement>;
   earRightRef: RefObject<HTMLImageElement>;
   jawRef: RefObject<HTMLImageElement>;
-  containerRef: RefObject<HTMLDivElement>;
-  heartRef: RefObject<HTMLImageElement>;
-  heartRef2: RefObject<HTMLImageElement>;
-  ballRef: RefObject<HTMLImageElement>;
-  yellowNoteRef: RefObject<HTMLImageElement>;
-  blueNoteRef: RefObject<HTMLImageElement>;
-  donyoriRef: RefObject<HTMLImageElement>;
-  donyori2Ref: RefObject<HTMLImageElement>;
-  guruguruRef: RefObject<HTMLImageElement>;
+  containerRef?: RefObject<HTMLDivElement>;
+  heartRef?: RefObject<HTMLImageElement>;
+  heartRef2?: RefObject<HTMLImageElement>;
+  ballRef?: RefObject<HTMLImageElement>;
+  yellowNoteRef?: RefObject<HTMLImageElement>;
+  blueNoteRef?: RefObject<HTMLImageElement>;
+  donyoriRef?: RefObject<HTMLImageElement>;
+  donyori2Ref?: RefObject<HTMLImageElement>;
+  guruguruRef?: RefObject<HTMLImageElement>;
 }
 
 export interface DogPartsProps {
@@ -424,4 +424,8 @@ export interface usePuppyDogMovementAnimationProps {
   isSitting: boolean;
   directionRef: MutableRefObject<number>;
   initialSpeed: number
+}
+
+export interface PuppyDogPartsProps {
+  refs: DogRefs;
 }
