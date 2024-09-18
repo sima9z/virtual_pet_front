@@ -336,3 +336,11 @@ export interface DogPartsProps {
   showNotes: boolean;
   currentAnimation: AnimationState;
 }
+
+export interface useCatMovementAnimationProps {
+  containerRef: RefObject<HTMLDivElement>;
+  isSitting: boolean;
+  directionRef: MutableRefObject<number>;
+  containerAnim: MutableRefObject<gsap.core.Tween | null>;
+  initialSpeed: number
+}
