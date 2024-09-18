@@ -436,3 +436,20 @@ export interface usePuppyCatMovementAnimationProps {
   containerAnim: MutableRefObject<gsap.core.Tween | null>;
   initialSpeed: number;
 }
+
+export interface usePuppyCatHandleContainerClickProps {
+  isClickable: boolean;
+  setIsClickable: React.Dispatch<React.SetStateAction<boolean>>;
+  containerRef: RefObject<HTMLDivElement>;
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>; 
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  faceRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  beardRightRef: RefObject<HTMLImageElement>;
+  beardLeftRef: RefObject<HTMLImageElement>;
+  startWalkingAnimation: () => void;
+}

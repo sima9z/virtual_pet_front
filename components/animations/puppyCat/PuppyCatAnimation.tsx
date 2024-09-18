@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
 import Image from 'next/image';
 
 import { puppyCatImageAssets } from '../../../hooks/components/animations/puppyCat/puppyCatImageAssets';
 import { usePuppyCatRefs } from '../../../hooks/components/animations/puppyCat/usePuppyCatRefs';
 
 import { usePuppyCatMovementAnimation } from '../../../hooks/components/animations/puppyCat/usePuppyCatMovementAnimation';
-
 import { usePuppyCatWalkingAnimation } from '../../../hooks/components/animations/puppyCat/usePuppyCatWalkingAnimation'
+import { usePuppyCatHandleContainerClick } from '../../../hooks/components/animations/puppyCat/usePuppyCatHandleContainerClick'
 
 const PuppyCatAnimation= () => {
   const {  
@@ -76,34 +75,22 @@ const PuppyCatAnimation= () => {
     startWalkingAnimation();
   }, []);
 
-  const handleContainerClick = (ref: React.RefObject<HTMLDivElement>) => {
-    if (!isClickable) return; // クリック不可状態なら何もしない
-
-    setIsClickable(false); // クリック不可に設定
-
-    gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
-    gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
-
-    gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current], {
-      rotation: 0,
-      x: 0,
-      y: 0,
-    });
-    
-    gsap.to(ref.current, {
-      keyframes: [
-        { y: -200, rotation: "+=180", duration: 0.3, ease: 'power1.inOut' },
-        { y: 0, rotation: "+=180", duration: 0.3, ease: 'power1.inOut' }
-      ],
-      transformOrigin: 'center',
-      onComplete: () => {
-        // 元のアニメーションを再開
-        startWalkingAnimation();
-
-        setTimeout(() => setIsClickable(true), 2000); // 2秒後に再びクリック可能に
-      }
-    });
-  };
+  const { handleContainerClick } = usePuppyCatHandleContainerClick({
+    isClickable,
+    setIsClickable,
+    containerRef,
+    legBackLeftRef, 
+    legBackRightRef, 
+    legFrontLeftRef, 
+    legFrontRightRef, 
+    faceRef, 
+    bodyRef, 
+    earRef, 
+    tailRef, 
+    beardRightRef,
+    beardLeftRef,
+    startWalkingAnimation
+  });
 
   return (
     <div className="cat-container relative w-[450px] h-[350px] mx-auto cursor-pointer" ref={containerRef} onClick={() => handleContainerClick(containerRef)} style={{ transform: 'scale(0.5)' }}>
