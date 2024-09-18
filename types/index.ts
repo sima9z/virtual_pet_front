@@ -344,3 +344,19 @@ export interface useCatMovementAnimationProps {
   containerAnim: MutableRefObject<gsap.core.Tween | null>;
   initialSpeed: number
 }
+
+export interface useCatAnimationStateProps {
+  isSitting: boolean;
+  currentAnimation: AnimationState;
+  startUnhappyOrHungryWalkingAnimation: () => void;
+  startWalkingAnimation: () => void;
+  showVesse: boolean;
+  feedButtonClick: () => void;
+  showNotes: boolean;
+  strokeButtonClick: () => void;
+  showBall: boolean;
+  playButtonClick: () => void;
+  petDetails: PetDetails | null,
+  setCurrentAnimation: Dispatch<SetStateAction<AnimationState>>;
+  containerRef: RefObject<HTMLDivElement>;
+}

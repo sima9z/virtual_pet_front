@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useImperativeHandle, forwardRef } f
 import gsap from 'gsap';
 import Image from 'next/image';
 
-import  { catImageAssets } from '../../../hooks/components/animations/cat/catImageAssets'
+import { catImageAssets } from '../../../hooks/components/animations/cat/catImageAssets'
 import { useCatRefs } from '../../../hooks/components/animations/cat/useCatRefs'
 
 import { AnimationHandle } from '../../../types/index';
@@ -10,6 +10,7 @@ import { AnimationHandle } from '../../../types/index';
 import { useCatMovementAnimation } from '../../../hooks/components/animations/cat/useCatMovementAnimation'
 import { useCatWalkingAnimation } from '../../../hooks/components/animations/cat/useCatWalkingAnimation'
 import { useCatActionAnimation } from '../../../hooks/components/animations/cat/useCatActionAnimation'
+import { useCatAnimationState } from '../../../hooks/components/animations/cat/useCatAnimationState';
 
 const CatAnimation= forwardRef<AnimationHandle, { 
   showVesse: boolean; 
@@ -139,18 +140,24 @@ const CatAnimation= forwardRef<AnimationHandle, {
     currentAnimation,
     startUnhappyOrHungryWalkingAnimation,
     startWalkingAnimation,
-    ballRef })
+    ballRef
+  })
 
-  useEffect(() => {
-    if (!isSitting) {
-      // currentAnimation の状態に応じてアニメーションを開始
-      if (currentAnimation === 'unhappyOrHungry') {
-        startUnhappyOrHungryWalkingAnimation();
-      } else {
-        startWalkingAnimation();
-      }
-    }
-  }, [isSitting, currentAnimation]);
+  useCatAnimationState({
+    isSitting,
+    currentAnimation,
+    startUnhappyOrHungryWalkingAnimation,
+    startWalkingAnimation,
+    showVesse,
+    feedButtonClick,
+    showNotes,
+    strokeButtonClick,
+    showBall,
+    playButtonClick,
+    petDetails,
+    setCurrentAnimation,
+    containerRef
+  });
 
   const handleContainerClick = (ref: React.RefObject<HTMLDivElement>) => {
     if (!isClickable) return; // クリック不可状態なら何もしない
@@ -189,49 +196,6 @@ const CatAnimation= forwardRef<AnimationHandle, {
       }
     });
   };
-
-  useEffect(() => {
-    if (showVesse) {
-      feedButtonClick();
-    }
-  }, [showVesse]);
-
-  useEffect(() => {
-    if (showNotes) {
-      strokeButtonClick();  
-    }
-  }, [showNotes]);
-
-  useEffect(() => {
-    if (showBall) {
-      playButtonClick();
-    }
-  }, [showBall]);
-
-  useEffect(() => {
-    if (petDetails) {
-      const newAnimationState = (petDetails.states & 1 || petDetails.states & 2) ? 'unhappyOrHungry' : 'normal';
-
-      if (currentAnimation !== newAnimationState) {
-        setCurrentAnimation(newAnimationState);
-        gsap.killTweensOf(containerRef.current); // 既存のアニメーションを停止
-      }
-    }
-  }, [petDetails?.states]);
-
-  useEffect(() => {
-    if (currentAnimation === 'unhappyOrHungry') {
-      // アニメーションを開始
-      startUnhappyOrHungryWalkingAnimation();
-    } else {
-      // 通常のアニメーションを開始
-      startWalkingAnimation();
-    }
-    // コンポーネントがアンマウントされる際にアニメーションを停止
-    return () => {
-      gsap.killTweensOf(containerRef.current);
-    };
-  }, [currentAnimation]);
 
   return (
     <div className="cat-container relative w-[450px] h-[350px] mx-auto cursor-pointer z-50" ref={containerRef} onClick={() => handleContainerClick(containerRef)}>
