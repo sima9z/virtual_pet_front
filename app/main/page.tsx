@@ -77,7 +77,30 @@ export default function Main() {
             <>
               <div className="relative w-full h-full">
                 <div className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 40px)' }}>
-                  <CatAnimation showVesse={showVesse} setShowVesse={setShowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={catActionRef} setShowHearts={setShowHearts} petDetails={petDetails || { states: 0 }}/>
+                  <CatAnimation 
+                    showVesse={showVesse} 
+                    setShowVesse={setShowVesse} 
+                    showNotes={showNotes} 
+                    setShowNotes={setShowNotes} 
+                    showBall={showBall} 
+                    setShowBall={setShowBall} 
+                    showHearts={showHearts} 
+                    ref={catActionRef} 
+                    setShowHearts={setShowHearts} 
+                    petDetails={
+                      petDetails || { 
+                        id: 0,
+                        name: '',
+                        breed: '',
+                        level: 0,
+                        experience: 0,
+                        physical: 0,
+                        satiety: 0,
+                        happiness: 0,
+                        states: 0,
+                        offspring_count: 0
+                      }
+                    }/>
                 </div>
                 {Array.from({ length: offspringCount }).map((_, index) => (
                   <div key={index} className="absolute inset-0 flex justify-center items-end" style={{ bottom: 'calc(0vh - 80px)' }}>
