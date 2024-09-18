@@ -12,6 +12,8 @@ import DogParts from './DogParts';
 import { useDogRefs } from '../../../hooks/components/animations/dog/useDogRefs';
 import { useDogAnimationState } from '../../../hooks/components/animations/dog/useDogAnimationState';
 
+import { PetDetails } from '../../../types/index';
+
 const DogAnimation = forwardRef<AnimationHandle, { 
   showVesse: boolean; 
   setShowVesse: React.Dispatch<React.SetStateAction<boolean>>; 
@@ -21,7 +23,7 @@ const DogAnimation = forwardRef<AnimationHandle, {
   setShowBall: React.Dispatch<React.SetStateAction<boolean>>; 
   showHearts:boolean; 
   setShowHearts:React.Dispatch<React.SetStateAction<boolean>> 
-  petDetails: { states: number };
+  petDetails: PetDetails;
 }>(
   ({ showVesse, setShowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref) => {
     const {
