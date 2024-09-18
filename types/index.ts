@@ -380,3 +380,34 @@ export interface useCatHandleContainerClickProps {
   startUnhappyOrHungryWalkingAnimation: () => void;
   startWalkingAnimation: () => void;
 }
+
+interface CatRef {
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  faceRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  beardRightRef: RefObject<HTMLImageElement>;
+  beardLeftRef: RefObject<HTMLImageElement>;
+  heartRef: RefObject<HTMLImageElement>;
+  heartRef2: RefObject<HTMLImageElement>;
+  ballRef: RefObject<HTMLImageElement>;
+  yellowNoteRef: RefObject<HTMLImageElement>;
+  blueNoteRef: RefObject<HTMLImageElement>;
+  donyoriRef: RefObject<HTMLImageElement>;
+  donyori2Ref: RefObject<HTMLImageElement>;
+  guruguruRef: RefObject<HTMLImageElement>;
+}
+
+export interface CatPertProps {
+  isSitting: boolean;
+  refs: CatRef;
+  showHearts: boolean;
+  showBall: boolean;
+  showVesse: boolean;
+  showNotes: boolean;
+  currentAnimation: AnimationState;
+}
