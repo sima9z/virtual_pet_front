@@ -50,6 +50,13 @@ const PuppyDogAnimation = () => {
     animate
   });
 
+  usePuppyDogAnimationState({  
+    containerRef,
+    getRandomPosition,
+    startWalkingAnimation,
+    isSitting
+  });
+
   usePuppyDogSitAnimation({
     isSitting,
     containerRef,
@@ -66,13 +73,6 @@ const PuppyDogAnimation = () => {
     jawRef,
     setIsSitting,
     startWalkingAnimation
-  });
-
-  usePuppyDogAnimationState({  
-    containerRef,
-    getRandomPosition,
-    startWalkingAnimation,
-    isSitting
   });
 
   const refs = {
