@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button, Drawer } from '@mui/material';
 
-import PetStatusModal from './petStatusModal';
+import PetStatusModal from './PetStatusModal';
 import { ActionList } from '../molecules/ActionList';
 
 import { MenuProps, PetDetails } from '../../types/index'
