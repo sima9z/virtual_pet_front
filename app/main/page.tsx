@@ -4,10 +4,10 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 
 // import DogRandomAnimation from '../components/dogRandomAnimation';
-const DogAnimation = dynamic(() => import('../../components/animations/dog/DogAnimation'), { ssr: false });
-const CatAnimation = dynamic(() => import('../../components/animations/cat/CatAnimation'), { ssr: false });
-const PuppyDogAnimation = dynamic(() => import('../../components/animations/puppyDog/PuppyDogAnimation'), { ssr: false });
-const PuppyCatAnimation = dynamic(() => import('../../components/animations/puppyCat/PuppyCatAnimation'), { ssr: false });
+import DogAnimation from '../../components/animations/dog/DogAnimation';
+import CatAnimation from '../../components/animations/cat/CatAnimation';
+import PuppyDogAnimation from '../../components/animations/puppyDog/PuppyDogAnimation';
+import PuppyCatAnimation from '../../components/animations/puppyCat/PuppyCatAnimation';
 
 import BackgroundImage from "../../components/atoms/BackgroundImage"
 import Menu from "../../components/organisms/Menu"

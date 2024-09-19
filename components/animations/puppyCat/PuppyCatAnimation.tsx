@@ -4,35 +4,30 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import PuppyCatParts from './PuppyCatParts';
 
-import { usePuppyCatRefs } from '../../../hooks/components/animations/puppyCat/usePuppyCatRefs';
-
 import { usePuppyCatMovementAnimation } from '../../../hooks/components/animations/puppyCat/usePuppyCatMovementAnimation';
 import { usePuppyCatWalkingAnimation } from '../../../hooks/components/animations/puppyCat/usePuppyCatWalkingAnimation'
 import { usePuppyCatHandleContainerClick } from '../../../hooks/components/animations/puppyCat/usePuppyCatHandleContainerClick'
 
 const PuppyCatAnimation= () => {
-
-  const {
-    legBackLeftRef,
-    legBackRightRef,
-    legFrontLeftRef,
-    legFrontRightRef,
-    tailRef,
-    faceRef,
-    bodyRef,
-    earRef,
-    beardRightRef,
-    beardLeftRef,
-    containerRef,
-    legAnims,
-    beardRightAnim,
-    beardLeftAnim,
-    headAnim,
-    containerAnim,
-  } = usePuppyCatRefs;
-
+  const legBackLeftRef = useRef<HTMLImageElement | null>(null);
+  const legBackRightRef = useRef<HTMLImageElement | null>(null);
+  const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
+  const legFrontRightRef = useRef<HTMLImageElement | null>(null);
+  const tailRef = useRef<HTMLImageElement | null>(null);
+  const faceRef = useRef<HTMLImageElement | null>(null);
+  const bodyRef = useRef<HTMLImageElement | null>(null);
+  const earRef = useRef<HTMLImageElement | null>(null);
+  const beardRightRef = useRef<HTMLImageElement | null>(null);
+  const beardLeftRef = useRef<HTMLImageElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const initialSpeed = 3; // 初期速度を設定
   const directionRef = useRef(1); // 移動方向を保持する
+
+  const legAnims = useRef<gsap.core.Tween[]>([]);
+  const beardRightAnim = useRef<gsap.core.Tween | null>(null);
+  const beardLeftAnim = useRef<gsap.core.Tween | null>(null);
+  const headAnim = useRef<gsap.core.Tween | null>(null);
+  const containerAnim = useRef<gsap.core.Tween | null>(null);
 
   const [isClickable, setIsClickable] = useState(true); // クリック可能状態を管理
 

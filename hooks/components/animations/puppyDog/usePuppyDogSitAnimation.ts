@@ -19,7 +19,7 @@ export const usePuppyDogSitAnimation = ({
   jawRef,
   setIsSitting,
   startWalkingAnimation
-}:usePuppyDogSitAnimationProps) => {
+}: usePuppyDogSitAnimationProps ) => {
   useEffect(() => {
     if (!isSitting) return;
   

@@ -2,8 +2,6 @@
 
 import React, { useRef, useState, useImperativeHandle, forwardRef } from 'react';
 
-import { useCatRefs } from '../../../hooks/components/animations/cat/useCatRefs'
-
 import { AnimationHandle } from '../../../types/index';
 
 import { useCatMovementAnimation } from '../../../hooks/components/animations/cat/useCatMovementAnimation'
@@ -29,35 +27,34 @@ const CatAnimation= forwardRef<AnimationHandle, {
 }>(
   ({ showVesse, setShowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref ) => {
 
-    const {    
-      legBackLeftRef,
-      legBackRightRef,
-      legFrontLeftRef,
-      legFrontRightRef,
-      tailRef,
-      faceRef,
-      bodyRef,
-      earRef,
-      beardRightRef,
-      beardLeftRef,
-      containerRef,
-      heartRef,
-      heartRef2,
-      ballRef,
-      yellowNoteRef,
-      blueNoteRef,
-      donyoriRef,
-      donyori2Ref,
-      guruguruRef,
-      legAnims,
-      beardRightAnim,
-      beardLeftAnim,
-      headAnim,
-      containerAnim
-    } = useCatRefs();
-
-  const initialSpeed = 3; // 初期速度を設定
-  const directionRef = useRef(1); // 移動方向を保持する
+    const legBackLeftRef = useRef<HTMLImageElement | null>(null);
+    const legBackRightRef = useRef<HTMLImageElement | null>(null);
+    const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
+    const legFrontRightRef = useRef<HTMLImageElement | null>(null);
+    const tailRef = useRef<HTMLImageElement | null>(null);
+    const faceRef = useRef<HTMLImageElement | null>(null);
+    const bodyRef = useRef<HTMLImageElement | null>(null);
+    const earRef = useRef<HTMLImageElement | null>(null);
+    const beardRightRef = useRef<HTMLImageElement | null>(null);
+    const beardLeftRef = useRef<HTMLImageElement | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const initialSpeed = 3; // 初期速度を設定
+    const directionRef = useRef(1); // 移動方向を保持する
+  
+    const heartRef = useRef<HTMLImageElement | null>(null);
+    const heartRef2 = useRef<HTMLImageElement | null>(null);
+    const ballRef = useRef<HTMLImageElement | null>(null);
+    const yellowNoteRef = useRef<HTMLImageElement | null>(null);
+    const blueNoteRef = useRef<HTMLImageElement | null>(null);
+    const donyoriRef = useRef<HTMLImageElement | null>(null);
+    const donyori2Ref = useRef<HTMLImageElement | null>(null);
+    const guruguruRef = useRef<HTMLImageElement | null>(null);
+  
+    const legAnims = useRef<gsap.core.Tween[]>([]);
+    const beardRightAnim = useRef<gsap.core.Tween | null>(null);
+    const beardLeftAnim = useRef<gsap.core.Tween | null>(null);
+    const headAnim = useRef<gsap.core.Tween | null>(null);
+    const containerAnim = useRef<gsap.core.Tween | null>(null);
 
   const [isClickable, setIsClickable] = useState(true); // クリック可能状態を管理
   const [isSitting, setIsSitting] = useState(false);

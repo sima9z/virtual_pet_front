@@ -11,7 +11,6 @@ import { useDogActionAnimation } from '../../../hooks/components/animations/dog/
 
 import DogParts from './DogParts';
 
-import { useDogRefs } from '../../../hooks/components/animations/dog/useDogRefs';
 import { useDogAnimationState } from '../../../hooks/components/animations/dog/useDogAnimationState';
 
 import { PetDetails } from '../../../types/index';
@@ -28,31 +27,31 @@ const DogAnimation = forwardRef<AnimationHandle, {
   petDetails: PetDetails;
 }>(
   ({ showVesse, setShowVesse, showNotes, setShowNotes, showBall, setShowBall, showHearts , setShowHearts, petDetails}, ref) => {
-    const {
-      legBackLeftRef,
-      legBackRightRef,
-      legFrontLeftRef,
-      legFrontRightRef,
-      tailRef,
-      headFaceRef,
-      headEyeRef,
-      bodyRef,
-      earRef,
-      earRightRef,
-      jawRef,
-      containerRef,
-      heartRef,
-      heartRef2,
-      ballRef,
-      yellowNoteRef,
-      blueNoteRef,
-      donyoriRef,
-      donyori2Ref,
-      guruguruRef,
-    } = useDogRefs();
-
-  const initialSpeed = 3; // 初期速度を設定
-  const directionRef = useRef(1); // 移動方向を保持する
+    
+    const legBackLeftRef = useRef<HTMLImageElement | null>(null);
+    const legBackRightRef = useRef<HTMLImageElement | null>(null);
+    const legFrontLeftRef = useRef<HTMLImageElement | null>(null);
+    const legFrontRightRef = useRef<HTMLImageElement | null>(null);
+    const tailRef = useRef<HTMLImageElement | null>(null);
+    const headFaceRef = useRef<HTMLImageElement | null>(null);
+    const headEyeRef = useRef<HTMLImageElement | null>(null);
+    const bodyRef = useRef<HTMLImageElement | null>(null);
+    const earRef = useRef<HTMLImageElement | null>(null);
+    const earRightRef = useRef<HTMLImageElement | null>(null);
+    const jawRef = useRef<HTMLImageElement | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+  
+    const heartRef = useRef<HTMLImageElement | null>(null);
+    const heartRef2 = useRef<HTMLImageElement | null>(null);
+    const ballRef = useRef<HTMLImageElement | null>(null);
+    const yellowNoteRef = useRef<HTMLImageElement | null>(null);
+    const blueNoteRef = useRef<HTMLImageElement | null>(null);
+    const donyoriRef = useRef<HTMLImageElement | null>(null);
+    const donyori2Ref = useRef<HTMLImageElement | null>(null);
+    const guruguruRef = useRef<HTMLImageElement | null>(null);
+  
+    const initialSpeed = 3; // 初期速度を設定
+    const directionRef = useRef(1); // 移動方向を保持する
 
   const [isSitting, setIsSitting] = useState(false);
   const [currentAnimation, setCurrentAnimation] = useState<'normal' | 'unhappyOrHungry'>('normal');
