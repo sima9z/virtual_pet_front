@@ -266,3 +266,194 @@ export interface usePuppyCatWalkingAnimationProps {
   animate: () => void;
   containerAnim: MutableRefObject<gsap.core.Tween | null>;
 }
+
+export interface useDogMovementAnimationProps {
+  containerRef: MutableRefObject<HTMLDivElement | null>;
+  isSitting: boolean;
+  directionRef: MutableRefObject<number>;
+  initialSpeed: number;
+}
+
+export interface useDogAnimationStateProps {
+  isSitting: boolean;
+  currentAnimation: AnimationState;
+  startUnhappyOrHungryWalkingAnimation: () => void;
+  startWalkingAnimation: () => void;
+  showVesse: boolean;
+  feedButtonClick: () => void;
+  showNotes: boolean;
+  yellowNoteRef: RefObject<HTMLImageElement>;
+  blueNoteRef: RefObject<HTMLImageElement>;
+  showBall: boolean;
+  playButtonClick: () => void;
+  showHearts: boolean;
+  heartRef: RefObject<HTMLImageElement>;
+  heartRef2: RefObject<HTMLImageElement>;
+  petDetails: PetDetails | null,
+  setCurrentAnimation: Dispatch<SetStateAction<AnimationState>>;
+  containerRef: MutableRefObject<HTMLDivElement | null>;
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  headFaceRef: RefObject<HTMLImageElement>;
+  headEyeRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  earRightRef: RefObject<HTMLImageElement>;
+  jawRef: RefObject<HTMLImageElement>;
+}
+
+interface DogRefs {
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  headFaceRef: RefObject<HTMLImageElement>;
+  headEyeRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  earRightRef: RefObject<HTMLImageElement>;
+  jawRef: RefObject<HTMLImageElement>;
+  containerRef?: RefObject<HTMLDivElement>;
+  heartRef?: RefObject<HTMLImageElement>;
+  heartRef2?: RefObject<HTMLImageElement>;
+  ballRef?: RefObject<HTMLImageElement>;
+  yellowNoteRef?: RefObject<HTMLImageElement>;
+  blueNoteRef?: RefObject<HTMLImageElement>;
+  donyoriRef?: RefObject<HTMLImageElement>;
+  donyori2Ref?: RefObject<HTMLImageElement>;
+  guruguruRef?: RefObject<HTMLImageElement>;
+}
+
+export interface DogPartsProps {
+  refs: DogRefs;
+  showHearts: boolean;
+  showBall: boolean;
+  showVesse: boolean;
+  showNotes: boolean;
+  currentAnimation: AnimationState;
+}
+
+export interface useCatMovementAnimationProps {
+  containerRef: RefObject<HTMLDivElement>;
+  isSitting: boolean;
+  directionRef: MutableRefObject<number>;
+  containerAnim: MutableRefObject<gsap.core.Tween | null>;
+  initialSpeed: number
+}
+
+export interface useCatAnimationStateProps {
+  isSitting: boolean;
+  currentAnimation: AnimationState;
+  startUnhappyOrHungryWalkingAnimation: () => void;
+  startWalkingAnimation: () => void;
+  showVesse: boolean;
+  feedButtonClick: () => void;
+  showNotes: boolean;
+  strokeButtonClick: () => void;
+  showBall: boolean;
+  playButtonClick: () => void;
+  petDetails: PetDetails | null,
+  setCurrentAnimation: Dispatch<SetStateAction<AnimationState>>;
+  containerRef: RefObject<HTMLDivElement>;
+}
+
+export interface useCatHandleContainerClickProps {
+  isClickable: boolean;
+  setIsClickable: React.Dispatch<React.SetStateAction<boolean>>;
+  containerRef: RefObject<HTMLDivElement>;
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  faceRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  beardRightRef: RefObject<HTMLImageElement>;
+  beardLeftRef: RefObject<HTMLImageElement>;
+  directionRef: MutableRefObject<number>;
+  currentAnimation: AnimationState;
+  startUnhappyOrHungryWalkingAnimation: () => void;
+  startWalkingAnimation: () => void;
+}
+
+interface CatRef {
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>;
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  faceRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  beardRightRef: RefObject<HTMLImageElement>;
+  beardLeftRef: RefObject<HTMLImageElement>;
+  heartRef?: RefObject<HTMLImageElement>;
+  heartRef2?: RefObject<HTMLImageElement>;
+  ballRef?: RefObject<HTMLImageElement>;
+  yellowNoteRef?: RefObject<HTMLImageElement>;
+  blueNoteRef?: RefObject<HTMLImageElement>;
+  donyoriRef?: RefObject<HTMLImageElement>;
+  donyori2Ref?: RefObject<HTMLImageElement>;
+  guruguruRef?: RefObject<HTMLImageElement>;
+}
+
+export interface CatPertProps {
+  isSitting: boolean;
+  refs: CatRef;
+  showHearts: boolean;
+  showBall: boolean;
+  showVesse: boolean;
+  showNotes: boolean;
+  currentAnimation: AnimationState;
+}
+
+export interface usePuppyDogAnimationStateProps {
+  containerRef: RefObject<HTMLDivElement>;
+  getRandomPosition: () => number;
+  startWalkingAnimation: () => void;
+  isSitting: boolean;
+}
+
+export interface usePuppyDogMovementAnimationProps {
+  containerRef: RefObject<HTMLDivElement>;
+  isSitting: boolean;
+  directionRef: MutableRefObject<number>;
+  initialSpeed: number
+}
+
+export interface PuppyDogPartsProps {
+  refs: DogRefs;
+}
+
+export interface usePuppyCatMovementAnimationProps {
+  containerRef: RefObject<HTMLDivElement>;
+  directionRef: MutableRefObject<number>;
+  containerAnim: MutableRefObject<gsap.core.Tween | null>;
+  initialSpeed: number;
+}
+
+export interface usePuppyCatHandleContainerClickProps {
+  isClickable: boolean;
+  setIsClickable: React.Dispatch<React.SetStateAction<boolean>>;
+  containerRef: RefObject<HTMLDivElement>;
+  legBackLeftRef: RefObject<HTMLImageElement>;
+  legBackRightRef: RefObject<HTMLImageElement>;
+  legFrontLeftRef: RefObject<HTMLImageElement>; 
+  legFrontRightRef: RefObject<HTMLImageElement>;
+  faceRef: RefObject<HTMLImageElement>;
+  bodyRef: RefObject<HTMLImageElement>;
+  earRef: RefObject<HTMLImageElement>;
+  tailRef: RefObject<HTMLImageElement>;
+  beardRightRef: RefObject<HTMLImageElement>;
+  beardLeftRef: RefObject<HTMLImageElement>;
+  startWalkingAnimation: () => void;
+}
+
+export interface PuppyCatPartsProps {
+  refs: CatRef;
+}
