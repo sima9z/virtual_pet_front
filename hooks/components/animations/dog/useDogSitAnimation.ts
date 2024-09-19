@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import gsap from 'gsap';
 
-import { UseSitAnimationProps } from '../../../../types/index'
+import { UseDogSitAnimationProps } from '../../../../types/index'
 
 export const useDogSitAnimation = ({
   isSitting,
@@ -23,7 +23,7 @@ export const useDogSitAnimation = ({
   setShowNotes,
   setIsSitting,
   currentAnimation
-}: UseSitAnimationProps) => {
+}: UseDogSitAnimationProps) => {
   useEffect(() => {
     if (!isSitting) return;
   
