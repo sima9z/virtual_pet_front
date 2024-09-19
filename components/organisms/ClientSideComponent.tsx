@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import usePwaStatus from '../../hooks/app/usePwaStatus';
-import NotPwaHeader from './notPwaHeader';
+import NotPwaHeader from './NotPwaHeader';
 
 const ClientSideComponent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const isPwa = usePwaStatus();
