@@ -33,6 +33,7 @@ export const useDogAnimationState = ({
   earRightRef, 
   jawRef
 } :useDogAnimationStateProps ) => {
+  
   useEffect(() => {
     if (!isSitting) {
       // currentAnimation の状態に応じてアニメーションを開始

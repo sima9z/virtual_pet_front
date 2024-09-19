@@ -10,6 +10,7 @@ import ThemeWrapper from '../../../styles/ThemeWrapper';
 
 export default function Signup() {
   const {
+    name,
     setName,
     email,
     setEmail,
