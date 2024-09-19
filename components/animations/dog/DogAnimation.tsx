@@ -85,28 +85,6 @@ const DogAnimation = forwardRef<AnimationHandle, {
     UnhappyOrHungryWalkinganimate
   });
 
-  useDogSitAnimation({  
-    isSitting,
-    containerRef,
-    legBackLeftRef,
-    legBackRightRef,
-    legFrontLeftRef,
-    legFrontRightRef,
-    tailRef,
-    headFaceRef, 
-    headEyeRef, 
-    bodyRef, 
-    earRef, 
-    earRightRef, 
-    jawRef,
-    directionRef,
-    setShowVesse,
-    setShowHearts,
-    setShowNotes,
-    setIsSitting,
-    currentAnimation
-  });
-
   const { feedButtonClick, strokeButtonClick, playButtonClick } = useDogActionAnimation ({  
     isSitting, 
     containerRef, 
@@ -164,6 +142,28 @@ const DogAnimation = forwardRef<AnimationHandle, {
     earRef, 
     earRightRef, 
     jawRef
+  });
+
+  useDogSitAnimation({  
+    isSitting,
+    containerRef,
+    legBackLeftRef,
+    legBackRightRef,
+    legFrontLeftRef,
+    legFrontRightRef,
+    tailRef,
+    headFaceRef, 
+    headEyeRef, 
+    bodyRef, 
+    earRef, 
+    earRightRef, 
+    jawRef,
+    directionRef,
+    setShowVesse,
+    setShowHearts,
+    setShowNotes,
+    setIsSitting,
+    currentAnimation
   });
 
   const refs = {
