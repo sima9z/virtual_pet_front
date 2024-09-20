@@ -28,6 +28,7 @@ const useSignup = () => {
   };
 
   return {
+    name,
     setName,
     email,
     setEmail,

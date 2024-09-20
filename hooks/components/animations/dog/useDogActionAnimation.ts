@@ -28,7 +28,7 @@ export const useDogActionAnimation = ({
   ballRef,
   currentAnimation,
   startWalkingAnimation,
-  startUnhappyOrHungryWalkingAnimation 
+  startUnhappyOrHungryWalkingAnimation,
 } : DogActionAnimationProps ) => {
     
   const feedButtonClick = () => {
@@ -129,11 +129,6 @@ export const useDogActionAnimation = ({
       // 3秒後に音符を消して歩行アニメーションを再開
       gsap.delayedCall(3, () => {
         setShowNotes(false); // 音符を非表示
-        if (currentAnimation === 'unhappyOrHungry') {
-          startUnhappyOrHungryWalkingAnimation();
-        } else {
-          startWalkingAnimation();
-        } // 歩行アニメーションを再開
       });
     }
   };
