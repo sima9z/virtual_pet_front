@@ -188,9 +188,8 @@ export interface useDogAnimationStateProps extends DogAndPuppyDogImageRefs {
   startWalkingAnimation: () => void;
   showVesse: boolean;
   feedButtonClick: () => void;
+  strokeButtonClick: () => void;
   showNotes: boolean;
-  yellowNoteRef: RefObject<HTMLImageElement>;
-  blueNoteRef: RefObject<HTMLImageElement>;
   showBall: boolean;
   playButtonClick: () => void;
   showHearts: boolean;

@@ -11,10 +11,9 @@ export const useDogAnimationState = ({
   showVesse,
   feedButtonClick,
   showNotes,
-  yellowNoteRef,
-  blueNoteRef,
   showBall,
   playButtonClick,
+  strokeButtonClick,
   showHearts,
   heartRef,
   heartRef2,
@@ -35,56 +34,17 @@ export const useDogAnimationState = ({
 } :useDogAnimationStateProps ) => {
   
   useEffect(() => {
-    if (!isSitting) {
-      // currentAnimation の状態に応じてアニメーションを開始
-      if (currentAnimation === 'unhappyOrHungry') {
-        startUnhappyOrHungryWalkingAnimation();
-      } else {
-        startWalkingAnimation();
-      }
-    }
-  }, [isSitting, currentAnimation]);
-  
-  useEffect(() => {
     if (showVesse) {
       feedButtonClick();  
     }
   }, [showVesse]);
-  
-  useEffect(() => {
-    if (showNotes && yellowNoteRef.current && blueNoteRef.current) {
-      console.log("noteTl started");
-  
-      const noteTl = gsap.timeline();
-  
-      // 音符のアニメーション
-      noteTl.to(yellowNoteRef.current, {
-        rotation: 30,
-        transformOrigin: "center",
-        duration: 1.0,
-        ease: "power1.out",
-        repeat: -1,
-        yoyo: true,
-      });
-  
-      noteTl.to(
-        blueNoteRef.current,
-        {
-          rotation: -30,
-          transformOrigin: "center",
-          duration: 1.0,
-          ease: "power1.out",
-          repeat: -1,
-          yoyo: true,
-        },
-        "<" // 同時に実行
-      );
-  
-      return () => {
-        noteTl.kill(); // クリーンアップ
-      };
-    }
-  }, [showNotes]);
+
+  const strokeButtonClickWithPromise = () => {
+    return new Promise((resolve) => {
+      strokeButtonClick();
+      gsap.delayedCall(3, resolve); // 3秒後に resolve して完了を通知
+    });
+  };
   
   useEffect(() => {
     if (showBall) {
@@ -128,6 +88,17 @@ export const useDogAnimationState = ({
       };
     }
   }, [showHearts]);
+
+  useEffect(() => {
+    if (!isSitting) {
+      // currentAnimation の状態に応じてアニメーションを開始
+      if (currentAnimation === 'unhappyOrHungry') {
+        startUnhappyOrHungryWalkingAnimation();
+      } else {
+        startWalkingAnimation();
+      }
+    }
+  }, [isSitting]);
   
   useEffect(() => {
     if (petDetails) {
@@ -139,36 +110,42 @@ export const useDogAnimationState = ({
   }, [petDetails?.states]); // `petDetails.states` の変化のみを監視
   
   useEffect(() => {
-    // 現在のアニメーションを停止
-    gsap.killTweensOf(containerRef.current);
-    gsap.killTweensOf([
-      legBackLeftRef.current, 
-      legBackRightRef.current, 
-      legFrontLeftRef.current, 
-      legFrontRightRef.current, 
-      tailRef.current, 
-      headFaceRef.current, 
-      headEyeRef.current, 
-      bodyRef.current, 
-      earRef.current, 
-      earRightRef.current, 
-      jawRef.current
-    ]);
-  
-    console.log('currentAnimation:', currentAnimation);
-  
-    // アニメーションの状態に応じて新しいアニメーションを開始
-    if (currentAnimation === 'unhappyOrHungry') {
-      console.log('unhappyOrHungry state is true');
-      startUnhappyOrHungryWalkingAnimation();
-    } else {
-      console.log('normal state is true');
-      startWalkingAnimation();
-    }
-  
-    // クリーンアップ
-    return () => {
+    const runAnimation = async () => {
+      if (showNotes) {
+        await strokeButtonClickWithPromise(); // なでるアニメーションが完了するまで待つ
+      }
+      
+      // 次に currentAnimation に基づいてアニメーションを実行
       gsap.killTweensOf(containerRef.current);
+      gsap.killTweensOf([
+        legBackLeftRef.current, 
+        legBackRightRef.current, 
+        legFrontLeftRef.current, 
+        legFrontRightRef.current, 
+        tailRef.current, 
+        headFaceRef.current, 
+        headEyeRef.current, 
+        bodyRef.current, 
+        earRef.current, 
+        earRightRef.current, 
+        jawRef.current
+      ]);
+    
+      console.log('currentAnimation:', currentAnimation);
+    
+      // アニメーションの状態に応じて新しいアニメーションを開始
+      if (currentAnimation === 'unhappyOrHungry') {
+        console.log('unhappyOrHungry state is true');
+        startUnhappyOrHungryWalkingAnimation();
+      } else {
+        console.log('normal state is true');
+        startWalkingAnimation();
+      }
     };
-  }, [currentAnimation]);
+
+    runAnimation(); // 非同期処理を実行
+
+  }, [showNotes, currentAnimation]);
+
 }
+

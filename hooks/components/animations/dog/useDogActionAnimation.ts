@@ -28,7 +28,7 @@ export const useDogActionAnimation = ({
   ballRef,
   currentAnimation,
   startWalkingAnimation,
-  startUnhappyOrHungryWalkingAnimation 
+  startUnhappyOrHungryWalkingAnimation,
 } : DogActionAnimationProps ) => {
     
   const feedButtonClick = () => {
@@ -83,76 +83,54 @@ export const useDogActionAnimation = ({
 
   const strokeButtonClick = () => {
     if (!isSitting) {
-        gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
-        gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current, headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current]);
+      gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
+      gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current]);
 
-        // 足と体の状態をリセット
-        gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current, headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
-            rotation: 0,
-            x: 0,
-            y: 0,
-        });
-        gsap.set(containerRef.current, {
-            scaleX: directionRef.current ?? 1, // 現在の移動方向に合わせたスケールに設定
-        });
+      // 足と体の状態をリセット
+      gsap.set([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, tailRef.current,headFaceRef.current, headEyeRef.current, bodyRef.current, earRef.current, earRightRef.current, jawRef.current], {
+        rotation: 0,
+        x: 0,
+        y: 0,
+      });
+      gsap.set(containerRef.current, {
+        scaleX: directionRef.current ?? 1, // 現在の移動方向に合わせたスケールに設定
+      });
 
-        // リセットはせずに音符のアニメーションを開始
-        setShowNotes(true); // 音符を表示
+      // リセットはせずに音符のアニメーションを開始
+      setShowNotes(true); // 音符を表示
 
-        console.log("noteTl started");
+      console.log("noteTl started");
 
-        // `timeline` を使ってアニメーションの順序を制御
-        const noteTl = gsap.timeline({
-            onComplete: () => {
-                // 音符アニメーションのクリーンアップ
-                gsap.killTweensOf(yellowNoteRef.current);
-                gsap.killTweensOf(blueNoteRef.current);
+      const noteTl = gsap.timeline();
 
-                setShowNotes(false); // 音符を非表示
-                if (currentAnimation === 'unhappyOrHungry') {
-                    startUnhappyOrHungryWalkingAnimation();
-                } else {
-                    startWalkingAnimation();
-                }
-            }
-        });
+      // 音符のアニメーション
+      noteTl.to(yellowNoteRef.current, {
+        rotation: 30,
+        transformOrigin: "center",
+        duration: 1.0,
+        ease: "power1.out",
+        repeat: -1,
+        yoyo: true,
+      });
 
-        // 音符のアニメーション
-        noteTl.to(yellowNoteRef.current, {
-            rotation: 30,
-            transformOrigin: "center",
-            duration: 1.0,
-            ease: "power1.out",
-            repeat: -1,
-            yoyo: true,
-        });
+      noteTl.to(
+        blueNoteRef.current,
+        {
+          rotation: -30,
+          transformOrigin: "center",
+          duration: 1.0,
+          ease: "power1.out",
+          repeat: -1,
+          yoyo: true,
+        },
+        "<" // 同時に実行
+      );
 
-        noteTl.to(
-            blueNoteRef.current,
-            {
-                rotation: -30,
-                transformOrigin: "center",
-                duration: 1.0,
-                ease: "power1.out",
-                repeat: -1,
-                yoyo: true,
-            },
-            "<" // 同時に実行
-        );
-
-        noteTl.add(() => {
-            // 3秒後にクリーンアップと次のアニメーションを開始
-            gsap.delayedCall(3, () => {
-                gsap.killTweensOf([yellowNoteRef.current, blueNoteRef.current]);
-                setShowNotes(false); // 音符を非表示
-                if (currentAnimation === 'unhappyOrHungry') {
-                    startUnhappyOrHungryWalkingAnimation();
-                } else {
-                    startWalkingAnimation();
-                }
-            });
-        });
-      }
+      // 3秒後に音符を消して歩行アニメーションを再開
+      gsap.delayedCall(3, () => {
+        setShowNotes(false); // 音符を非表示
+      });
+    }
   };
 
   const playButtonClick = () => {

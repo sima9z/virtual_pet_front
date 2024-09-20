@@ -114,15 +114,15 @@ const DogAnimation = forwardRef<AnimationHandle, {
     startWalkingAnimation,
     startUnhappyOrHungryWalkingAnimation});
 
-  useDogAnimationState({isSitting,
+  useDogAnimationState({
+    isSitting,
     currentAnimation,
     startUnhappyOrHungryWalkingAnimation,
     startWalkingAnimation,
     showVesse,
     feedButtonClick,
+    strokeButtonClick,
     showNotes,
-    yellowNoteRef,
-    blueNoteRef,
     showBall,
     playButtonClick,
     showHearts,
