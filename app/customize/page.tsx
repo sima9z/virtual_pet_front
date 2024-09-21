@@ -22,6 +22,9 @@ const Customize: React.FC = () => {
     handleSubmit
   } = useCustomize(); 
 
+  const bucketName = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
+  const region = process.env.NEXT_PUBLIC_AWS_REGION;
+
   return (
     <ThemeWrapper theme={mainTheme}>
       <Container style={{ padding: '0 2%' }}>
@@ -41,7 +44,7 @@ const Customize: React.FC = () => {
               <Box flex="1" display="flex" justifyContent="center" alignItems="center" bgcolor="#e0e0e0" height="200px">
                 {selectedPetType && (
                   <Image
-                    src={`/${selectedPetType === '犬' ? '犬' : '猫'}.png`}
+                    src={`https://${bucketName}.s3.${region}.amazonaws.com/${selectedPetType === '犬' ? 'ダックス/犬' : '三毛猫/猫'}.png`}
                     alt="Virtual Pet Image"
                     width={selectedPetType === '犬' ? 200 : 150} // 犬なら200、猫なら150
                     height={selectedPetType === '犬' ? 200 : 150} // 犬なら200、猫なら150
