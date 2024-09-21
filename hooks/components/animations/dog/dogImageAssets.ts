@@ -1,25 +1,28 @@
-import legImageBackRight from '../../../../public/ダックス奥後ろ足.png';
-import legImageFrontRight from '../../../../public/ダックス奥前足2.png';
-import legImageFrontLeft from '../../../../public/ダックス前足.png';
-import legImageBackLeft from '../../../../public/ダックス後ろ足.png';
-import tailImage from '../../../../public/ダックス尻尾.png';
-import headImageFace from '../../../../public/ダックス顔.png';
-import headImageEye from '../../../../public/ダックス目.png';
-import bodyImage from '../../../../public/ダックス胴体.png';
-import earImage from '../../../../public/ダックス耳.png';
-import earImageRight from '../../../../public/ダックス奥耳.png';
-import jawImage from '../../../../public/ダックス顎.png';
+const bucketName = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
+const region = process.env.NEXT_PUBLIC_AWS_REGION;
 
-import heartImage from '../../../../public/ハートマーク.png';
-import vesselImage from '../../../../public/容器.png';
-import ballImage from '../../../../public/ボール.png';
+const legImageBackRight = `https://${bucketName}.s3.${region}.amazonaws.com/ダックス/ダックス奥後ろ足.png`;
+const legImageFrontRight = `https://${bucketName}.s3.${region}.amazonaws.com/ダックス/ダックス奥前足2.png`;
+const legImageFrontLeft = `https://${bucketName}.s3.${region}.amazonaws.com/ダックス/ダックス前足.png`;
+const legImageBackLeft = `https://${bucketName}.s3.${region}.amazonaws.com/ダックス/ダックス後ろ足.png`;
+const tailImage = `https://${bucketName}.s3.${region}.amazonaws.com/ダックス/ダックス尻尾.png`;
+const headImageFace = `https://${bucketName}.s3.${region}.amazonaws.com/ダックス/ダックス顔.png`;
+const headImageEye = `https://${bucketName}.s3.${region}.amazonaws.com/ダックス/ダックス目.png`;
+const bodyImage = `https://${bucketName}.s3.${region}.amazonaws.com/ダックス/ダックス胴体.png`;
+const earImage = `https://${bucketName}.s3.${region}.amazonaws.com/ダックス/ダックス耳.png`;
+const earImageRight = `https://${bucketName}.s3.${region}.amazonaws.com/ダックス/ダックス奥耳.png`;
+const jawImage = `https://${bucketName}.s3.${region}.amazonaws.com/ダックス/ダックス顎.png`;
 
-import yellowNoteImage from '../../../../public/音符（黄色）.png';
-import blueNoteImage from '../../../../public/音符（青）.png';
+const heartImage = `https://${bucketName}.s3.${region}.amazonaws.com/ハートマーク.png`;
+const vesselImage = `https://${bucketName}.s3.${region}.amazonaws.com/容器.png`;
+const ballImage = `https://${bucketName}.s3.${region}.amazonaws.com/ボール.png`;
 
-import donyoriImage from '../../../../public/どんより1.png';
-import donyori2Image from '../../../../public/どんより2.png';
-import guruguruImage from '../../../../public/ぐるぐる.png';
+const yellowNoteImage = `https://${bucketName}.s3.${region}.amazonaws.com/音符（黄色）.png`;
+const blueNoteImage = `https://${bucketName}.s3.${region}.amazonaws.com/音符（青）.png`;
+
+const donyoriImage = `https://${bucketName}.s3.${region}.amazonaws.com/どんより1.png`;
+const donyori2Image = `https://${bucketName}.s3.${region}.amazonaws.com/どんより2.png`;
+const guruguruImage = `https://${bucketName}.s3.${region}.amazonaws.com/ぐるぐる.png`;
 
 export const dogImageAssets = {
   legImageBackRight,

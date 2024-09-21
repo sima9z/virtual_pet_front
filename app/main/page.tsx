@@ -38,6 +38,9 @@ export default function Main() {
 
   const { physicalRecoveryIntervalId, statDecreaseIntervalId } = usePetIntervals({ petType, petDetails, setPetDetails });
 
+  const bucketName = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
+  const region = process.env.NEXT_PUBLIC_AWS_REGION;
+
   return (
     <ThemeWrapper theme={mainTheme}>
       <div className="relative h-[93vh] overflow-hidden">
@@ -113,7 +116,7 @@ export default function Main() {
           
           {petType === 'none' && <p>No pet found</p>}
 
-          <BackgroundImage src='/ばーちゃるぺっと背景.jpg' />
+          <BackgroundImage src={`https://${bucketName}.s3.${region}.amazonaws.com/ばーちゃるぺっと背景.jpg`} />
         </div>
       </div>
     </ThemeWrapper>
