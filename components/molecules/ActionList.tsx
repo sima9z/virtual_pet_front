@@ -52,6 +52,14 @@ export const ActionList: React.FC<ActionListProps> = ({
         >
           ステータス
         </Button>
+        <Button
+          href="/customize" 
+          variant="contained"
+          color="primary" 
+          sx={{ color: 'white', fontSize: "24px", zIndex: 1000 }} 
+         >
+          カスタマイズ
+         </Button>
         <LogoutButton  
           physicalRecoveryIntervalId={physicalRecoveryIntervalId}
           statDecreaseIntervalId={statDecreaseIntervalId} 
