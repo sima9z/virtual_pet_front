@@ -23,6 +23,10 @@ const isPWA = () => {
 const NotPwaHeader = () => {
   const [isStandalone, setIsStandalone] = useState(isPWA());
 
+  const bucketName = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
+  const region = process.env.NEXT_PUBLIC_AWS_REGION;
+
+
   useEffect(() => {
     const handler = () => setIsStandalone(isPWA());
 
@@ -44,7 +48,7 @@ const NotPwaHeader = () => {
               <Typography variant="body1" color="primary" sx={{ height: '50%' }} />
                 <Box display="flex" alignItems="center" sx={{ height: '100%' }}>
                 <Image
-                    src="/ばつ.png"
+                    src={`https://${bucketName}.s3.${region}.amazonaws.com/ばつ.png`}
                     alt="Virtual Pet App ✖"
                     width= {35}
                     height={35}
