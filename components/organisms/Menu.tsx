@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import { Button, Drawer } from '@mui/material';
+import { Snackbar } from '@mui/material';
 
 import PetStatusModal from './PetStatusModal';
 import { ActionList } from '../molecules/ActionList';
@@ -26,6 +27,9 @@ export default function Menu({
   const {
     state,
     openModal,
+    snackbarOpen,
+    snackbarMessage,
+    handleCloseSnackbar, 
     toggleDrawer,
     handleOpenModal,
     handleCloseModal,
@@ -62,6 +66,14 @@ export default function Menu({
           petDetails={petDetails}
         />
       </React.Fragment>
+      
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000} // 4秒後に自動で閉じる
+        onClose={handleCloseSnackbar}
+        message={snackbarMessage}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      />
     </ThemeWrapper>
   )
 }

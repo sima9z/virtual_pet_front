@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Snackbar } from '@mui/material';
 
 import { getPetDetails } from '../../../features/api/getPetDetails';
 import { petAction } from '../../../features/api/petActions';
@@ -16,6 +17,8 @@ export const useMenu = ({ petDetails, setPetDetails, setOffspringCount, onFeed, 
   
   const [openModal, setOpenModal] = useState(false);
   const [petType, setPetType] = useState<'dog' | 'cat' | null>(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // Snackbarの状態
+  const [snackbarMessage, setSnackbarMessage] = useState(''); // Snackbarのメッセージ
   
   useEffect(() => {
     async function fetchData() {
@@ -68,7 +71,8 @@ export const useMenu = ({ petDetails, setPetDetails, setOffspringCount, onFeed, 
       try {
         const result = await petAction(petType, petDetails.id, action);
   
-        alert(result.message);
+        setSnackbarMessage(result.message);
+        setSnackbarOpen(true);
   
         if (!result.success) {
           return;
@@ -98,10 +102,17 @@ export const useMenu = ({ petDetails, setPetDetails, setOffspringCount, onFeed, 
       }
     }
   };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
   
   return{
     state,
     openModal,
+    snackbarOpen,
+    snackbarMessage,
+    handleCloseSnackbar, 
     toggleDrawer,
     handleOpenModal,
     handleCloseModal,
