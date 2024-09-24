@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { SelectChangeEvent } from '@mui/material';
 
 import { checkPets } from '../../features/api/checkPets';
+import { getPetDetails } from '../../features/api/getPetDetails';
+
+import { PetDetails } from '../../types/index';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -22,6 +25,39 @@ const useCustomize = () => {
   const handlePetLookChange = (event: SelectChangeEvent<string>) => {
     setSelectedPetLook(event.target.value as string);
   };
+
+  // ペット情報を取得する関数
+  const fetchPetDetails = async () => {
+    try {
+      const petDetails: PetDetails = await getPetDetails(); // PetDetails型でデータ取得
+      setPetName(petDetails.name);
+      setSelectedPetType(petDetails.species); // species から犬か猫かを設定
+      setSelectedPetLook(petDetails.breed); // ペットの見た目（種類）を設定
+    } catch (error) {
+      console.error('Error fetching pet details:', error);
+      setError('An error occurred while fetching pet details');
+    }
+  };
+
+  useEffect(() => {
+    // ペットが存在する場合、詳細情報を取得して表示
+    const checkAndFetchPetDetails = async () => {
+      try {
+        const data = await checkPets();
+        if (data.pets_exist) {
+          setIsEditing(true);
+          await fetchPetDetails(); // ペット情報を取得
+        } else {
+          setIsEditing(false);
+        }
+      } catch (error) {
+        console.error('Error checking pets:', error);
+        setError('An error occurred while checking pets');
+      }
+    };
+
+    checkAndFetchPetDetails();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();

@@ -82,6 +82,7 @@ export interface PetDetails {
   id: number;
   name: string;
   breed: string;
+  species: string;
   level: number;
   experience: number;
   physical: number;
