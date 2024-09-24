@@ -31,7 +31,7 @@ export const ActionList: React.FC<ActionListProps> = ({
               variant="contained"
               color="secondary"
               sx={{ color: 'white', fontSize: "24px", zIndex: 1000 }}
-              onClick={() => {
+              onClick={(e) => {
                 if (text === 'ご飯') {
                   onAction('feed');
                 } else if (text === 'なでる') {
@@ -39,7 +39,7 @@ export const ActionList: React.FC<ActionListProps> = ({
                 } else if (text === '遊ぶ') {
                   onAction('play');
                 }
-                toggleDrawer('top', false)(new MouseEvent('click')); // アクション後にメニューを閉じる
+                toggleDrawer('top', false)(e); // アクション後にメニューを閉じる
               }}
             >
               {text}
