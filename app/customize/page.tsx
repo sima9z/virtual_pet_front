@@ -17,6 +17,7 @@ const Customize: React.FC = () => {
     selectedPetType,
     selectedPetLook,
     error,
+    isEditing,
     handlePetTypeChange,
     handlePetLookChange,
     handleSubmit
@@ -61,6 +62,7 @@ const Customize: React.FC = () => {
                     value={selectedPetType}
                     label="ペットの種類"
                     onChange={handlePetTypeChange}
+                    disabled={isEditing}  // ペットが既に作成されている場合は選択不可
                   >
                     <MenuItem value="犬">犬</MenuItem>
                     <MenuItem value="猫">猫</MenuItem>
@@ -76,7 +78,11 @@ const Customize: React.FC = () => {
                       label="ペットの見た目"
                       onChange={handlePetLookChange}
                     >
-                      <MenuItem value="タイプ1">タイプ1</MenuItem>
+                      {selectedPetType === '犬' ? (
+                        <MenuItem value="ダックスフンド">ダックスフンド</MenuItem>
+                      ) : (
+                        <MenuItem value="三毛猫">三毛猫</MenuItem>
+                      )}
                     </Select>
                   </FormControl>
                 </Box>
