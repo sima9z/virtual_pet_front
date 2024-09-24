@@ -96,6 +96,7 @@ export default function Main() {
                         name: '',
                         breed: '',
                         level: 0,
+                        species:'猫',
                         experience: 0,
                         physical: 0,
                         satiety: 0,
