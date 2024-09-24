@@ -21,7 +21,7 @@ const CustomSnackbar = styled(Snackbar)({
     color: '#fff', // テキスト色をカスタマイズ
     fontSize: '24px', // テキストサイズ
     padding: '10px 8px',
-    marginTop: '150px',
+    marginTop: '100px',
     borderRadius: '8px', // 角丸
   },
 });
@@ -46,7 +46,7 @@ export default function Menu({
     toggleDrawer,
     handleOpenModal,
     handleCloseModal,
-    handleAction
+    handleAction,
   } = useMenu({petDetails, setPetDetails, setOffspringCount, onFeed, onPlay, onStroke }) ;
 
   return (
@@ -71,6 +71,7 @@ export default function Menu({
             handleOpenModal={handleOpenModal}
             physicalRecoveryIntervalId={physicalRecoveryIntervalId}
             statDecreaseIntervalId={statDecreaseIntervalId}
+            toggleDrawer={toggleDrawer}
           />
         </Drawer>
         <PetStatusModal

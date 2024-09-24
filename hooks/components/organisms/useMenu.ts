@@ -38,18 +38,21 @@ export const useMenu = ({ petDetails, setPetDetails, setOffspringCount, onFeed, 
   }, []);
   
   const toggleDrawer =
-    (anchor: Anchor, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
-      ) {
-        return;
-      }
-  
-      setState({ ...state, [anchor]: open });
-    };
+  (anchor: Anchor, open: boolean) =>
+  (event: React.KeyboardEvent | React.MouseEvent) => {
+    if (
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
+
+    // prevStateを使って安全に状態を更新する
+    setState((prevState) => ({
+      ...prevState,
+      [anchor]: open,
+    }));
+  };
   
   const handleOpenModal = async () => {
     try {
@@ -116,6 +119,6 @@ export const useMenu = ({ petDetails, setPetDetails, setOffspringCount, onFeed, 
     toggleDrawer,
     handleOpenModal,
     handleCloseModal,
-    handleAction
+    handleAction,
   }
 }
