@@ -1,8 +1,6 @@
 "use client";
 import React from 'react';
 import { Button, Drawer } from '@mui/material';
-import { Snackbar } from '@mui/material';
-import { styled } from '@mui/system'
 
 import PetStatusModal from './PetStatusModal';
 import { ActionList } from '../molecules/ActionList';
@@ -11,20 +9,10 @@ import { MenuProps } from '../../types/index'
 
 import { mainTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
+import { CustomSnackbar } from '../../styles/SnackbarStyles'; 
 
 import { useMenu } from '../../hooks/components/organisms/useMenu'
 
-// スナックバー用のカスタムスタイル
-const CustomSnackbar = styled(Snackbar)({
-  '& .MuiSnackbarContent-root': {
-    backgroundColor: '#E8AFAF', // 背景色をカスタマイズ
-    color: '#fff', // テキスト色をカスタマイズ
-    fontSize: '24px', // テキストサイズ
-    padding: '10px 8px',
-    marginTop: '100px',
-    borderRadius: '8px', // 角丸
-  },
-});
 
 export default function Menu({ 
   petDetails, 

@@ -14,7 +14,7 @@ const usePetIntervals = ({
   useEffect(() => {
     if (petType && petDetails) {
       const physicalInterval = setInterval(() => {
-        petPhysicalRecover();
+        petPhysicalRecover(setPetDetails);
       }, 60000);
       setPhysicalRecoveryIntervalId(physicalInterval);
 

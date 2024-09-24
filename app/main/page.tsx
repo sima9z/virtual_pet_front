@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { LinearProgress, Box, Typography } from '@mui/material';
 
 // import DogRandomAnimation from '../components/dogRandomAnimation';
 import DogAnimation from '../../components/animations/dog/DogAnimation';
@@ -10,6 +11,7 @@ import PuppyCatAnimation from '../../components/animations/puppyCat/PuppyCatAnim
 
 import BackgroundImage from "../../components/atoms/BackgroundImage"
 import Menu from "../../components/organisms/Menu"
+import { PhysicalStatBar, SatietyStatBar, HappinessStatBar } from '../../components/molecules/StatusBar'
 
 import usePetInfo from '../../hooks/app/main/usePetInfo';
 import usePetAnimation from '../../hooks/app/main/usePetAnimation';
@@ -57,6 +59,16 @@ export default function Main() {
           >
           </Menu>
         </div>
+        
+        {petDetails && (
+          <Box sx={{ position: 'absolute', top: '70px', left: '30px', width: '300px', zIndex:"1000", backgroundColor: '#fff', padding:'20px', borderRadius:"10px" }}>
+            {/* 体力、満腹度、幸福度のステータスバー */}
+            <PhysicalStatBar label="体力" value={petDetails.physical} max={50} />
+            <SatietyStatBar label="満腹度" value={petDetails.satiety} max={100} />
+            <HappinessStatBar label="幸福度" value={petDetails.happiness} max={100} />
+          </Box>
+        )}
+
         {petType === 'dog' && (
           <>
             <div className="relative w-full h-full">
