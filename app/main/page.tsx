@@ -42,7 +42,7 @@ export default function Main() {
   const bucketName = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
   const region = process.env.NEXT_PUBLIC_AWS_REGION;
 
-  const StatBar = ({ label, value, max }: { label: string; value: number; max: number }) => (
+  const PhysicalStatBar = ({ label, value, max }: { label: string; value: number; max: number }) => (
     <Box sx={{ marginBottom: '10px' }}>
       <Typography variant="h6" align="center">{`${label}: ${value} / ${max}`}</Typography>
       <LinearProgress
@@ -54,6 +54,42 @@ export default function Main() {
           backgroundColor: '#f0f0f0',
           '& .MuiLinearProgress-bar': {
             backgroundColor: value > (20) ? '#76c7c0' : '#e57373', // 値が少ないときは赤色に変更
+          },
+        }}
+      />
+    </Box>
+  );
+
+  const SatietyStatBar = ({ label, value, max }: { label: string; value: number; max: number }) => (
+    <Box sx={{ marginBottom: '10px' }}>
+      <Typography variant="h6" align="center">{`${label}: ${value} / ${max}`}</Typography>
+      <LinearProgress
+        variant="determinate"
+        value={(value / max) * 100}
+        sx={{
+          height: '20px',
+          borderRadius: '10px',
+          backgroundColor: '#f0f0f0',
+          '& .MuiLinearProgress-bar': {
+            backgroundColor: value > (20) ? '#FAEAB1' : '#e57373', // 値が少ないときは赤色に変更
+          },
+        }}
+      />
+    </Box>
+  );
+
+  const HappinessStatBar = ({ label, value, max }: { label: string; value: number; max: number }) => (
+    <Box sx={{ marginBottom: '10px' }}>
+      <Typography variant="h6" align="center">{`${label}: ${value} / ${max}`}</Typography>
+      <LinearProgress
+        variant="determinate"
+        value={(value / max) * 100}
+        sx={{
+          height: '20px',
+          borderRadius: '10px',
+          backgroundColor: '#f0f0f0',
+          '& .MuiLinearProgress-bar': {
+            backgroundColor: value > (20) ? '#E8AFAF' : '#e57373', // 値が少ないときは赤色に変更
           },
         }}
       />
@@ -78,11 +114,11 @@ export default function Main() {
         </div>
         
         {petDetails && (
-          <Box sx={{ position: 'absolute', top: '100px', left: '10px', width: '300px', zIndex:"1000" }}>
+          <Box sx={{ position: 'absolute', top: '70px', left: '30px', width: '300px', zIndex:"1000", backgroundColor: '#fff', padding:'20px', borderRadius:"10px" }}>
             {/* 体力、満腹度、幸福度のステータスバー */}
-            <StatBar label="体力" value={petDetails.physical} max={100} />
-            <StatBar label="満腹度" value={petDetails.satiety} max={100} />
-            <StatBar label="幸福度" value={petDetails.happiness} max={100} />
+            <PhysicalStatBar label="体力" value={petDetails.physical} max={50} />
+            <SatietyStatBar label="満腹度" value={petDetails.satiety} max={100} />
+            <HappinessStatBar label="幸福度" value={petDetails.happiness} max={100} />
           </Box>
         )}
 
