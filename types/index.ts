@@ -58,6 +58,7 @@ export interface ActionListProps extends PetIntervals {
   anchor: Anchor;
   onAction: (action: 'feed' | 'stroke' | 'play') => void;
   handleOpenModal: () => void;
+  toggleDrawer: (anchor: Anchor, open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => void;
 }
 
 interface PetStateHandlers {

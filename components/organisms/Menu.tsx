@@ -1,16 +1,30 @@
 "use client";
 import React from 'react';
 import { Button, Drawer } from '@mui/material';
+import { Snackbar } from '@mui/material';
+import { styled } from '@mui/system'
 
 import PetStatusModal from './PetStatusModal';
 import { ActionList } from '../molecules/ActionList';
 
-import { MenuProps, PetDetails } from '../../types/index'
+import { MenuProps } from '../../types/index'
 
 import { mainTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
 
 import { useMenu } from '../../hooks/components/organisms/useMenu'
+
+// スナックバー用のカスタムスタイル
+const CustomSnackbar = styled(Snackbar)({
+  '& .MuiSnackbarContent-root': {
+    backgroundColor: '#E8AFAF', // 背景色をカスタマイズ
+    color: '#fff', // テキスト色をカスタマイズ
+    fontSize: '24px', // テキストサイズ
+    padding: '10px 8px',
+    marginTop: '100px',
+    borderRadius: '8px', // 角丸
+  },
+});
 
 export default function Menu({ 
   petDetails, 
@@ -26,10 +40,13 @@ export default function Menu({
   const {
     state,
     openModal,
+    snackbarOpen,
+    snackbarMessage,
+    handleCloseSnackbar, 
     toggleDrawer,
     handleOpenModal,
     handleCloseModal,
-    handleAction
+    handleAction,
   } = useMenu({petDetails, setPetDetails, setOffspringCount, onFeed, onPlay, onStroke }) ;
 
   return (
@@ -54,6 +71,7 @@ export default function Menu({
             handleOpenModal={handleOpenModal}
             physicalRecoveryIntervalId={physicalRecoveryIntervalId}
             statDecreaseIntervalId={statDecreaseIntervalId}
+            toggleDrawer={toggleDrawer}
           />
         </Drawer>
         <PetStatusModal
@@ -62,6 +80,14 @@ export default function Menu({
           petDetails={petDetails}
         />
       </React.Fragment>
+
+      <CustomSnackbar
+        open={snackbarOpen}
+        autoHideDuration={4000} // 4秒後に自動で閉じる
+        onClose={handleCloseSnackbar}
+        message={snackbarMessage}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      />
     </ThemeWrapper>
   )
 }

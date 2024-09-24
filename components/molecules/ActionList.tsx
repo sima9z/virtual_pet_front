@@ -10,7 +10,8 @@ export const ActionList: React.FC<ActionListProps> = ({
   onAction, 
   handleOpenModal, 
   physicalRecoveryIntervalId, 
-  statDecreaseIntervalId 
+  statDecreaseIntervalId,
+  toggleDrawer
 }) => {
   return (
     <Box
@@ -30,7 +31,7 @@ export const ActionList: React.FC<ActionListProps> = ({
               variant="contained"
               color="secondary"
               sx={{ color: 'white', fontSize: "24px", zIndex: 1000 }}
-              onClick={() => {
+              onClick={(e) => {
                 if (text === 'ご飯') {
                   onAction('feed');
                 } else if (text === 'なでる') {
@@ -38,6 +39,7 @@ export const ActionList: React.FC<ActionListProps> = ({
                 } else if (text === '遊ぶ') {
                   onAction('play');
                 }
+                toggleDrawer('top', false)(e); // アクション後にメニューを閉じる
               }}
             >
               {text}
