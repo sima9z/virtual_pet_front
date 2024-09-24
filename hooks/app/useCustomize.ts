@@ -107,6 +107,7 @@ const useCustomize = () => {
     selectedPetType,
     selectedPetLook,
     error,
+    isEditing,
     handlePetTypeChange,
     handlePetLookChange,
     handleSubmit,
