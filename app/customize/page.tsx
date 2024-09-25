@@ -7,6 +7,7 @@ import Image from 'next/image';
 
 import useCustomize from '../../hooks/app/useCustomize';
 import LoadingAnimation from '../../components/atoms/LoadingAnimation'
+import BackButton from '../../components/atoms/BackButton';
 
 import { mainTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
@@ -90,11 +91,12 @@ const Customize: React.FC = () => {
                 </Box>
               </Box>
             </Box>
-            <Button type="submit" variant="contained" color="primary" sx={{ color: 'white', marginTop: '30px' }} onClick={handleSubmit}>
+            <Button type="submit" variant="contained" color="primary" sx={{ color: 'white', marginTop: '15px', marginBottom: '20px' }} onClick={handleSubmit}>
               登録
             </Button>
             {error && <p style={{ color: 'red' }}>{error}</p>}
           </form>
+          <BackButton />
         </Box>
         <LoadingAnimation isLoading={isLoading} />
       </Container>

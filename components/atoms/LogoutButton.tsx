@@ -13,7 +13,7 @@ const LogoutButton = ({ physicalRecoveryIntervalId, statDecreaseIntervalId } : L
 
   return (  
     <ThemeWrapper theme={logoutButtonTheme}>
-      <Button onClick={handleLogout} variant="contained" color="primary" sx={{ color: 'white', fontSize: "24px" }}>
+      <Button onClick={ handleLogout } variant="contained" color="primary" sx={{ color: 'white', fontSize: "24px" }}>
         ログアウト
       </Button>
       {error && <p>{error}</p>}
