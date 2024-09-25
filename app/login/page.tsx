@@ -89,14 +89,23 @@ export default function Login() {
               alignItems: 'center',
             }}
           >
-            {/* 画像の配置 */}
-            <Image
-              src={`https://${bucketName}.s3.${region}.amazonaws.com/ロード画面.png`}
-              alt="Loading background"
-              layout="fill"
-              objectFit="cover"
-              style={{ zIndex: 10000 }} // さらに高いz-index
-            />
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                objectFit: 'cover',
+                zIndex: 10000, // さらに高いz-index
+              }}
+            >
+              <source src={`https://${bucketName}.s3.${region}.amazonaws.com/ロードアニメーション.mp4`} type="video/mp4" />
+            </video>
           </Box>
         )}
       </Container>
