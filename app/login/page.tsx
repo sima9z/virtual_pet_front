@@ -1,10 +1,10 @@
 "use client";
 
 import React from 'react';
-import Image from 'next/image';
 import { TextField, Container, Box, Button, Typography, CircularProgress } from '@mui/material';
 
 import NavigationLink from '../../components/atoms/NavigationLink';
+import LoadingAnimation from '../../components/atoms/LoadingAnimation'
 
 import useLogin from '../../hooks/app/useLogin';
 
@@ -73,41 +73,7 @@ export default function Login() {
             </Box>
           </Box>
         </Box>
-        {/* ローディング中の背景画像 */}
-        {isLoading && (
-          <Box
-            sx={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100vw',
-              height: '100vh',
-              backgroundColor: 'rgba(0, 0, 0, 0.5)', // 背景に透明感を加える
-              zIndex: 9999, // 高いz-index
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100vw',
-                height: '100vh',
-                objectFit: 'cover',
-                zIndex: 10000, // さらに高いz-index
-              }}
-            >
-              <source src={`https://${bucketName}.s3.${region}.amazonaws.com/ロードアニメーション.mp4`} type="video/mp4" />
-            </video>
-          </Box>
-        )}
+        <LoadingAnimation isLoading={isLoading} />
       </Container>
     </ThemeWrapper>
   );
