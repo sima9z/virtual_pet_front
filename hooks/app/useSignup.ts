@@ -8,12 +8,14 @@ const useSignup = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false); 
   const [error, setError] = useState<string>('');
 
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
     try {
       const user = await signup(name, email, password, passwordConfirmation);
       console.log('Signed up user:', user);
@@ -24,6 +26,8 @@ const useSignup = () => {
       } else {
         setError('An unexpected error occurred');
       }
+    } finally {
+      setIsLoading(false); // ローディング終了
     }
   };
 
@@ -37,7 +41,8 @@ const useSignup = () => {
     passwordConfirmation,
     setPasswordConfirmation,
     error,
-    handleSubmit
+    handleSubmit,
+    isLoading
   };
 }
 

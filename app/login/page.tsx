@@ -27,9 +27,6 @@ export default function Login() {
     await handleSubmit(event);
   };
 
-  const bucketName = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
-  const region = process.env.NEXT_PUBLIC_AWS_REGION;
-  
   return (
     <ThemeWrapper theme={mainTheme}>
       <Container style={{ padding: '0 2%' }}>

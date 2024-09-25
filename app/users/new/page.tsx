@@ -4,6 +4,7 @@ import React from 'react';
 import { TextField, Container, Box, Button, Typography } from '@mui/material';
 
 import useSignup from '../../../hooks/app/useSignup';
+import LoadingAnimation from '../../../components/atoms/LoadingAnimation'
 
 import { mainTheme } from '../../../styles/theme'
 import ThemeWrapper from '../../../styles/ThemeWrapper';
@@ -19,7 +20,8 @@ export default function Signup() {
     passwordConfirmation,
     setPasswordConfirmation,
     error,
-    handleSubmit
+    handleSubmit,
+    isLoading
   } = useSignup(); 
 
   return (
@@ -72,6 +74,7 @@ export default function Signup() {
             {error && <Typography color="error">{error}</Typography>}
           </form>
         </Box>
+        <LoadingAnimation isLoading={isLoading} />
       </Container>
     </ThemeWrapper>
   );
