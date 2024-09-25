@@ -4,7 +4,7 @@ import React from 'react';
 import { TextField, Container, Box, Button, Typography, CircularProgress } from '@mui/material';
 
 import NavigationLink from '../../components/atoms/NavigationLink';
-import LoadingAnimation from '../../components/atoms/LoadingAnimation'
+import LoadingAnimation from '../../components/atoms/LoadingAnimation';
 
 import useLogin from '../../hooks/app/useLogin';
 

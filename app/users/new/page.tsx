@@ -5,6 +5,7 @@ import { TextField, Container, Box, Button, Typography } from '@mui/material';
 
 import useSignup from '../../../hooks/app/useSignup';
 import LoadingAnimation from '../../../components/atoms/LoadingAnimation'
+import BackButton from '../../../components/atoms/BackButton'
 
 import { mainTheme } from '../../../styles/theme'
 import ThemeWrapper from '../../../styles/ThemeWrapper';
@@ -68,11 +69,12 @@ export default function Signup() {
               onChange={(e) => setPasswordConfirmation(e.target.value)}
               required
             />
-            <Button type="submit" variant="contained" color="secondary" sx={{ color: 'white', marginTop: '20px' }}>
+            <Button type="submit" variant="contained" color="secondary" sx={{ color: 'white', marginBottom: '15px' }}>
               新規登録
             </Button>
             {error && <Typography color="error">{error}</Typography>}
           </form>
+          <BackButton />
         </Box>
         <LoadingAnimation isLoading={isLoading} />
       </Container>
