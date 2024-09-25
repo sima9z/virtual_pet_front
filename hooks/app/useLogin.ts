@@ -7,10 +7,12 @@ const useLogin = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false); 
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
     try {
       const user = await login(email, password);
       console.log('Logged in user:', user);
@@ -28,6 +30,8 @@ const useLogin = () => {
       } else {
         setError('An unexpected error occurred');
       }
+    } finally {
+      setIsLoading(false); // ローディング終了
     }
   };
 
@@ -38,6 +42,7 @@ const useLogin = () => {
     setPassword,
     error,
     handleSubmit,
+    isLoading
   };
 };
 
