@@ -6,6 +6,7 @@ import { Typography } from '@mui/material';
 import Image from 'next/image';
 
 import useCustomize from '../../hooks/app/useCustomize';
+import LoadingAnimation from '../../components/atoms/LoadingAnimation'
 
 import { mainTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
@@ -20,7 +21,8 @@ const Customize: React.FC = () => {
     isEditing,
     handlePetTypeChange,
     handlePetLookChange,
-    handleSubmit
+    handleSubmit,
+    isLoading
   } = useCustomize(); 
 
   const bucketName = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
@@ -94,6 +96,7 @@ const Customize: React.FC = () => {
             {error && <p style={{ color: 'red' }}>{error}</p>}
           </form>
         </Box>
+        <LoadingAnimation isLoading={isLoading} />
       </Container>
     </ThemeWrapper>
   );

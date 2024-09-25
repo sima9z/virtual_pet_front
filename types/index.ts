@@ -23,6 +23,10 @@ export interface BackgroundImageProps {
   src: string;
 }
 
+export interface LoadingAnimationProps {
+  isLoading: boolean;
+}
+
 export interface NavigationLinkProps {
   href: string;
   label: string;

@@ -1,9 +1,10 @@
 "use client";
 
 import React from 'react';
-import { TextField, Container, Box, Button, Typography } from '@mui/material';
+import { TextField, Container, Box, Button, Typography, CircularProgress } from '@mui/material';
 
 import NavigationLink from '../../components/atoms/NavigationLink';
+import LoadingAnimation from '../../components/atoms/LoadingAnimation'
 
 import useLogin from '../../hooks/app/useLogin';
 
@@ -18,14 +19,20 @@ export default function Login() {
     setPassword,
     error,
     handleSubmit,
+    isLoading
   } = useLogin(); 
-  
+
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    await handleSubmit(event);
+  };
+
   return (
     <ThemeWrapper theme={mainTheme}>
       <Container style={{ padding: '0 2%' }}>
         <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">
           <Typography variant="h3" marginBottom="50px">ログイン</Typography>
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: "100%", maxWidth: "400px", gap: "30px" }}>
+          <form onSubmit={handleFormSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: "100%", maxWidth: "400px", gap: "30px" }}>
             <TextField
               label="Email"
               variant="outlined"
@@ -45,9 +52,14 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <Button type="submit" variant="contained" color="secondary" sx={{ color: 'white', marginTop: '50px' }}>
-              ログイン
-            </Button>
+            {/* ローディング中はボタンを無効化してスピナーを表示 */}
+            {isLoading ? (
+              <CircularProgress sx={{ marginTop: '50px' }} />
+            ) : (
+              <Button type="submit" variant="contained" color="secondary" sx={{ color: 'white', marginTop: '50px' }}>
+                ログイン
+              </Button>
+            )}
           </form>
           {error && <Typography color="error">{error}</Typography>}
           <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem">
@@ -58,6 +70,7 @@ export default function Login() {
             </Box>
           </Box>
         </Box>
+        <LoadingAnimation isLoading={isLoading} />
       </Container>
     </ThemeWrapper>
   );

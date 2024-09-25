@@ -15,6 +15,7 @@ const useCustomize = () => {
   const [selectedPetLook, setSelectedPetLook] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false); // ペットが存在するかのフラグ
+  const [isLoading, setIsLoading] = useState<boolean>(false); 
 
   const router = useRouter();
 
@@ -61,6 +62,7 @@ const useCustomize = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       // ペットが存在するか確認してからリクエストを送信
@@ -98,6 +100,8 @@ const useCustomize = () => {
     } catch (error) {
       console.error('An error occurred:', error);
       setError('An error occurred while creating/updating pet');
+    } finally {
+      setIsLoading(false); // ローディング終了
     }
   };
 
@@ -111,6 +115,7 @@ const useCustomize = () => {
     handlePetTypeChange,
     handlePetLookChange,
     handleSubmit,
+    isLoading
   };
 };
 
