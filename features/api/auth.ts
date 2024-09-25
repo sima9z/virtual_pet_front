@@ -25,7 +25,7 @@ export const login = async (email: string, password: string): Promise<LoginRespo
     return data;
   } catch (error) {
     console.error('Error logging in:', error);
-    throw new Error('Failed to parse JSON response');
+    throw new Error('メールアドレスかパスワードが間違っています');
   }
 };
 
@@ -62,20 +62,28 @@ export const signup = async (name: string, email: string, password: string, pass
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ user: { name, email, password, password_confirmation: passwordConfirmation } }),
-      credentials: 'include', // クッキーを含むように設定
+      credentials: 'include',
     });
 
-    const responseText = await response.text(); // レスポンスをテキスト形式で取得
+    const responseText = await response.text();
     console.log('Response Text:', responseText);
 
     if (!response.ok) {
-      throw new Error(responseText || 'Failed to sign up');
+      const errorData = JSON.parse(responseText);
+      
+      if (errorData.errors && errorData.errors.includes("メールアドレス は既に存在します")) {
+        throw new Error("このメールアドレスは既に使用されています");
+      } else if (errorData.errors && errorData.errors.includes("パスワード確認")) {
+        throw new Error("パスワードが一致しません");
+      } else {
+        throw new Error(errorData.errors.join(', ') || 'サインアップに失敗しました');
+      }
     }
 
-    const data: User = JSON.parse(responseText); // テキストをJSONとして解析
+    const data: User = JSON.parse(responseText);
     return data;
   } catch (error) {
     console.error('Error signing up:', error);
-    throw new Error('Failed to parse JSON response');
+    throw new Error(error instanceof Error ? error.message : 'サインアップに失敗しました');
   }
 };
