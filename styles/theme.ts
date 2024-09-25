@@ -9,6 +9,9 @@ export const mainTheme = createTheme({
       main: '#f8bbd0',
     },
   },
+  typography: {
+    fontFamily: `'Yusei Magic', sans-serif`,
+  },
 });
 
 export const subTheme = createTheme({
@@ -20,6 +23,9 @@ export const subTheme = createTheme({
       main: '#FFE1E1',
     },
   },
+  typography: {
+    fontFamily: `'Yusei Magic', sans-serif`,
+  },
 });
 
 export const logoutButtonTheme = createTheme({
@@ -27,5 +33,8 @@ export const logoutButtonTheme = createTheme({
     primary: {
       main: '#f44336',
     }
+  },
+  typography: {
+    fontFamily: `'Yusei Magic', sans-serif`,
   },
 });

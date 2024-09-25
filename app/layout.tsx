@@ -24,6 +24,7 @@ export default function RootLayout({
         <meta httpEquiv="cache-control" content="no-cache"/>
         <meta httpEquiv="expires" content="0"/>
         <meta httpEquiv="pragma" content="no-cache"/>
+        <link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap" rel="stylesheet"/>
       </head>
       <body className={inter.className}>
         <ClientSideComponent>
