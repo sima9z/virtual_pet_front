@@ -73,7 +73,7 @@ export default function Menu({
         open={snackbarOpen}
         autoHideDuration={4000} // 4秒後に自動で閉じる
         onClose={handleCloseSnackbar}
-        message={snackbarMessage}
+        message={<span>{snackbarMessage.split('\n').map((line, index) => (<React.Fragment key={index}>{line}<br /></React.Fragment>))}</span>}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       />
     </ThemeWrapper>
