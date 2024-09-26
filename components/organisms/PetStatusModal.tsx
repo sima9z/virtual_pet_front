@@ -21,6 +21,8 @@ const PetStatusModal: React.FC<PetStatusModalProps> = ({ open, onClose, petDetai
             <Typography variant="h6">種類 : {petDetails.breed}</Typography>
             <Typography variant="h6">レベル : {petDetails.level}</Typography>
             <Typography variant="h6">経験値 : {petDetails.experience}</Typography>
+            <Typography variant="h6">次のレベルまで : {petDetails.experience_to_next_level}</Typography>
+            <Typography variant="h6" sx={{marginBottom:'20px'}}>子供の数 : {petDetails.offspring_count}</Typography>
             <Typography variant="h6">体力 : {petDetails.physical}</Typography>
             <Typography variant="h6">満腹度 : {petDetails.satiety}</Typography>
             <Typography variant="h6">幸福度 : {petDetails.happiness}</Typography>
@@ -31,7 +33,6 @@ const PetStatusModal: React.FC<PetStatusModalProps> = ({ open, onClose, petDetai
               {petDetails.states === 2 && " 不機嫌"}
               {petDetails.states === 3 && " 空腹・不機嫌"}
             </Typography>
-            <Typography variant="h6" sx={{marginBottom:'20px'}}>子供の数 : {petDetails.offspring_count}</Typography>
           </Box>
         )}
         <Button onClick={onClose} variant="contained" color="primary" sx={{ mt: 2, display: 'flex', justifyContent: 'center', margin: '0 auto' }}>

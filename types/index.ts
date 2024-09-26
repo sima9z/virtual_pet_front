@@ -90,6 +90,7 @@ export interface PetDetails {
   species: string;
   level: number;
   experience: number;
+  experience_to_next_level: number
   physical: number;
   satiety: number;
   happiness: number;
