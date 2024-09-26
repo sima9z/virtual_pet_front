@@ -10,6 +10,14 @@ const ClientSideComponent: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     setIsClient(true);
+
+    // 画面の向きを横向きに固定する処理
+    const orientation = screen.orientation as any;
+    if (orientation && orientation.lock) {
+      orientation.lock('landscape').catch((error: unknown) => {
+        console.error('Orientation lock failed: ', error);
+      });
+    }
   }, []);
 
   if (!isClient) {
