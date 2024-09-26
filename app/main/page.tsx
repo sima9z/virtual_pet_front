@@ -110,6 +110,7 @@ export default function Main() {
                         level: 0,
                         species:'猫',
                         experience: 0,
+                        experience_to_next_level: 0,
                         physical: 0,
                         satiety: 0,
                         happiness: 0,
