@@ -81,6 +81,10 @@ export const signup = async (name: string, email: string, password: string, pass
     }
 
     const data: User = JSON.parse(responseText);
+    
+    // サインアップ成功後に自動でログインする
+    await login(email, password);
+
     return data;
   } catch (error) {
     console.error('Error signing up:', error);
