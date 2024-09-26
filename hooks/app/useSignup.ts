@@ -19,7 +19,7 @@ const useSignup = () => {
     try {
       const user = await signup(name, email, password, passwordConfirmation);
       console.log('Signed up user:', user);
-      router.push('/login');
+      router.push('/customize');
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
