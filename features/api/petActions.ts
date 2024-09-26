@@ -14,6 +14,7 @@ export const petAction = async (petType: 'dog' | 'cat',  petId: number, action: 
   const responseData = await response.json();
 
   if (!response.ok) {
+    console.log('Error Response Data:', responseData); // エラー時のレスポンスデータを確認
     if (responseData.error) {
       // エラーメッセージが含まれている場合、それを返す
       return { success: false, message: responseData.error };
@@ -30,6 +31,16 @@ export const petAction = async (petType: 'dog' | 'cat',  petId: number, action: 
     successMessage = 'なでられて嬉しそうです';
   } else if (action === 'play') {
     successMessage = 'ボールで楽しそうに遊んでいます';
+  }
+
+  console.log('Response Data:', responseData);
+
+  // レベルアップと繁殖のメッセージを追加
+  if (responseData.level_up) {
+    successMessage += '\nレベルアップしました';
+  }
+  if (responseData.offspring_born) {
+    successMessage += '\n子供が生まれました';
   }
 
   return { success: true, message: successMessage };
