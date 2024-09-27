@@ -8,7 +8,6 @@ export const login = async (email: string, password: string): Promise<LoginRespo
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
       },
       body: JSON.stringify({ email, password }),
       credentials: 'include', // クッキーを含むように設定
