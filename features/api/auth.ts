@@ -8,6 +8,7 @@ export const login = async (email: string, password: string): Promise<LoginRespo
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
       },
       body: JSON.stringify({ email, password }),
       credentials: 'include', // クッキーを含むように設定
@@ -25,7 +26,11 @@ export const login = async (email: string, password: string): Promise<LoginRespo
     return data;
   } catch (error) {
     console.error('Error logging in:', error);
-    throw new Error('メールアドレスかパスワードが間違っています');
+    if (error instanceof Error) {
+      throw new Error(`ログインエラー: ${error.message}`);
+    } else {
+      throw new Error('メールアドレスかパスワードが間違っています');
+    }
   }
 };
 
