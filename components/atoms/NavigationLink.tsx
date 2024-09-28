@@ -38,7 +38,7 @@ const NavigationLink: React.FC<NavigationLinkProps> = ({
   }
 
   return (
-    <Link href="#" color={color}  underline={underline} onClick={handleClick}>
+    <Link href="#" color={color}  underline={underline} onClick={handleClick} sx={{ fontFamily: `'Yusei Magic', sans-serif` }}>
       {label}
     </Link>
   );
