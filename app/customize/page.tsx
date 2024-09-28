@@ -96,7 +96,9 @@ const Customize: React.FC = () => {
             </Button>
             {error && <p style={{ color: 'red' }}>{error}</p>}
           </form>
-          <BackButton />
+          <Box width="100%" display="flex" justifyContent="flex-end">
+            <BackButton />
+          </Box>
         </Box>
         <LoadingAnimation isLoading={isLoading} />
       </Container>

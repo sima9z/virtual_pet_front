@@ -74,7 +74,9 @@ export default function Signup() {
             </Button>
             {error && <Typography color="error">{error}</Typography>}
           </form>
-          <BackButton />
+          <Box width="100%" display="flex" justifyContent="flex-end">
+            <BackButton />
+          </Box>
         </Box>
         <LoadingAnimation isLoading={isLoading} />
       </Container>
