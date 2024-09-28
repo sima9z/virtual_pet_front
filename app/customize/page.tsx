@@ -33,7 +33,12 @@ const Customize: React.FC = () => {
     <ThemeWrapper theme={mainTheme}>
       <Container style={{ padding: '0 2%' }}>
         <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">
-          <Typography variant="h3" marginBottom="30px">ペットのカスタマイズ</Typography>
+          <Typography variant="h3" marginBottom="20px">ペットのカスタマイズ</Typography>
+          {!isEditing && (
+            <Typography variant="body2" color="error" marginBottom="20px">
+              ペットの種類は作成後に変更できませんのでご注意ください。
+            </Typography>
+          )}
           <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: "100%", maxWidth: "600px", gap: "30px" }}>
             <TextField
               label="ペットの名前"
