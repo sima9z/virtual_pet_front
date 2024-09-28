@@ -213,7 +213,7 @@ const DogParts = ({
       </>
       )}
 
-      { currentAnimation === 'unhappyOrHungry' && ( 
+      { currentAnimation === 'unhappyOrHungry' && !showHearts && !showNotes && ( 
         <>
           <Image
             ref={donyoriRef}
