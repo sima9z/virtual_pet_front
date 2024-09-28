@@ -13,7 +13,7 @@ export const PhysicalStatBar = ({ label, value, max }: { label: string; value: n
         borderRadius: '10px',
         backgroundColor: '#f0f0f0',
         '& .MuiLinearProgress-bar': {
-          backgroundColor: value > 20 ? '#76c7c0' : '#e57373', // 値が少ないときは赤色に変更
+          backgroundColor: value > 10 ? '#76c7c0' : '#e57373', // 値が少ないときは赤色に変更
         },
       }}
     />
@@ -32,7 +32,7 @@ export const SatietyStatBar = ({ label, value, max }: { label: string; value: nu
         borderRadius: '10px',
         backgroundColor: '#f0f0f0',
         '& .MuiLinearProgress-bar': {
-          backgroundColor: value > 20 ? '#FAEAB1' : '#e57373', // 値が少ないときは赤色に変更
+          backgroundColor: value > 10 ? '#FAEAB1' : '#e57373', // 値が少ないときは赤色に変更
         },
       }}
     />
@@ -51,7 +51,7 @@ export const HappinessStatBar = ({ label, value, max }: { label: string; value: 
         borderRadius: '10px',
         backgroundColor: '#f0f0f0',
         '& .MuiLinearProgress-bar': {
-          backgroundColor: value > 20 ? '#E8AFAF' : '#e57373', // 値が少ないときは赤色に変更
+          backgroundColor: value > 10 ? '#E8AFAF' : '#e57373', // 値が少ないときは赤色に変更
         },
       }}
     />
