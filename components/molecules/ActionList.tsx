@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Box, List, ListItem } from '@mui/material';
 
 import LogoutButton from '../atoms/LogoutButton';
+import { useStandalone } from '../../contexts/StandaloneContext';
 
 import { ActionListProps } from '../../types/index';
 
@@ -13,6 +14,9 @@ export const ActionList: React.FC<ActionListProps> = ({
   statDecreaseIntervalId,
   toggleDrawer
 }) => {
+  
+  const isStandalone = useStandalone();
+
   return (
     <Box
       sx={{ 
@@ -24,7 +28,7 @@ export const ActionList: React.FC<ActionListProps> = ({
       }}
       role="presentation"
     >
-      <List sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: "50px 0", width: '90%', margin:"0 auto" }}>
+      <List sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingTop: isStandalone ? "7vh" : "12vh", paddingBottom: '5vh', width: '90%', margin:"0 auto" }}>
         {['ご飯', 'なでる', '遊ぶ'].map((text) => (
           <ListItem key={text} disablePadding sx={{ width: 'auto' }}>
             <Button
