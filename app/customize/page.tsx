@@ -51,9 +51,9 @@ const Customize: React.FC = () => {
             />
             <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem">
               <Box flex="1" display="flex" justifyContent="center" alignItems="center" bgcolor="#e0e0e0" height="200px">
-                {selectedPetType && (
+                {selectedPetLook && (
                   <Image
-                    src={`https://${bucketName}.s3.${region}.amazonaws.com/${selectedPetType === '犬' ? 'ダックス/犬' : '三毛猫/猫'}.png`}
+                    src={`https://${bucketName}.s3.${region}.amazonaws.com/${selectedPetType === '犬' ? `ダックス/${selectedPetLook}` : `三毛猫/${selectedPetLook}`}.png`}
                     alt="Virtual Pet Image"
                     width={selectedPetType === '犬' ? 200 : 150} // 犬なら200、猫なら150
                     height={selectedPetType === '犬' ? 200 : 150} // 犬なら200、猫なら150
