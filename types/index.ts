@@ -83,6 +83,11 @@ export interface PetStatusModalProps {
   petDetails: PetDetails | null;
 }
 
+export interface HowToPlayModalModalProps {
+  open: boolean;
+  onClose: () => void;
+}
+
 export interface PetDetails {
   id: number;
   name: string;

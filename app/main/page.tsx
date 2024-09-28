@@ -1,7 +1,7 @@
 "use client";
 
-import React from 'react';
-import { LinearProgress, Box, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button } from '@mui/material';
 
 // import DogRandomAnimation from '../components/dogRandomAnimation';
 import DogAnimation from '../../components/animations/dog/DogAnimation';
@@ -11,6 +11,7 @@ import PuppyCatAnimation from '../../components/animations/puppyCat/PuppyCatAnim
 
 import BackgroundImage from "../../components/atoms/BackgroundImage"
 import Menu from "../../components/organisms/Menu"
+import HowToPlayModal from '../../components/organisms/HowToPlayModal'
 import { PhysicalStatBar, SatietyStatBar, HappinessStatBar } from '../../components/molecules/StatusBar'
 
 import usePetInfo from '../../hooks/app/main/usePetInfo';
@@ -21,6 +22,7 @@ import { mainTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
 
 export default function Main() {
+  const [ openHowToPlayModal, setOpenHowToPlayModal ] = useState(false);
   const { petType, petDetails, setPetDetails, offspringCount, setOffspringCount } = usePetInfo();
   const {
     showBall,
@@ -43,9 +45,13 @@ export default function Main() {
   const bucketName = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
   const region = process.env.NEXT_PUBLIC_AWS_REGION;
 
+  const handleOpenHowToPlayModal = () => setOpenHowToPlayModal(true);
+  const handleCloseHowToPlayModal = () => setOpenHowToPlayModal(false);
+
   return (
     <ThemeWrapper theme={mainTheme}>
       <div className="relative h-[93vh] overflow-hidden">
+
         <div className="absolute top-0 right-0 m-4">
           <Menu
             onFeed={handleFeedAction}
@@ -59,6 +65,22 @@ export default function Main() {
           >
           </Menu>
         </div>
+
+        <div className="absolute top-[120px] right-0 m-4">
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ color: 'white', fontSize: "24px", zIndex: 1000 }}
+            onClick={handleOpenHowToPlayModal}
+          >
+            遊び方
+          </Button>
+        </div>
+
+        <HowToPlayModal
+          open={openHowToPlayModal}
+          onClose={handleCloseHowToPlayModal}
+        />
         
         {petDetails && (
           <Box sx={{ position: 'absolute', top: '70px', left: '30px', width: '300px', zIndex:"1000", backgroundColor: '#fff', padding:'20px', borderRadius:"10px" }}>
