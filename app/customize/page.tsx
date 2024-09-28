@@ -33,7 +33,12 @@ const Customize: React.FC = () => {
     <ThemeWrapper theme={mainTheme}>
       <Container style={{ padding: '0 2%' }}>
         <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">
-          <Typography variant="h3" marginBottom="30px">ペットのカスタマイズ</Typography>
+          <Typography variant="h3" marginBottom="20px">ペットのカスタマイズ</Typography>
+          {!isEditing && (
+            <Typography variant="body2" color="error" marginBottom="20px">
+              ペットの種類は作成後に変更できませんのでご注意ください。
+            </Typography>
+          )}
           <form style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: "100%", maxWidth: "600px", gap: "30px" }}>
             <TextField
               label="ペットの名前"
@@ -46,9 +51,9 @@ const Customize: React.FC = () => {
             />
             <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem">
               <Box flex="1" display="flex" justifyContent="center" alignItems="center" bgcolor="#e0e0e0" height="200px">
-                {selectedPetType && (
+                {selectedPetLook && (
                   <Image
-                    src={`https://${bucketName}.s3.${region}.amazonaws.com/${selectedPetType === '犬' ? 'ダックス/犬' : '三毛猫/猫'}.png`}
+                    src={`https://${bucketName}.s3.${region}.amazonaws.com/${selectedPetType === '犬' ? `ダックス/${selectedPetLook}` : `三毛猫/${selectedPetLook}`}.png`}
                     alt="Virtual Pet Image"
                     width={selectedPetType === '犬' ? 200 : 150} // 犬なら200、猫なら150
                     height={selectedPetType === '犬' ? 200 : 150} // 犬なら200、猫なら150
@@ -96,7 +101,9 @@ const Customize: React.FC = () => {
             </Button>
             {error && <p style={{ color: 'red' }}>{error}</p>}
           </form>
-          <BackButton />
+          <Box width="100%" display="flex" justifyContent="flex-end">
+            <BackButton />
+          </Box>
         </Box>
         <LoadingAnimation isLoading={isLoading} />
       </Container>

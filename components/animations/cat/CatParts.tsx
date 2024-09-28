@@ -219,7 +219,7 @@ const CatParts = ({
         </>
       )}
   
-      { currentAnimation === 'unhappyOrHungry' && ( 
+      { currentAnimation === 'unhappyOrHungry' && !isSitting && ( 
         <>
           <Image
             ref={donyoriRef}

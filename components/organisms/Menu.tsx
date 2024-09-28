@@ -13,7 +13,6 @@ import { CustomSnackbar } from '../../styles/SnackbarStyles';
 
 import { useMenu } from '../../hooks/components/organisms/useMenu'
 
-
 export default function Menu({ 
   petDetails, 
   setPetDetails, 
