@@ -26,10 +26,10 @@ export default function Home() {
           />
           <NavigationLink 
             href="/login" 
-            label="Login" 
+            label="あそぶ" 
             componentType="button" 
             color="secondary" 
-            sx={{ color: 'white' }} 
+            sx={{ color: 'white', fontSize: '20px' }} 
           />
         </Box>
       </Container>
