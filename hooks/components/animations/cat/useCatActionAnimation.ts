@@ -33,6 +33,10 @@ export const useCatActionAnimation = ({
     gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
     gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
 
+    gsap.set(containerRef.current, {
+      scaleX: directionRef.current ?? 1, // 現在の移動方向に合わせたスケールに設定
+    });
+    
     setIsSitting(true);
     setShowVesse(true);
     setShowHearts(true);
@@ -78,6 +82,10 @@ export const useCatActionAnimation = ({
   const strokeButtonClick = () => {
     gsap.killTweensOf(containerRef.current); // 移動アニメーションを停止
     gsap.killTweensOf([legBackLeftRef.current, legBackRightRef.current, legFrontLeftRef.current, legFrontRightRef.current, faceRef.current, bodyRef.current, earRef.current, tailRef.current, beardRightRef.current,beardLeftRef.current]);
+
+    gsap.set(containerRef.current, {
+      scaleX: directionRef.current ?? 1, // 現在の移動方向に合わせたスケールに設定
+    });
 
     setIsSitting(true);
     setShowNotes(true);
