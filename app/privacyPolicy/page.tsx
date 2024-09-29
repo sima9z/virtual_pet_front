@@ -3,12 +3,14 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-import { subTheme } from '../../styles/theme'
+import BackButton from '../../components/atoms/BackButton';
+
+import { mainTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
 
 const privacyPolicy = () => {
   return (
-    <ThemeWrapper theme={subTheme}>
+    <ThemeWrapper theme={mainTheme}>
       <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh" margin="0 20vh 0 20vh">
         <Typography variant="h3" margin="11vh" marginBottom="3vh">プライバシーポリシー</Typography>
 
@@ -39,6 +41,9 @@ const privacyPolicy = () => {
         <Typography>情報の開示・訂正・削除の希望がある場合は、下記のメールアドレスまでご連絡ください。</Typography>
         <Typography marginBottom="100px">e-mail: rights.data9@gmail.com</Typography>
 
+        <Box width="100%" display="flex" justifyContent="flex-end" sx={{marginBottom:"100px"}}>
+          <BackButton />
+        </Box>
       </Box>
     </ThemeWrapper>
   );
