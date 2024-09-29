@@ -14,16 +14,20 @@ const privacyPolicy = () => {
 
         <Typography variant="h5" marginBottom="20px">お客様から取得する情報</Typography>
         <Typography marginBottom="10px">当アプリでは、お客様から以下の情報を取得します。</Typography>
-        <Typography>・氏名(ニックネームやペンネームも含む)</Typography>
-        <Typography>・メールアドレス</Typography>
-        <Typography>・外部サービス連携により取得した情報（設定により制限されます）</Typography>
-        <Typography marginBottom="20px">・Cookie(クッキー)を用いて生成された識別情報</Typography>
+        <Typography marginBottom="20px">
+          <Typography>・氏名(ニックネームやペンネームも含む)</Typography>
+          <Typography>・メールアドレス</Typography>
+          <Typography>・外部サービス連携により取得した情報（設定により制限されます）</Typography>
+          <Typography>・Cookie(クッキー)を用いて生成された識別情報</Typography>
+        </Typography>
         
         <Typography variant="h5" marginBottom="20px">情報の利用目的</Typography>
         <Typography marginBottom="10px">取得した情報は、以下の目的で利用します。</Typography>
-        <Typography>・本人確認・認証</Typography>
-        <Typography>・お問い合わせへの対応</Typography>
-        <Typography marginBottom="20px">・サービス改善のための分析</Typography>
+        <Typography marginBottom="20px">
+          <Typography>・本人確認・認証</Typography>
+          <Typography>・お問い合わせへの対応</Typography>
+          <Typography>・サービス改善のための分析</Typography>
+        </Typography>
 
         <Typography variant="h5" marginBottom="20px">第三者提供</Typography>
         <Typography marginBottom="20px">個人情報は、ユーザーの同意なく第三者に提供しません。</Typography>
