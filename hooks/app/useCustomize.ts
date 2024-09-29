@@ -21,6 +21,7 @@ const useCustomize = () => {
 
   const handlePetTypeChange = (event: SelectChangeEvent<string>) => {
     setSelectedPetType(event.target.value as string);
+    setSelectedPetLook('');
   };
 
   const handlePetLookChange = (event: SelectChangeEvent<string>) => {

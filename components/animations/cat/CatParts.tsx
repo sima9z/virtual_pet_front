@@ -204,7 +204,7 @@ const CatParts = ({
             ref={yellowNoteRef}
             src={yellowNoteImage}
             alt="yellow-note"
-            className="cat-part absolute top-[0px] left-[-30px] w-12"
+            className="cat-part absolute top-[20px] left-[70px] w-12"
             width={48}
             height={48}
           />
@@ -212,7 +212,7 @@ const CatParts = ({
             ref={blueNoteRef}
             src={blueNoteImage}
             alt="blue-note"
-            className="cat-part absolute top-[50px] left-[-30px] w-9"
+            className="cat-part absolute top-[50px] left-[40px] w-9"
             width={36}
             height={36}
           />

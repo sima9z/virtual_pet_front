@@ -51,15 +51,15 @@ const Customize: React.FC = () => {
             />
             <Box width="100%" display="flex" justifyContent="space-between" marginTop="1rem">
               <Box flex="1" display="flex" justifyContent="center" alignItems="center" bgcolor="#e0e0e0" height="200px">
-                {selectedPetLook && (
-                  <Image
-                    src={`https://${bucketName}.s3.${region}.amazonaws.com/${selectedPetType === '犬' ? `ダックス/${selectedPetLook}` : `三毛猫/${selectedPetLook}`}.png`}
-                    alt="Virtual Pet Image"
-                    width={selectedPetType === '犬' ? 200 : 150} // 犬なら200、猫なら150
-                    height={selectedPetType === '犬' ? 200 : 150} // 犬なら200、猫なら150
-                    style={{ objectFit: 'cover' }}
-                  />
-                )}
+              {selectedPetLook && (
+                <Image
+                  src={`https://${bucketName}.s3.${region}.amazonaws.com/${selectedPetType === '犬' ? `ダックス/${selectedPetLook}` : `三毛猫/${selectedPetLook}`}.png`}
+                  alt="Virtual Pet Image"
+                  width={selectedPetType === '犬' ? 200 : 150} // 犬なら200、猫なら150
+                  height={selectedPetType === '犬' ? 200 : 150} // 犬なら200、猫なら150
+                  style={{ objectFit: 'cover' }}
+                />
+              )}
               </Box>
               <Box flex="1" display="flex" flexDirection="column" justifyContent="space-between" marginLeft="20px">
                 <FormControl fullWidth>
@@ -101,9 +101,11 @@ const Customize: React.FC = () => {
             </Button>
             {error && <p style={{ color: 'red' }}>{error}</p>}
           </form>
-          <Box width="100%" display="flex" justifyContent="flex-end">
-            <BackButton />
-          </Box>
+          {isEditing && (
+            <Box width="100%" display="flex" justifyContent="flex-end">
+              <BackButton />
+            </Box>
+          )}
         </Box>
         <LoadingAnimation isLoading={isLoading} />
       </Container>
