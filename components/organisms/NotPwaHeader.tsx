@@ -40,7 +40,7 @@ const NotPwaHeader = () => {
                   alt="Virtual Pet App ✖"
                   width={35}
                   height={35}
-                  style={{ cursor: 'pointer', transform: 'translateY(-50%)', marginTop: '50%' }}
+                  style={{ transform: 'translateY(-50%)', marginTop: '50%' }}
                 />
               </Box>
             </Box>
