@@ -22,7 +22,7 @@ const Footer = () => {
             </Typography>
             <Box display="flex" justifyContent="space-between" gap="20px">
               <NavigationLink href="/kiyaku" label="利用規約" componentType="link" color="primary" underline="hover" />
-              <NavigationLink href="https://kiyac.app/privacypolicy/3QB6GsYYlo7FzDYekrOB" label="プライバシーポリシー" componentType="link" color="primary" underline="hover" />
+              <NavigationLink href="/privacyPolicy" label="プライバシーポリシー" componentType="link" color="primary" underline="hover" />
               <NavigationLink href="https://docs.google.com/forms/d/e/1FAIpQLScbwBebtL1O1Oxz2XG5sX_DVSsyzQL6FDzS0gTk1p0jkSJxig/viewform?usp=sf_link" label="お問い合わせ" componentType="link" color="primary" underline="hover" />
             </Box>
           </Box>
