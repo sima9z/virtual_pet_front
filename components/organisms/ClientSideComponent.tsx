@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import usePwaStatus from '../../hooks/app/usePwaStatus';
 import NotPwaHeader from './NotPwaHeader';
 
-import { useRouter } from 'next/router';
 import { analytics } from '../../lib/firebaseConfig'; 
 import { logEvent } from "firebase/analytics";
 

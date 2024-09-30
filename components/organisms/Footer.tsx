@@ -5,6 +5,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
+import { usePathname } from 'next/navigation';
 
 import NavigationLink from '../atoms/NavigationLink'
 
@@ -12,6 +13,14 @@ import { subTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
 
 const Footer = () => {
+  const pathname = usePathname(); // 現在のパスを取得
+  const hideFooterPaths = ['/kiyaku', '/privacyPolicy']; // Footerを非表示にするパスを指定
+
+  // 指定されたパスの場合、Footerを非表示にする
+  if (hideFooterPaths.includes(pathname)) {
+    return null;
+  }
+
   return (
     <ThemeWrapper theme={subTheme}>
       <AppBar position="fixed" color="secondary" sx={{ top: 'auto', bottom: 0, height: '7vh' }}>
