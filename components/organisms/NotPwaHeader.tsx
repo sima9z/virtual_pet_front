@@ -6,12 +6,13 @@ declare global {
   }
 }
 
-import React, {useState,useEffect } from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 import { subTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
@@ -27,6 +28,14 @@ const NotPwaHeader = () => {
   const bucketName = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
   const region = process.env.NEXT_PUBLIC_AWS_REGION;
 
+  const pathname = usePathname(); // 現在のパスを取得
+  const hideFooterPaths = ['/kiyaku', '/privacyPolicy']; // Footerを非表示にするパスを指定
+
+  // 指定されたパスの場合、Footerを非表示にする
+  if (hideFooterPaths.includes(pathname)) {
+    return null;
+  }
+
   return (
     <ThemeWrapper theme={subTheme}>
       {!isStandalone && (
@@ -40,7 +49,7 @@ const NotPwaHeader = () => {
                   alt="Virtual Pet App ✖"
                   width={35}
                   height={35}
-                  style={{ cursor: 'pointer', transform: 'translateY(-50%)', marginTop: '50%' }}
+                  style={{ transform: 'translateY(-50%)', marginTop: '50%' }}
                 />
               </Box>
             </Box>

@@ -3,6 +3,8 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
+import BackButton from '../../components/atoms/BackButton';
+
 import { subTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
 
@@ -137,6 +139,9 @@ const Kiyaku = () => {
         ユーザーは，本サービスの利用において，暴力団，暴力団関係企業，総会屋，社会運動等標榜ゴロまたは特殊知能暴力集団等その他これに準ずる者（以下「反社会的勢力」といいます。）に該当しないことを表明し，保証するものとします。当方は，ユーザーが反社会的勢力に該当することが判明した場合，直ちに本サービスの利用を停止または登録を抹消することができるものとします。
         </Typography>
         <Typography marginBottom="10vh">以上</Typography>
+        <Box width="100%" display="flex" justifyContent="flex-end" sx={{marginBottom:"100px"}}>
+          <BackButton />
+        </Box>
       </Box>
     </ThemeWrapper>
   );

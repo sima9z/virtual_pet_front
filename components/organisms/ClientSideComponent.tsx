@@ -4,9 +4,10 @@ import React, { useEffect, useState } from 'react';
 import usePwaStatus from '../../hooks/app/usePwaStatus';
 import NotPwaHeader from './NotPwaHeader';
 
-import { useRouter } from 'next/router';
 import { analytics } from '../../lib/firebaseConfig'; 
 import { logEvent } from "firebase/analytics";
+
+import { StandaloneProvider } from '../../contexts/StandaloneContext';
 
 const ClientSideComponent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const isPwa = usePwaStatus();
@@ -56,8 +57,10 @@ const ClientSideComponent: React.FC<{ children: React.ReactNode }> = ({ children
 
   return (
     <>
-      {!isPwa && <NotPwaHeader />}
-      {children}
+      <StandaloneProvider>
+        {!isPwa && <NotPwaHeader />}
+        {children}
+      </StandaloneProvider>
     </>
   );
 };
