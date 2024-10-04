@@ -96,7 +96,30 @@ export default function Main() {
             <div className="relative w-full h-full">
               <div className="absolute inset-0 flex justify-center items-end">
               {petDetails ? (
-                <DogAnimation showVesse={showVesse} setShowVesse={setShowVesse} showNotes={showNotes} setShowNotes={setShowNotes} showBall={showBall} setShowBall={setShowBall} showHearts={showHearts} ref={dogActionRef} setShowHearts={setShowHearts} petDetails={petDetails || { states: 0 }} />
+                <DogAnimation 
+                  showVesse={showVesse} 
+                  setShowVesse={setShowVesse} 
+                  showNotes={showNotes} 
+                  setShowNotes={setShowNotes} 
+                  showBall={showBall} 
+                  setShowBall={setShowBall} 
+                  showHearts={showHearts} 
+                  ref={dogActionRef} 
+                  setShowHearts={setShowHearts} 
+                  petDetails={petDetails|| { 
+                    id: 0,
+                    name: '',
+                    breed: '',
+                    level: 0,
+                    species:'犬',
+                    experience: 0,
+                    experience_to_next_level: 0,
+                    physical: 0,
+                    satiety: 0,
+                    happiness: 0,
+                    states: 0,
+                    offspring_count: 0
+                  }} />
               ) : (
                 <div>Loading...</div> // データがロードされるまで表示される
               )}
