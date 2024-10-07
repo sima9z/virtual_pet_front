@@ -17,9 +17,11 @@ import { PhysicalStatBar, SatietyStatBar, HappinessStatBar } from '../../compone
 import usePetInfo from '../../hooks/app/main/usePetInfo';
 import usePetAnimation from '../../hooks/app/main/usePetAnimation';
 import usePetIntervals from '../../hooks/app/main/usePetIntervals';
+import { useSessionCheck } from '../../hooks/useSessionCheck';
 
 import { mainTheme } from '../../styles/theme'
 import ThemeWrapper from '../../styles/ThemeWrapper';
+import { CustomSnackbar } from '../../styles/SnackbarStyles'; 
 
 export default function Main() {
   const [ openHowToPlayModal, setOpenHowToPlayModal ] = useState(false);
@@ -41,6 +43,8 @@ export default function Main() {
   } = usePetAnimation();
 
   const { physicalRecoveryIntervalId, statDecreaseIntervalId } = usePetIntervals({ petType, petDetails, setPetDetails });
+
+  const { fetchWithSessionCheck, open, setOpen } = useSessionCheck();
 
   const bucketName = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
   const region = process.env.NEXT_PUBLIC_AWS_REGION;
@@ -90,6 +94,14 @@ export default function Main() {
             <HappinessStatBar label="幸福度" value={petDetails.happiness} max={100} />
           </Box>
         )}
+
+        <CustomSnackbar
+          open={open}
+          onClose={() => setOpen(false)}
+          message="セッションが切れました。トップページに移動します。"
+          autoHideDuration={10000}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        />
 
         {petType === 'dog' && (
           <>

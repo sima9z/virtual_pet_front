@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { petPhysicalRecover } from '../../../features/api/petPhysicalRecover';
 import { petStatDecrease } from '../../../features/api/petStatDecrease';
 import { usePetIntervalsProps } from '../../../types';
@@ -11,24 +11,38 @@ const usePetIntervals = ({
   const [physicalRecoveryIntervalId, setPhysicalRecoveryIntervalId] = useState<number | NodeJS.Timeout | null>(null);
   const [statDecreaseIntervalId, setStatDecreaseIntervalId] = useState<number | NodeJS.Timeout | null>(null);
 
+  const petDetailsRef = useRef(petDetails);
+
   useEffect(() => {
-    if (petType && petDetails) {
-      const physicalInterval = setInterval(() => {
-        petPhysicalRecover(setPetDetails);
-      }, 60000);
-      setPhysicalRecoveryIntervalId(physicalInterval);
+    // petDetailsが更新されたらrefの値も更新
+    petDetailsRef.current = petDetails;
+  }, [petDetails]);
 
-      const statDecreaseInterval = setInterval(() => {
-        petStatDecrease(setPetDetails); // setPetDetailsを渡す
-      }, 600000);
-      setStatDecreaseIntervalId(statDecreaseInterval);
+  useEffect(() => {
+    if (petType) {
+      // 体力回復のインターバル
+      if (!physicalRecoveryIntervalId) {
+        const physicalInterval = setInterval(() => {
+          petPhysicalRecover(setPetDetails);
+        }, 60000); // 1分ごと
+        setPhysicalRecoveryIntervalId(physicalInterval);
+      }
 
+      // ステータス減少のインターバル
+      if (!statDecreaseIntervalId) {
+        const statDecreaseInterval = setInterval(() => {
+          petStatDecrease(setPetDetails);
+        }, 600000); // 10分ごと
+        setStatDecreaseIntervalId(statDecreaseInterval);
+      }
+
+      // クリーンアップ関数でインターバルをクリア
       return () => {
-        clearInterval(physicalInterval);
-        clearInterval(statDecreaseInterval);
+        if (physicalRecoveryIntervalId) clearInterval(physicalRecoveryIntervalId);
+        if (statDecreaseIntervalId) clearInterval(statDecreaseIntervalId);
       };
     }
-  }, [petType, petDetails, setPetDetails]); // setPetDetailsも依存関係に追加
+  }, [petType]); // petTypeの変更のみを監視
 
   return { physicalRecoveryIntervalId, statDecreaseIntervalId };
 };
