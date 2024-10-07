@@ -20,7 +20,7 @@ const usePetIntervals = ({
 
       const statDecreaseInterval = setInterval(() => {
         petStatDecrease(setPetDetails); // setPetDetailsを渡す
-      }, 1200000);
+      }, 600000);
       setStatDecreaseIntervalId(statDecreaseInterval);
 
       return () => {
