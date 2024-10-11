@@ -23,7 +23,7 @@ const donyoriImage = `https://${bucketName}.s3.${region}.amazonaws.com/どんよ
 const donyori2Image = `https://${bucketName}.s3.${region}.amazonaws.com/どんより2.png`;
 const guruguruImage = `https://${bucketName}.s3.${region}.amazonaws.com/ぐるぐる.png`;
 
-const SitCatImage = `https://${bucketName}.s3.${region}.amazonaws.com/三毛猫/猫.png`;
+const SitCatImage = `https://${bucketName}.s3.${region}.amazonaws.com/三毛猫/三毛猫.png`;
 
 export const catImageAssets = {
   legImageBackRight,
